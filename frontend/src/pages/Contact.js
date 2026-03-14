@@ -128,6 +128,8 @@ export default function Contact() {
                 <label className="section-label mb-2 block">Name *</label>
                 <input
                   type="text"
+                  name="name"
+                  data-testid="contact-name-input"
                   value={form.name}
                   onChange={set('name')}
                   placeholder="Your name"
@@ -141,6 +143,8 @@ export default function Contact() {
                 <label className="section-label mb-2 block">Email *</label>
                 <input
                   type="email"
+                  name="email"
+                  data-testid="contact-email-input"
                   value={form.email}
                   onChange={set('email')}
                   placeholder="your@email.com"
@@ -221,6 +225,8 @@ export default function Contact() {
             <div>
               <label className="section-label mb-2 block">Tell me about the problem *</label>
               <textarea
+                name="message"
+                data-testid="contact-message-input"
                 value={form.message}
                 onChange={set('message')}
                 rows={6}

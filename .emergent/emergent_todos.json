@@ -1,22 +1,14 @@
 [
   {
-    "content": "Phase 2: Build full backend (tools, contact, notes endpoints)",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: Build full frontend (all 7 pages with React Router)",
-    "status": "completed"
-  },
-  {
     "content": "Phase 2: End-to-end testing with testing agent",
-    "status": "in_progress"
+    "status": "completed"
   },
   {
-    "content": "Phase 3: Fix all bugs from testing",
-    "status": "pending"
+    "content": "Phase 3: Fix all bugs from testing (contact form names + mobile nav)",
+    "status": "completed"
   },
   {
     "content": "Phase 3: Final polish and deliver",
-    "status": "pending"
+    "status": "completed"
   }
 ]
