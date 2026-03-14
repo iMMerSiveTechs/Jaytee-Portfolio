@@ -1,14 +1,26 @@
 [
   {
-    "content": "Phase 2: End-to-end testing with testing agent",
+    "content": "Refine Home.js: hero texture, operating sequence redesign, ecosystem strip overhaul, selected systems polish",
     "status": "completed"
   },
   {
-    "content": "Phase 3: Fix all bugs from testing (contact form names + mobile nav)",
+    "content": "Refine Work.js: remove placeholder boxes, distinct visual treatments per project",
     "status": "completed"
   },
   {
-    "content": "Phase 3: Final polish and deliver",
+    "content": "Refine Tools.js: better output framing, operator instrument feel",
+    "status": "completed"
+  },
+  {
+    "content": "Refine WorkWithMe.js + Contact.js: copy, CTA language, service framing",
+    "status": "completed"
+  },
+  {
+    "content": "Refine Layout.js: footer polish, nav refinements",
+    "status": "completed"
+  },
+  {
+    "content": "Screenshot + verify all pages look correct",
     "status": "completed"
   }
 ]

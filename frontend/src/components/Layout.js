@@ -188,43 +188,67 @@ export default function Layout() {
         }}
         className="relative z-10"
       >
-        <div className="max-w-6xl mx-auto px-6 py-20">
-          <div className="max-w-xl mb-16">
-            <h2
-              className="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-5"
-            >
-              Let&apos;s structure the ambiguity.
-            </h2>
-            <p className="text-white/55 mb-8 text-lg leading-relaxed">
-              Reach out to discuss strategy, partnerships, or building systems that protect your core.
-            </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-colors duration-200"
-            >
-              Start the Conversation
-              <ArrowUpRight size={16} />
-            </Link>
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-10">
+          <div className="grid md:grid-cols-2 gap-10 mb-14">
+            <div>
+              <h2
+                className="font-extrabold tracking-tight text-white mb-4"
+                style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', lineHeight: 1.1 }}
+              >
+                If something is overloaded<br />
+                or drifting off-core—
+                <span style={{ color: 'rgba(255,255,255,0.42)' }}> that&apos;s the conversation.</span>
+              </h2>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/92 transition-colors duration-200"
+              >
+                Start the Conversation
+                <ArrowUpRight size={14} />
+              </Link>
+            </div>
+            <div className="flex flex-col justify-between gap-6 md:items-end">
+              <nav className="flex flex-wrap gap-x-5 gap-y-2 md:justify-end">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="text-sm transition-colors duration-200"
+                    style={{ color: 'rgba(255,255,255,0.35)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
 
           <div
-            className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-sm text-white/35"
+            className="pt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
             style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
           >
             <div className="flex items-center gap-3">
               <div
                 className="w-6 h-6 flex items-center justify-center rounded text-white font-extrabold text-xs"
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.10)',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.09)',
                 }}
               >
                 JT
               </div>
-              <span>Jethro &ldquo;JayTee&rdquo; &mdash; Operator &amp; Builder</span>
+              <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                Jethro &ldquo;JayTee&rdquo; &mdash; Operator &amp; Builder
+              </span>
             </div>
-            <div className="flex items-center gap-6">
-              <span className="text-white/20">&copy; 2025 Nemurium</span>
+            <div className="flex items-center gap-4 text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+              <span>Nemurium ecosystem</span>
+              <span style={{ color: 'rgba(255,255,255,0.1)' }}>/</span>
+              <span>VibeForge Studios</span>
+              <span style={{ color: 'rgba(255,255,255,0.1)' }}>/</span>
+              <span>&copy; 2025</span>
             </div>
           </div>
         </div>

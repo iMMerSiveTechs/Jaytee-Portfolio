@@ -1,12 +1,13 @@
 # plan.md (Updated)
 
 ## 1) Objectives
-- ✅ Deliver a production-quality, premium dark-themed multi-page portfolio for **Jethro “JayTee”** that clearly sells operator/strategist/builder capability.
+- ✅ Deliver a production-quality, premium dark-themed multi-page portfolio for **Jethro “JayTee”** that sells operator/strategist/builder capability.
 - ✅ Implement **real React Router** navigation across 7 pages (Home, About, Work, Tools, Work With Me, Notes, Contact) + notes detail route.
 - ✅ Prove and ship the **core workflow**: AI-powered **Chaos Translator** + **Bloat Detector** via **FastAPI backend** (**no client-side keys**).
 - ✅ Capture conversion via a premium **Contact/Intake form** and store submissions in **MongoDB**.
-- ✅ Apply the specified visual system (graphite surfaces, metallic type, controlled neon accents) without looking like a generic template.
-- 🔜 Finalize hardening/polish: confirm mobile nav behavior across breakpoints, verify contact inputs/testids, run final QA pass, and document how to operate/extend.
+- ✅ Apply the specified visual system (graphite surfaces, metallic type, controlled neon accents) **without** generic “AI startup template” energy.
+- ✅ Complete a **V1 refinement pass** focused on visible core polish while preserving future-ready architecture underneath (no auth, dashboards, or unnecessary complexity).
+- 🔜 Finalize hardening/polish: run final QA matrix (breakpoints + tool failure modes), confirm no dead CTAs/placeholder links, and document how to operate/extend.
 
 ---
 
@@ -36,6 +37,7 @@
 ---
 
 ### Phase 2 — V1 App Development (Full Site around Proven Core)
+
 **User stories**
 1. ✅ As a visitor, I can navigate across 7 pages without hash routing and without broken links.
 2. ✅ As a visitor, the Home page clearly communicates the promise + method + selected systems in under 10 seconds.
@@ -57,21 +59,64 @@
   - premium top nav with active state indicator
   - global footer with primary CTA
 - ✅ Pages implemented per requirements:
-  - **Home:** hero (“Turns ambiguity into structure, direction, and leverage”), Operating Sequence, Selected Systems hierarchy, ecosystem strip, tools preview, work-with-me preview, final CTA
-  - **Work:** Job Forge (primary), ChurnWise (secondary), Transplant Tracker (quieter third)
+  - **Home:** hero, Operating Sequence, Selected Systems hierarchy, ecosystem presence, tools preview, work-with-me preview, final CTA
+  - **Work:** selective 3-project portfolio (Job Forge, ChurnWise, Transplant Tracker)
   - **Tools:** Chaos Translator + Bloat Detector wired to backend with loading/error/copy
-  - **Work With Me:** 4 tiers + flagship badge
+  - **Work With Me:** 4 tiers + flagship treatment
   - **Notes:** index + detail page (simple markdown-like rendering)
   - **Contact:** premium intake form → backend
 - ✅ Visual system implemented:
-  - deep charcoal/graphite surfaces, metallic gradient headline treatment, restrained neon instrumentation accents (cyan/blue/violet)
+  - deep charcoal/graphite surfaces, metallic headline treatments, restrained neon instrumentation accents (cyan/blue/violet)
 
 **Close Phase 2 with testing — Completed**
 - ✅ End-to-end pass completed with testing agent.
 - ✅ Frontend major feature pass rate: ~95%.
-- ✅ Two medium issues addressed:
+- ✅ Medium issues addressed:
   - Contact form inputs updated with `name` attributes + `data-testid` hooks.
   - Mobile nav implementation reviewed/confirmed correct (toggle uses `md:hidden`).
+
+---
+
+### Phase 2.5 — V1 Refinement Pass (Visible Core Polish, Future-Ready Architecture Preserved) — Completed
+**Goal:** refine the visible “core” experience to feel like a high-end operator portfolio with an immersive ecosystem behind it—without surfacing extra complexity.
+
+**Priority outcomes (Completed)**
+1. ✅ **Homepage polish (Nemurium signal, less template energy)**
+   - Added subtle **dot-grid texture** + controlled glow sweeps for a more immersive/Nemurium feel.
+   - Rebuilt ecosystem messaging as a **subtle inline signal strip** (Nemurium / iMMerSiveTechs / VibeForge Studios) — not an org chart.
+   - Redesigned **Operating Sequence** from a generic 4-card grid into an **editorial numbered list** with typographic hierarchy.
+   - Improved spacing/rhythm/hierarchy and rewrote CTA language to be more operator-specific.
+
+2. ✅ **Selected Systems (premium/editorial composition)**
+   - Preserved hierarchy rules:
+     - Job Forge left / primary
+     - ChurnWise right / secondary
+     - Transplant Tracker quieter third below
+   - Reduced “card-template sameness” via differentiated treatments:
+     - Job Forge gets dominant, accented framing
+     - ChurnWise gets lighter secondary framing with signal lines
+     - Transplant Tracker becomes quieter horizontal panel
+
+3. ✅ **Work page (remove placeholder energy)**
+   - Removed placeholder preview blocks.
+   - Added **CSS-only abstract visual panels** per project:
+     - Job Forge workflow bars
+     - ChurnWise subscription stack
+     - Transplant Tracker continuity chart
+   - Shifted to more editorial layout with hairline separators and clearer differentiation.
+
+4. ✅ **Tools / Lab (operator instrument framing, not identity takeover)**
+   - Strengthened “instrument” framing and reduced demo vibes.
+   - Improved output presentation as report-like panels (Terminal icon header, structured sections).
+   - Added top gradient accent lines differentiating tools; kept backend-safe monetization runway.
+
+5. ✅ **Contact + Work With Me (premium, direct, useful)**
+   - Work With Me: editorial numbered service tiers, italic “Best for” context, sharper CTAs, rewritten “How I work”.
+   - Contact: two-column layout with trust/intent signals (response time, who reads it, what next) + improved “What’s the situation?” framing and “Send this” CTA.
+
+6. ✅ **Keep V1 lean**
+   - No auth, dashboards, user accounts, or surfaced app complexity.
+   - Preserved the future-ready backend/component architecture underneath.
 
 ---
 
@@ -91,19 +136,18 @@
 - 🔜 Verify conversion flow end-to-end:
   - contact submit → Mongo persistence
   - success state + toast reliability
-- 🔜 Tool UX polish (optional but recommended):
-  - persist local run history
-  - add “download JSON” + clearer error retry messages
+- 🔜 Tool resilience hardening:
+  - explicit timeouts/retries/backoff for LLM calls (if not already)
+  - clearer error retry messages for transient failures
+  - optional lightweight rate limiting guardrail (v1)
 - 🔜 Notes polish:
-  - add canonical metadata (date already present, confirm display)
-  - ensure slugs and 404 handling remain clean
-- 🔜 Backend hardening:
-  - add explicit timeouts/retries/backoff for LLM calls (if not already)
-  - structured logs + request correlation id
-  - rate limiting guardrail (simple in-memory throttle for v1)
+  - confirm canonical metadata (date/tag display) + 404 handling
 - 🔜 Performance pass:
   - ensure no oversized assets
   - optional route-level code splitting
+- 🔜 Content sweep:
+  - confirm JayTee remains primary; Nemurium is present but subtle
+  - remove/replace any remaining placeholders (links, copy, footer metadata)
 
 ---
 
@@ -123,10 +167,10 @@
 ---
 
 ## 3) Next Actions (Immediate)
-1. 🔜 Run final cross-device QA pass (mobile nav toggle + contact form selectors).
-2. 🔜 Confirm tool error handling under forced failures (simulate backend 500/timeout).
+1. 🔜 Run final cross-device QA pass (nav toggle + typography/spacing across breakpoints).
+2. 🔜 Confirm tool failure handling under forced failures (simulate backend 500/timeout).
 3. 🔜 Confirm Mongo contact persistence and indexes in current environment.
-4. 🔜 Do a final content/copy sweep to ensure hierarchy is maintained (JayTee primary; Nemurium present but not noisy) and no placeholders exist.
+4. 🔜 Do a final content/link sweep to ensure no placeholders or dead CTAs remain.
 
 ---
 
@@ -134,4 +178,5 @@
 - ✅ POC: both tool endpoints return valid, consistently shaped JSON across repeated runs; no client-side key exposure.
 - ✅ V1: all 7 routes render with premium styling; Tools page works end-to-end; Contact submissions persist in MongoDB.
 - ✅ UX: clear positioning hierarchy (JayTee primary; Nemurium ecosystem present but not noisy); Selected Systems layout rules honored.
-- 🔜 Quality (final sign-off): verified responsive behavior across breakpoints, robust error states, no dead CTAs, and documented operation/extension steps.
+- ✅ Refinement: homepage/editorial rhythm improved; Work page feels intentional; tools framed as instruments; conversion pages feel premium and direct.
+- 🔜 Quality (final sign-off): verified responsive behavior across breakpoints, robust error states under timeouts, no dead CTAs/placeholder links, and documented operation/extension steps.
