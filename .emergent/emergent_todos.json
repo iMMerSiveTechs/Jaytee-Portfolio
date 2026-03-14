@@ -1,0 +1,34 @@
+[
+  {
+    "content": "Phase 1: Run POC test script and fix until working",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Get design guidelines from design agent",
+    "status": "in_progress"
+  },
+  {
+    "content": "Phase 2: Install all dependencies (backend + frontend)",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Build full backend (tools, contact, notes endpoints)",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: Build full frontend (all 7 pages with React Router)",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 2: End-to-end testing with testing agent",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 3: Fix all bugs from testing",
+    "status": "pending"
+  },
+  {
+    "content": "Phase 3: Final polish and deliver",
+    "status": "pending"
+  }
+]
