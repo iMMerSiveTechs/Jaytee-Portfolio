@@ -1,18 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { useSmoothScroll } from './utils/smoothScroll';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Work from './pages/Work';
-import Tools from './pages/Tools';
-import WorkWithMe from './pages/WorkWithMe';
-import Notes from './pages/Notes';
-import NoteDetail from './pages/NoteDetail';
-import Contact from './pages/Contact';
 import { Toaster } from './components/ui/sonner';
+
+// Lazy-loaded pages for code splitting
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Work = lazy(() => import('./pages/Work'));
+const CaseStudy = lazy(() => import('./pages/CaseStudy'));
+const Tools = lazy(() => import('./pages/Tools'));
+const WorkWithMe = lazy(() => import('./pages/WorkWithMe'));
+const Notes = lazy(() => import('./pages/Notes'));
+const NoteDetail = lazy(() => import('./pages/NoteDetail'));
+const Contact = lazy(() => import('./pages/Contact'));
+
+function PageLoader() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div
+          className="w-8 h-8 rounded-full border-2 animate-spin"
+          style={{ borderColor: 'rgba(255,255,255,0.08)', borderTopColor: 'var(--theme-accent, #00f0ff)' }}
+        />
+        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Loading…</span>
+      </div>
+    </div>
+  );
+}
 
 function AnimatedOutlet() {
   const location = useLocation();
@@ -27,6 +46,7 @@ function AnimatedOutlet() {
     { path: '/', element: <Home /> },
     { path: '/about', element: <About /> },
     { path: '/work', element: <Work /> },
+    { path: '/work/:slug', element: <CaseStudy /> },
     { path: '/tools', element: <Tools /> },
     { path: '/work-with-me', element: <WorkWithMe /> },
     { path: '/notes', element: <Notes /> },
@@ -52,7 +72,9 @@ function AnimatedOutlet() {
         animate="animate"
         exit="exit"
       >
-        {currentRoute?.element}
+        <Suspense fallback={<PageLoader />}>
+          {currentRoute?.element}
+        </Suspense>
       </motion.div>
     </AnimatePresence>
   );
@@ -64,14 +86,15 @@ function AppContent() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="work" element={<Work />} />
-        <Route path="tools" element={<Tools />} />
-        <Route path="work-with-me" element={<WorkWithMe />} />
-        <Route path="notes" element={<Notes />} />
-        <Route path="notes/:slug" element={<NoteDetail />} />
-        <Route path="contact" element={<Contact />} />
+        <Route index element={<Suspense fallback={<PageLoader />}><Home /></Suspense>} />
+        <Route path="about" element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
+        <Route path="work" element={<Suspense fallback={<PageLoader />}><Work /></Suspense>} />
+        <Route path="work/:slug" element={<Suspense fallback={<PageLoader />}><CaseStudy /></Suspense>} />
+        <Route path="tools" element={<Suspense fallback={<PageLoader />}><Tools /></Suspense>} />
+        <Route path="work-with-me" element={<Suspense fallback={<PageLoader />}><WorkWithMe /></Suspense>} />
+        <Route path="notes" element={<Suspense fallback={<PageLoader />}><Notes /></Suspense>} />
+        <Route path="notes/:slug" element={<Suspense fallback={<PageLoader />}><NoteDetail /></Suspense>} />
+        <Route path="contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
       </Route>
     </Routes>
   );
@@ -79,9 +102,13 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <Toaster richColors position="top-right" />
-      <AppContent />
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <Toaster richColors position="top-right" />
+          <AppContent />
+        </ErrorBoundary>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }

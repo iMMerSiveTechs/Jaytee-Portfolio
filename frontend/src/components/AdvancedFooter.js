@@ -6,6 +6,7 @@ import {
   Home, User, Briefcase, Wrench, BookOpen
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { hapticMedium } from '../utils/haptics';
 
 export const AdvancedFooter = () => {
   const [email, setEmail] = useState('');
@@ -19,10 +20,21 @@ export const AdvancedFooter = () => {
     }
 
     setSubscribing(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    toast.success('Thanks for subscribing! You will hear from me soon.');
-    setEmail('');
-    setSubscribing(false);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Subscription failed.');
+      toast.success(data.message || 'You\'re in. Welcome to the signal.');
+      setEmail('');
+    } catch (err) {
+      toast.error(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubscribing(false);
+    }
   };
 
   const quickTools = [
@@ -84,6 +96,7 @@ export const AdvancedFooter = () => {
             <Link
               to="/contact"
               data-testid="footer-cta-primary"
+              onClick={hapticMedium}
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200"
               style={{
                 background: 'var(--theme-text, white)',
@@ -117,7 +130,7 @@ export const AdvancedFooter = () => {
                       key={tool.name}
                       to={tool.url}
                       data-testid={`footer-tool-${tool.name.toLowerCase().replace(/\s+/g, '-')}`}
-                      className="group p-4 rounded-xl transition-all duration-200"
+                      className="interactive-card group p-4 rounded-xl transition-all duration-200"
                       style={{
                         background: 'var(--theme-surface, rgba(255,255,255,0.03))',
                         border: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))',
@@ -269,7 +282,7 @@ export const AdvancedFooter = () => {
                   {[
                     { label: 'Home', to: '/', status: 'live' },
                     { label: 'Work', to: '/work', status: 'live' },
-                    { label: 'Tools', to: '/tools', status: 'live', badge: '3 tools' },
+                    { label: 'Tools', to: '/tools', status: 'live', badge: '4 tools' },
                     { label: 'Work With Me', to: '/work-with-me', status: 'live', badge: '4 tiers' },
                   ].map((page) => (
                     <Link

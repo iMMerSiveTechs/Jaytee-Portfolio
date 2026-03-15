@@ -1,25 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, Box, GitMerge, Crosshair, Shield,
-  Sparkles, ShieldAlert, ArrowUpRight, Zap
+  ArrowRight, Sparkles, ShieldAlert, ArrowUpRight, Zap
 } from 'lucide-react';
 import { Reveal, RevealStagger } from '../components/Reveal';
 import { ThreeDCanvas } from '../components/ThreeDCanvas';
+import { SEO } from '../components/SEO';
+import { InteractiveSequence } from '../components/InteractiveSequence';
 
 // Subtle dot-grid pattern SVG as data URI
 const DOT_GRID = `url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.8' fill='rgba(255,255,255,0.055)'/%3E%3C/svg%3E")`;
 
-const sequenceSteps = [
-  { num: '01', title: 'Structure', desc: 'Find the true shape inside the mess. Name what it actually is, not what it feels like.', accent: 'var(--theme-accent, #00f0ff)', testid: 'operating-sequence-step-structure' },
-  { num: '02', title: 'Connect', desc: 'See how the parts fit a larger architecture. Understand the system before touching it.', accent: '#3b82f6', testid: 'operating-sequence-step-connect' },
-  { num: '03', title: 'Leverage', desc: 'Clarify where the commercial or strategic value actually lives. Find the real signal.', accent: '#6366f1', testid: 'operating-sequence-step-leverage' },
-  { num: '04', title: 'Refine', desc: "Remove dilution. Strengthen the core. Cut what doesn't serve the central promise.", accent: '#8b5cf6', testid: 'operating-sequence-step-refine' },
-];
-
 export default function Home() {
   return (
     <div className="pt-16">
+      <SEO title="Home" description="I help founders turn ambiguity into structure, direction, and leverage. Systems thinking, product strategy, and operational clarity." path="/" />
 
       {/* ─── HERO ─────────────────────────────────────────────────── */}
       <section className="relative pt-24 pb-24 overflow-hidden">
@@ -305,64 +300,7 @@ export default function Home() {
           </div>
           </Reveal>
 
-          {/* Editorial list — not a card grid */}
-          <div className="space-y-0">
-            {sequenceSteps.map((step, i) => (
-              <Reveal key={step.num} delay={0.4 + (i * 0.1)} y={15}>
-                <div
-                  data-testid={step.testid}
-                  className="flex flex-col md:flex-row gap-6 md:gap-12 py-8 group"
-                  style={{
-                    borderTop: '1px solid rgba(255,255,255,0.06)',
-                    borderBottom: i === sequenceSteps.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
-                  }}
-                >
-                {/* Step number — big typographic element */}
-                <div className="md:w-24 shrink-0 flex items-start">
-                  <span
-                    className="font-extrabold leading-none select-none"
-                    style={{
-                      fontSize: 'clamp(2rem, 4vw, 3.25rem)',
-                      color: step.accent,
-                      opacity: 0.25,
-                      letterSpacing: '-0.03em',
-                      transition: 'opacity 220ms',
-                    }}
-                    // Ref workaround for group-hover: use inline JS
-                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.7'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.25'; }}
-                  >
-                    {step.num}
-                  </span>
-                </div>
-                {/* Step content */}
-                <div className="flex-1 pt-1">
-                  <h3
-                    className="font-bold text-xl tracking-tight mb-2"
-                    style={{ color: 'rgba(255,255,255,0.90)' }}
-                  >
-                    {step.title}
-                  </h3>
-                  <p
-                    className="text-base leading-relaxed"
-                    style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, maxWidth: '38rem' }}
-                  >
-                    {step.desc}
-                  </p>
-                </div>
-                {/* Accent rule — right side */}
-                <div
-                  className="hidden lg:flex items-center justify-end md:w-32 shrink-0"
-                >
-                  <div
-                    className="h-px w-12"
-                    style={{ background: `linear-gradient(to right, transparent, ${step.accent})`, opacity: 0.25 }}
-                  />
-                </div>
-              </div>
-              </Reveal>
-            ))}
-          </div>
+          <InteractiveSequence />
         </div>
       </section>
 

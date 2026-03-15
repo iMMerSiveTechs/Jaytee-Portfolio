@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, FileText, Wrench, Briefcase, Home, User, Mail, BookOpen } from 'lucide-react';
+import { Search, FileText, Wrench, Briefcase, Home, User, Mail, BookOpen, Scissors } from 'lucide-react';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 
 const STATIC_CONTENT = [
@@ -14,6 +14,10 @@ const STATIC_CONTENT = [
   { id: 'tool-chaos', title: 'The Chaos Translator', description: 'Structure messy thinking into clarity', url: '/tools', icon: Wrench, type: 'tool' },
   { id: 'tool-bloat', title: 'The Bloat Detector', description: 'Identify core vs off-core features', url: '/tools', icon: Wrench, type: 'tool' },
   { id: 'tool-friction', title: 'The Friction Auditor', description: 'Diagnose workflow bottlenecks', url: '/tools', icon: Wrench, type: 'tool' },
+  { id: 'tool-scope', title: 'The Scope Slicer', description: 'Cut scope to protect your core bet', url: '/tools', icon: Scissors, type: 'tool' },
+  { id: 'case-job-forge', title: 'Job Forge Case Study', description: 'AI-powered job application system', url: '/work/job-forge', icon: Briefcase, type: 'page' },
+  { id: 'case-churnwise', title: 'ChurnWise Case Study', description: 'Predictive churn analytics platform', url: '/work/churnwise', icon: Briefcase, type: 'page' },
+  { id: 'case-transplant-tracker', title: 'Transplant Tracker Case Study', description: 'Organ transplant logistics system', url: '/work/transplant-tracker', icon: Briefcase, type: 'page' },
   { id: 'service-teardown', title: 'Clarity Teardown', description: 'One session diagnosis', url: '/work-with-me', icon: Briefcase, type: 'service' },
   { id: 'service-sprint', title: 'System Architecture Sprint', description: 'Multi-week engagement', url: '/work-with-me', icon: Briefcase, type: 'service' },
   { id: 'service-operator', title: 'Strategic Operator Support', description: 'Ongoing advisory', url: '/work-with-me', icon: Briefcase, type: 'service' },

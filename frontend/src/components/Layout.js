@@ -6,7 +6,9 @@ import { ThemeSwitcher } from './ThemeSwitcher';
 import { LightDarkToggle } from './LightDarkToggle';
 import { Breadcrumbs } from './Breadcrumbs';
 import { AdvancedFooter } from './AdvancedFooter';
+import { CustomCursor } from './CustomCursor';
 import { useTheme } from '../contexts/ThemeContext';
+import { hapticLight } from '../utils/haptics';
 
 const navLinks = [
   { to: '/', label: 'Home', testid: 'top-nav-link-home', exact: true },
@@ -37,6 +39,14 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#08090a' }}>
+      {/* Skip to content — a11y */}
+      <a
+        href="#main-content"
+        className="skip-link"
+      >
+        Skip to main content
+      </a>
+      <CustomCursor />
       {/* Ambient blobs */}
       <div
         className="ambient-blob"
@@ -104,6 +114,7 @@ export default function Layout() {
                   to={link.to}
                   end={link.exact}
                   data-testid={link.testid}
+                  onClick={hapticLight}
                   className={({ isActive }) =>
                     `relative px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
                       isActive
@@ -190,7 +201,7 @@ export default function Layout() {
       </nav>
 
       {/* Page Content */}
-      <main className="relative z-10">
+      <main id="main-content" className="relative z-10" role="main">
         <Breadcrumbs />
         <Outlet />
       </main>

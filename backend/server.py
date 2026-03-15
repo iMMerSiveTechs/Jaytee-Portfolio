@@ -84,6 +84,32 @@ Rules:
 - efficiency_signal: one sentence, no hedging, written as if describing the after-state the operator actually lives in
 - Never use phrases like "consider" or "you might want to"—be direct"""
 
+SCOPE_SLICER_SYSTEM_PROMPT = """You are Jethro \"JayTee\", an expert in Core Protection and Leverage Mapping. Your role is to take overly ambitious, bloated project scopes and ruthlessly slice them down to a bare-bones, high-leverage MVP — the smallest thing that can prove the core idea under real conditions.
+
+You MUST respond with ONLY valid JSON, no markdown code fences, no explanation outside the JSON.
+
+Output format:
+{
+  "core_bet": "One sentence: the single bet this product is actually making — the irreducible hypothesis that must be proven before anything else matters",
+  "mvp_scope": [
+    {"feature": "Feature name (2-5 words)", "reason": "Why this must exist in v1 — what it proves or enables (under 30 words)"}
+  ],
+  "deferred": [
+    {"feature": "Feature name (2-5 words)", "version": "v2 or v3", "reason": "Why this can wait — what dependency or validation must come first (under 30 words)"}
+  ],
+  "cut_entirely": ["Feature or idea that should be permanently removed and why in one clause"],
+  "launch_signal": "One sharp sentence describing what success looks like for this MVP — the measurable or observable signal that tells you the core bet is working"
+}
+
+Rules:
+- core_bet: one sentence, no hedging, identifies the actual hypothesis being tested
+- mvp_scope: 3-5 features maximum — the absolute minimum to test the core bet
+- deferred: 3-6 features that are valuable but premature — each must name what needs to be true first
+- cut_entirely: 2-4 items that are distractions, vanity features, or scope creep regardless of version
+- launch_signal: one sentence, specific and observable, not vague metrics
+- Be ruthless. Founders over-scope because they're afraid of launching small. Your job is to make small feel strategic.
+- Never use phrases like "consider" or "you might want to" — be direct"""
+
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────
 class ToolInput(BaseModel):
@@ -98,6 +124,9 @@ class ContactSubmission(BaseModel):
     service: Optional[str] = None
     message: str
     honeypot: Optional[str] = None  # spam trap
+
+class NewsletterSubscribe(BaseModel):
+    email: str
 
 class NoteCreate(BaseModel):
     title: str
@@ -213,6 +242,28 @@ async def friction_audit(body: ToolInput):
         raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
 
 
+@app.post("/api/tools/scope-slice")
+async def scope_slice(body: ToolInput):
+    if not body.text or len(body.text.strip()) < 10:
+        raise HTTPException(status_code=400, detail="Input too short. Please describe your project scope in more detail.")
+    if len(body.text) > 3000:
+        raise HTTPException(status_code=400, detail="Input too long. Please keep under 3000 characters.")
+    if not EMERGENT_LLM_KEY:
+        raise HTTPException(status_code=500, detail="LLM service not configured.")
+
+    session_id = f"scope-{uuid.uuid4().hex[:8]}"
+    try:
+        result = await call_llm(SCOPE_SLICER_SYSTEM_PROMPT, body.text, session_id)
+        required_keys = {"core_bet", "mvp_scope", "deferred", "cut_entirely", "launch_signal"}
+        if not required_keys.issubset(result.keys()):
+            raise ValueError(f"Invalid response structure — missing keys: {required_keys - set(result.keys())}")
+        return {"success": True, "data": result}
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Scope analysis failed: {str(e)}")
+
+
 # ─── Routes: Contact ─────────────────────────────────────────────────────────
 @app.post("/api/contact")
 async def submit_contact(body: ContactSubmission):
@@ -220,8 +271,39 @@ async def submit_contact(body: ContactSubmission):
     if body.honeypot:
         return {"success": True, "message": "Received."}
 
-    if len(body.message.strip()) < 20:
-        raise HTTPException(status_code=400, detail="Please provide more detail in your message.")
+    # Server-side validation
+    errors = {}
+    if not body.name or not body.name.strip():
+        errors["name"] = "Name is required."
+    elif len(body.name.strip()) < 2:
+        errors["name"] = "Name must be at least 2 characters."
+    elif len(body.name.strip()) > 100:
+        errors["name"] = "Name must be under 100 characters."
+
+    if not body.email or not body.email.strip():
+        errors["email"] = "Email is required."
+    else:
+        import re
+        email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        if not email_pattern.match(body.email.strip()):
+            errors["email"] = "Please provide a valid email address."
+
+    if not body.message or not body.message.strip():
+        errors["message"] = "Message is required."
+    elif len(body.message.strip()) < 20:
+        errors["message"] = "Please provide more detail in your message (at least 20 characters)."
+    elif len(body.message.strip()) > 5000:
+        errors["message"] = "Message must be under 5000 characters."
+
+    if body.service and body.service not in [
+        "Clarity Teardown", "System Architecture Sprint",
+        "Strategic Operator Support", "White-Glove Build",
+        "General Inquiry", "Partnership or Collaboration"
+    ]:
+        errors["service"] = "Invalid service selection."
+
+    if errors:
+        raise HTTPException(status_code=422, detail={"errors": errors, "message": "Please fix the following fields."})
 
     doc = {
         "name": body.name.strip(),
@@ -237,6 +319,23 @@ async def submit_contact(body: ContactSubmission):
 
     result = await db.contacts.insert_one(doc)
     return {"success": True, "message": "Your intake has been received. I'll be in touch within 48 hours.", "id": str(result.inserted_id)}
+
+
+# ─── Routes: Newsletter ──────────────────────────────────────────────────────
+@app.post("/api/newsletter/subscribe")
+async def subscribe_newsletter(body: NewsletterSubscribe):
+    import re
+    email = body.email.strip().lower()
+    email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+    if not email or not email_pattern.match(email):
+        raise HTTPException(status_code=422, detail="Please provide a valid email address.")
+
+    await db.subscribers.update_one(
+        {"email": email},
+        {"$set": {"email": email, "subscribed_at": datetime.utcnow()}},
+        upsert=True
+    )
+    return {"success": True, "message": "You're in. Welcome to the signal."}
 
 
 # ─── Routes: Notes ────────────────────────────────────────────────────────────
@@ -347,7 +446,117 @@ The goal isn't a perfect system. It's a resilient one.""",
     ]
 
     await db.notes.insert_many(seed_data)
-    return {"message": f"Seeded {len(seed_data)} notes."}
+
+    # Additional notes with richer markdown formatting
+    rich_notes = [
+        {
+            "title": "The Leverage Map: Finding Your 10x Moves",
+            "slug": "leverage-map-finding-10x-moves",
+            "excerpt": "Not all effort is created equal. A leverage map helps you find the moves that produce disproportionate results.",
+            "content": """## The Problem With Equal Effort
+
+Most teams treat every task as equally important. They work linearly through backlogs, distribute effort evenly, and wonder why progress feels slow despite everyone being busy.
+
+The truth is brutal: **80% of your effort produces 20% of your results.** The question isn't whether you're working hard — it's whether you're working on the right things.
+
+### What Is a Leverage Map?
+
+A leverage map is a simple framework for categorizing every initiative by two dimensions:
+
+1. **Impact** — how much does this move the needle on your core metric?
+2. **Effort** — how much time, money, and attention does it require?
+
+> The goal isn't to do more. The goal is to find the smallest set of actions that produce the largest set of outcomes.
+
+### The Four Quadrants
+
+- **High Impact, Low Effort** — Do these immediately. These are your 10x moves.
+- **High Impact, High Effort** — Plan these carefully. They're worth doing but need proper resourcing.
+- **Low Impact, Low Effort** — Automate or delegate. Don't waste senior attention on these.
+- **Low Impact, High Effort** — Kill these. They're the silent killers of velocity.
+
+### How to Build Yours
+
+1. List every active initiative, project, and recurring task
+2. Score each on impact (1-5) and effort (1-5)
+3. Plot them on a 2x2 grid
+4. Ruthlessly cut or defer anything in the bottom-right quadrant
+5. Double down on the top-left quadrant
+
+### The Hard Part
+
+The hardest part isn't building the map — it's acting on it. **Killing projects feels like failure.** Saying no to stakeholders feels political. But the alternative is spreading yourself so thin that nothing gets the attention it deserves.
+
+---
+
+The best operators I know don't work harder. They work on fewer things, with more intensity, on the things that actually matter. That's leverage.""",
+            "tags": ["strategy", "leverage", "operations"],
+            "reading_time": 5,
+            "published": True,
+            "created_at": datetime(2025, 4, 12)
+        },
+        {
+            "title": "Friction Is a Feature (When Used Intentionally)",
+            "slug": "friction-is-a-feature",
+            "excerpt": "We spend so much time removing friction that we forget: sometimes friction is exactly what the system needs.",
+            "content": """## The Reflex to Remove
+
+In product and operations, the default instinct is to remove friction. Faster onboarding. Fewer clicks. Smoother workflows. And most of the time, this instinct is right.
+
+But not always.
+
+### When Friction Protects
+
+Some friction exists for good reasons:
+
+- **Confirmation dialogs** before irreversible actions prevent costly mistakes
+- **Cooling-off periods** in high-stakes decisions reduce regret and support tickets
+- **Manual review steps** in critical workflows catch errors that automation misses
+
+> The question isn't "how do we remove all friction?" — it's "which friction is protecting us, and which is just slowing us down?"
+
+### The Intentional Friction Framework
+
+Here's how I evaluate friction in any system:
+
+1. **Map every friction point** — where does the user or operator slow down, stop, or get confused?
+2. **Classify each one:**
+   - `Protective` — prevents errors, enforces quality, or ensures compliance
+   - `Educational` — teaches the user something they need to know
+   - `Accidental` — exists because no one thought to remove it
+   - `Legacy` — existed for a reason that no longer applies
+3. **Remove accidental and legacy friction aggressively**
+4. **Preserve and optimize protective and educational friction**
+
+### A Real Example
+
+A client wanted to remove the review step from their content publishing pipeline. "It slows us down," they said. We analyzed six months of data and found that the review step caught an average of `3.2 errors per week` that would have gone live — including two that would have caused compliance issues.
+
+We didn't remove the review step. We made it faster:
+
+- Pre-populated checklists based on content type
+- Automated the mechanical checks (links, formatting, metadata)
+- Reduced review time from **45 minutes to 12 minutes**
+
+The friction stayed. The pain went away.
+
+---
+
+**The takeaway:** Don't reflexively remove friction. Understand it first. The best systems aren't frictionless — they're *intentionally* frictioned.""",
+            "tags": ["product", "systems", "friction"],
+            "reading_time": 5,
+            "published": True,
+            "created_at": datetime(2025, 5, 3)
+        }
+    ]
+
+    for note in rich_notes:
+        try:
+            await db.notes.insert_one(note)
+        except Exception:
+            pass  # Skip if slug already exists
+
+    return {"message": f"Seeded {len(seed_data) + len(rich_notes)} notes."}
 
 
 # Seed notes on startup
@@ -359,3 +568,4 @@ async def startup_event():
     # Create indexes
     await db.notes.create_index("slug", unique=True)
     await db.contacts.create_index("created_at")
+    await db.subscribers.create_index("email", unique=True)
