@@ -84,6 +84,32 @@ Rules:
 - efficiency_signal: one sentence, no hedging, written as if describing the after-state the operator actually lives in
 - Never use phrases like "consider" or "you might want to"—be direct"""
 
+SCOPE_SLICER_SYSTEM_PROMPT = """You are Jethro \"JayTee\", an expert in Core Protection and Leverage Mapping. Your role is to take overly ambitious, bloated project scopes and ruthlessly slice them down to a bare-bones, high-leverage MVP — the smallest thing that can prove the core idea under real conditions.
+
+You MUST respond with ONLY valid JSON, no markdown code fences, no explanation outside the JSON.
+
+Output format:
+{
+  "core_bet": "One sentence: the single bet this product is actually making — the irreducible hypothesis that must be proven before anything else matters",
+  "mvp_scope": [
+    {"feature": "Feature name (2-5 words)", "reason": "Why this must exist in v1 — what it proves or enables (under 30 words)"}
+  ],
+  "deferred": [
+    {"feature": "Feature name (2-5 words)", "version": "v2 or v3", "reason": "Why this can wait — what dependency or validation must come first (under 30 words)"}
+  ],
+  "cut_entirely": ["Feature or idea that should be permanently removed and why in one clause"],
+  "launch_signal": "One sharp sentence describing what success looks like for this MVP — the measurable or observable signal that tells you the core bet is working"
+}
+
+Rules:
+- core_bet: one sentence, no hedging, identifies the actual hypothesis being tested
+- mvp_scope: 3-5 features maximum — the absolute minimum to test the core bet
+- deferred: 3-6 features that are valuable but premature — each must name what needs to be true first
+- cut_entirely: 2-4 items that are distractions, vanity features, or scope creep regardless of version
+- launch_signal: one sentence, specific and observable, not vague metrics
+- Be ruthless. Founders over-scope because they're afraid of launching small. Your job is to make small feel strategic.
+- Never use phrases like "consider" or "you might want to" — be direct"""
+
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────
 class ToolInput(BaseModel):
@@ -213,6 +239,28 @@ async def friction_audit(body: ToolInput):
         raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
 
 
+@app.post("/api/tools/scope-slice")
+async def scope_slice(body: ToolInput):
+    if not body.text or len(body.text.strip()) < 10:
+        raise HTTPException(status_code=400, detail="Input too short. Please describe your project scope in more detail.")
+    if len(body.text) > 3000:
+        raise HTTPException(status_code=400, detail="Input too long. Please keep under 3000 characters.")
+    if not EMERGENT_LLM_KEY:
+        raise HTTPException(status_code=500, detail="LLM service not configured.")
+
+    session_id = f"scope-{uuid.uuid4().hex[:8]}"
+    try:
+        result = await call_llm(SCOPE_SLICER_SYSTEM_PROMPT, body.text, session_id)
+        required_keys = {"core_bet", "mvp_scope", "deferred", "cut_entirely", "launch_signal"}
+        if not required_keys.issubset(result.keys()):
+            raise ValueError(f"Invalid response structure — missing keys: {required_keys - set(result.keys())}")
+        return {"success": True, "data": result}
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Scope analysis failed: {str(e)}")
+
+
 # ─── Routes: Contact ─────────────────────────────────────────────────────────
 @app.post("/api/contact")
 async def submit_contact(body: ContactSubmission):
@@ -220,8 +268,39 @@ async def submit_contact(body: ContactSubmission):
     if body.honeypot:
         return {"success": True, "message": "Received."}
 
-    if len(body.message.strip()) < 20:
-        raise HTTPException(status_code=400, detail="Please provide more detail in your message.")
+    # Server-side validation
+    errors = {}
+    if not body.name or not body.name.strip():
+        errors["name"] = "Name is required."
+    elif len(body.name.strip()) < 2:
+        errors["name"] = "Name must be at least 2 characters."
+    elif len(body.name.strip()) > 100:
+        errors["name"] = "Name must be under 100 characters."
+
+    if not body.email or not body.email.strip():
+        errors["email"] = "Email is required."
+    else:
+        import re
+        email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        if not email_pattern.match(body.email.strip()):
+            errors["email"] = "Please provide a valid email address."
+
+    if not body.message or not body.message.strip():
+        errors["message"] = "Message is required."
+    elif len(body.message.strip()) < 20:
+        errors["message"] = "Please provide more detail in your message (at least 20 characters)."
+    elif len(body.message.strip()) > 5000:
+        errors["message"] = "Message must be under 5000 characters."
+
+    if body.service and body.service not in [
+        "Clarity Teardown", "System Architecture Sprint",
+        "Strategic Operator Support", "White-Glove Build",
+        "General Inquiry", "Partnership or Collaboration"
+    ]:
+        errors["service"] = "Invalid service selection."
+
+    if errors:
+        raise HTTPException(status_code=422, detail={"errors": errors, "message": "Please fix the following fields."})
 
     doc = {
         "name": body.name.strip(),

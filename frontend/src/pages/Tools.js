@@ -1,30 +1,81 @@
 import React, { useState } from 'react';
-import { Sparkles, ShieldAlert, Zap, Copy, Check, AlertCircle, ArrowRight, Terminal, X, ChevronRight } from 'lucide-react';
+import { Sparkles, ShieldAlert, Zap, Scissors, Copy, Check, AlertCircle, ArrowRight, Terminal, X, ChevronRight, RefreshCw, Wrench } from 'lucide-react';
 import { toast } from 'sonner';
 import { hapticMedium } from '../utils/haptics';
+import { Skeleton } from '../components/ui/skeleton';
 
 const BACKEND = process.env.REACT_APP_BACKEND_URL;
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
-function SkeletonBlock({ style }) {
+
+function ErrorBanner({ error, onRetry, onFix }) {
+  const parsed = parseError(error);
   return (
     <div
-      className="rounded animate-pulse"
-      style={{ background: 'rgba(255,255,255,0.055)', ...style }}
-    />
+      className="mt-5 p-5 rounded-xl"
+      style={{ background: 'rgba(251,113,133,0.05)', border: '1px solid rgba(251,113,133,0.18)' }}
+    >
+      <div className="flex items-start gap-3 mb-3">
+        <AlertCircle size={14} style={{ color: '#fb7185', flexShrink: 0, marginTop: '2px' }} />
+        <div className="flex-1">
+          <p className="text-sm font-medium" style={{ color: '#fb7185' }}>{parsed.title}</p>
+          {parsed.detail && (
+            <p className="text-xs mt-1" style={{ color: 'rgba(251,113,133,0.7)' }}>{parsed.detail}</p>
+          )}
+        </div>
+      </div>
+      <div className="flex items-center gap-2 ml-6">
+        <button
+          onClick={onRetry}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200"
+          style={{
+            background: 'rgba(251,113,133,0.1)',
+            border: '1px solid rgba(251,113,133,0.2)',
+            color: '#fb7185',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(251,113,133,0.18)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(251,113,133,0.1)'; }}
+        >
+          <RefreshCw size={11} /> Try again
+        </button>
+        {parsed.fixable && onFix && (
+          <button
+            onClick={onFix}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(0,240,255,0.06)',
+              border: '1px solid rgba(0,240,255,0.15)',
+              color: 'var(--theme-accent, #00f0ff)',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,240,255,0.12)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,240,255,0.06)'; }}
+          >
+            <Wrench size={11} /> Fix it
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 
-function ErrorBanner({ message }) {
-  return (
-    <div
-      className="mt-5 p-4 rounded-xl flex items-start gap-3"
-      style={{ background: 'rgba(251,113,133,0.05)', border: '1px solid rgba(251,113,133,0.18)' }}
-    >
-      <AlertCircle size={14} style={{ color: '#fb7185', flexShrink: 0, marginTop: '2px' }} />
-      <span className="text-sm" style={{ color: '#fb7185' }}>{message}</span>
-    </div>
-  );
+function parseError(message) {
+  const lower = (message || '').toLowerCase();
+  if (lower.includes('too short') || lower.includes('at least')) {
+    return { title: 'Input too short', detail: 'Add more detail or context for a better analysis.', fixable: true, fixType: 'expand' };
+  }
+  if (lower.includes('too long') || lower.includes('3000')) {
+    return { title: 'Input too long', detail: 'Trim your input to under 3,000 characters.', fixable: true, fixType: 'trim' };
+  }
+  if (lower.includes('parse') || lower.includes('json')) {
+    return { title: 'AI response was malformed', detail: 'The AI returned an unexpected format. Running again usually fixes this.', fixable: false };
+  }
+  if (lower.includes('not configured') || lower.includes('llm service')) {
+    return { title: 'Service unavailable', detail: 'The AI service is not configured on the server. Contact support.', fixable: false };
+  }
+  if (lower.includes('network') || lower.includes('fetch') || lower.includes('failed to fetch')) {
+    return { title: 'Network error', detail: 'Could not reach the server. Check your connection and try again.', fixable: false };
+  }
+  return { title: message || 'Something went wrong', detail: null, fixable: false };
 }
 
 function OutputHeader({ accent, copied, onCopy }) {
@@ -107,19 +158,134 @@ function SubmitButton({ loading, disabled, onClick, accent, loadingText, idleTex
         style={{ background: '#ffffff', color: '#08090a' }}
       >
         {loading
-          ? <><span className="w-3.5 h-3.5 rounded-full border-2 border-black/20 border-t-black/70 animate-spin" />{loadingText}</>  
+          ? <><span className="w-3.5 h-3.5 rounded-full border-2 border-black/20 border-t-black/70 animate-spin" />{loadingText}</>
           : <><span>{idleText}</span>{Icon && <Icon size={13} />}</>}
       </button>
     </div>
   );
 }
 
-function ResultDivider() {
+// ─── Skeleton Loaders ──────────────────────────────────────────────────────────
+
+function ChaosSkeletonLoader() {
   return (
-    <div
-      className="mt-8"
-      style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}
-    />
+    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+      <div className="flex items-center gap-2 mb-5">
+        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-white/40 animate-spin" />
+        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Analyzing structure…</span>
+      </div>
+      <Skeleton className="h-5 w-3/4 mb-3 bg-white/[0.06]" />
+      <Skeleton className="h-4 w-1/2 mb-6 bg-white/[0.04]" />
+      <div className="grid grid-cols-2 gap-3">
+        {[1,2,3,4].map(i => (
+          <div key={i} className="p-4 rounded-xl" style={{ border: '1px solid rgba(255,255,255,0.05)' }}>
+            <Skeleton className="h-3 w-8 mb-3 bg-cyan-400/10" />
+            <Skeleton className="h-4 w-3/4 mb-2 bg-white/[0.06]" />
+            <Skeleton className="h-3 w-full bg-white/[0.04]" />
+            <Skeleton className="h-3 w-2/3 mt-1 bg-white/[0.03]" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BloatSkeletonLoader() {
+  return (
+    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+      <div className="flex items-center gap-2 mb-5">
+        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-violet-400/60 animate-spin" />
+        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Scanning for feature sprawl…</span>
+      </div>
+      <div className="grid md:grid-cols-3 gap-3 mb-4">
+        {[
+          { label: 'Core', color: 'rgba(0,240,255,0.06)' },
+          { label: 'Drift', color: 'rgba(251,113,133,0.06)' },
+          { label: 'Keep', color: 'rgba(139,92,246,0.06)' },
+        ].map((col) => (
+          <div key={col.label} className="p-5 rounded-xl" style={{ background: col.color, border: '1px solid rgba(255,255,255,0.05)' }}>
+            <Skeleton className="h-2.5 w-16 mb-4 bg-white/[0.08]" />
+            <Skeleton className="h-4 w-full mb-2 bg-white/[0.05]" />
+            <Skeleton className="h-3 w-4/5 mb-2 bg-white/[0.04]" />
+            <Skeleton className="h-3 w-3/5 bg-white/[0.03]" />
+          </div>
+        ))}
+      </div>
+      <div className="p-5 rounded-xl" style={{ border: '1px solid rgba(255,255,255,0.05)' }}>
+        <Skeleton className="h-2.5 w-24 mb-3 bg-white/[0.08]" />
+        <Skeleton className="h-4 w-full mb-2 bg-white/[0.05]" />
+        <Skeleton className="h-3 w-3/4 bg-white/[0.04]" />
+      </div>
+    </div>
+  );
+}
+
+function FrictionSkeletonLoader() {
+  return (
+    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+      <div className="flex items-center gap-2 mb-5">
+        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-orange-400/60 animate-spin" />
+        <span className="text-xs font-medium" style={{ color: FRICTION_ACCENT, opacity: 0.6 }}>Auditing process flow…</span>
+      </div>
+      <div className="p-5 rounded-xl mb-4" style={{ background: 'rgba(249,115,22,0.04)', border: '1px solid rgba(249,115,22,0.1)' }}>
+        <Skeleton className="h-2.5 w-2/5 mb-3 bg-orange-400/10" />
+        <Skeleton className="h-4 w-[90%] mb-2 bg-white/[0.06]" />
+        <Skeleton className="h-3.5 w-[70%] bg-white/[0.04]" />
+      </div>
+      <div className="grid md:grid-cols-2 gap-4 mb-4">
+        <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.08)' }}>
+          <Skeleton className="h-2.5 w-1/2 mb-4 bg-rose-400/10" />
+          {[1,2,3].map(i => <Skeleton key={i} className="h-8 w-full mb-2 bg-white/[0.04]" />)}
+        </div>
+        <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <Skeleton className="h-2.5 w-[55%] mb-4 bg-white/[0.08]" />
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-7 w-full mb-2 bg-white/[0.04]" />)}
+        </div>
+      </div>
+      <div className="p-4 rounded-xl" style={{ background: 'rgba(249,115,22,0.03)', border: '1px solid rgba(249,115,22,0.08)' }}>
+        <Skeleton className="h-2.5 w-[30%] mb-3 bg-orange-400/8" />
+        <Skeleton className="h-4 w-[85%] bg-white/[0.05]" />
+      </div>
+    </div>
+  );
+}
+
+function ScopeSkeletonLoader() {
+  return (
+    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+      <div className="flex items-center gap-2 mb-5">
+        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-emerald-400/60 animate-spin" />
+        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Slicing scope…</span>
+      </div>
+      {/* Core Bet */}
+      <div className="p-5 rounded-xl mb-4" style={{ background: 'rgba(16,185,129,0.04)', border: '1px solid rgba(16,185,129,0.12)' }}>
+        <Skeleton className="h-2.5 w-20 mb-3 bg-emerald-400/10" />
+        <Skeleton className="h-4 w-[90%] mb-2 bg-white/[0.06]" />
+        <Skeleton className="h-3 w-[60%] bg-white/[0.04]" />
+      </div>
+      {/* MVP + Deferred */}
+      <div className="grid md:grid-cols-2 gap-4 mb-4">
+        <div className="p-5 rounded-xl" style={{ background: 'rgba(16,185,129,0.03)', border: '1px solid rgba(16,185,129,0.08)' }}>
+          <Skeleton className="h-2.5 w-24 mb-4 bg-emerald-400/8" />
+          {[1,2,3].map(i => <Skeleton key={i} className="h-10 w-full mb-2 bg-white/[0.04]" />)}
+        </div>
+        <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <Skeleton className="h-2.5 w-28 mb-4 bg-white/[0.08]" />
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-8 w-full mb-2 bg-white/[0.04]" />)}
+        </div>
+      </div>
+      {/* Cut + Signal */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.08)' }}>
+          <Skeleton className="h-2.5 w-24 mb-4 bg-rose-400/8" />
+          {[1,2].map(i => <Skeleton key={i} className="h-6 w-full mb-2 bg-white/[0.04]" />)}
+        </div>
+        <div className="p-4 rounded-xl" style={{ background: 'rgba(16,185,129,0.03)', border: '1px solid rgba(16,185,129,0.08)' }}>
+          <Skeleton className="h-2.5 w-28 mb-3 bg-emerald-400/8" />
+          <Skeleton className="h-4 w-[85%] bg-white/[0.05]" />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -144,6 +310,16 @@ function ChaosTranslator() {
       setResult(data.data);
     } catch (err) { setError(err.message || 'System disruption. Please try again.'); }
     finally { setLoading(false); }
+  };
+
+  const handleFix = () => {
+    const parsed = parseError(error);
+    if (parsed.fixType === 'expand') {
+      setInput(prev => prev + '\n\n[Add more context: who is the target user? What problem does this solve? What does success look like?]');
+    } else if (parsed.fixType === 'trim') {
+      setInput(prev => prev.slice(0, 2900));
+    }
+    setError('');
   };
 
   const copy = () => {
@@ -181,25 +357,15 @@ function ChaosTranslator() {
           onExample={() => setInput("I have an idea for a local service app but it also has a marketplace and a SaaS tool for businesses, and I want to add a social feed, and I don't know who to sell to first or what the core product even is.")}
         />
         <SubmitButton loading={loading} onClick={run} loadingText="Analyzing…" idleText="Structure this" icon={ArrowRight} />
-        {error && <ErrorBanner message={error} />}
-
-        {loading && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
-            <p className="section-label mb-4">Diagnosing…</p>
-            <SkeletonBlock style={{ height: '18px', width: '75%', marginBottom: '10px' }} />
-            <SkeletonBlock style={{ height: '14px', width: '55%' }} />
-            <div className="grid grid-cols-2 gap-3 mt-5">
-              {[1,2,3,4].map(i => <SkeletonBlock key={i} style={{ height: '88px' }} />)}
-            </div>
-          </div>
-        )}
+        {error && <ErrorBanner error={error} onRetry={run} onFix={handleFix} />}
+        {loading && <ChaosSkeletonLoader />}
 
         {result && (
           <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
             <OutputHeader accent="var(--theme-accent, #00f0ff)" copied={copied} onCopy={copy} />
             <div className="p-5 rounded-xl mb-5" style={{ background: 'rgba(0,240,255,0.035)', border: '1px solid rgba(0,240,255,0.12)' }}>
               <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)', fontStyle: 'italic' }}>
-                “{result.summary}”
+                "{result.summary}"
               </p>
             </div>
             <div className="space-y-3">
@@ -243,6 +409,16 @@ function BloatDetector() {
     finally { setLoading(false); }
   };
 
+  const handleFix = () => {
+    const parsed = parseError(error);
+    if (parsed.fixType === 'expand') {
+      setInput(prev => prev + '\n\n[Add more context: what features exist? What is the core promise? Who is the user?]');
+    } else if (parsed.fixType === 'trim') {
+      setInput(prev => prev.slice(0, 2900));
+    }
+    setError('');
+  };
+
   const copy = () => {
     if (!result) return;
     navigator.clipboard.writeText(
@@ -278,16 +454,8 @@ function BloatDetector() {
           onExample={() => setInput("Our new fitness app tracks workouts, counts calories, has a social feed with stories, sells crypto tokens for steps, offers live coaching sessions, has a marketplace for gym gear, and provides AI meal planning. Core promise: help people exercise more.")}
         />
         <SubmitButton loading={loading} onClick={run} loadingText="Scanning…" idleText="Detect Bloat" icon={ShieldAlert} />
-        {error && <ErrorBanner message={error} />}
-
-        {loading && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
-            <p className="section-label mb-4">Scanning for feature sprawl…</p>
-            <div className="grid grid-cols-3 gap-3">
-              {[1,2,3].map(i => <SkeletonBlock key={i} style={{ height: '110px' }} />)}
-            </div>
-          </div>
-        )}
+        {error && <ErrorBanner error={error} onRetry={run} onFix={handleFix} />}
+        {loading && <BloatSkeletonLoader />}
 
         {result && (
           <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
@@ -332,7 +500,7 @@ function BloatDetector() {
 }
 
 // ─── Tool 3: Friction Auditor ─────────────────────────────────────────────────
-const FRICTION_ACCENT = '#f97316'; // orange — heat, friction, bottleneck
+const FRICTION_ACCENT = '#f97316';
 
 function FrictionAuditor() {
   const [input, setInput] = useState('');
@@ -356,6 +524,16 @@ function FrictionAuditor() {
     finally { setLoading(false); }
   };
 
+  const handleFix = () => {
+    const parsed = parseError(error);
+    if (parsed.fixType === 'expand') {
+      setInput(prev => prev + '\n\n[Add more detail: walk through each step, who is involved, what tools are used, how long each step takes.]');
+    } else if (parsed.fixType === 'trim') {
+      setInput(prev => prev.slice(0, 2900));
+    }
+    setError('');
+  };
+
   const copy = () => {
     if (!result) return;
     const lines = [
@@ -375,51 +553,22 @@ function FrictionAuditor() {
       className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
       style={{ background: '#0c0e12', border: `1px solid rgba(249,115,22,0.14)` }}
     >
-      {/* Top accent line */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: '1px',
-        background: `linear-gradient(to right, transparent, rgba(249,115,22,0.4), transparent)`,
-      }} />
-      {/* Subtle corner glow */}
-      <div style={{
-        position: 'absolute', top: '-40px', right: '-40px',
-        width: '220px', height: '220px',
-        background: 'radial-gradient(circle, rgba(249,115,22,0.05) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(to right, transparent, rgba(249,115,22,0.4), transparent)` }} />
+      <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '220px', height: '220px', background: 'radial-gradient(circle, rgba(249,115,22,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
       <div className="relative z-10">
-        {/* Header */}
         <div className="flex items-start gap-4 mb-7">
-          <div
-            className="p-2.5 rounded-lg shrink-0 mt-0.5"
-            style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)' }}
-          >
+          <div className="p-2.5 rounded-lg shrink-0 mt-0.5" style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)' }}>
             <Zap size={16} style={{ color: FRICTION_ACCENT }} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white mb-1">
-              The Friction Auditor
-              <span
-                className="ml-2 text-xs font-semibold px-2 py-0.5 rounded align-middle"
-                style={{
-                  background: 'rgba(249,115,22,0.1)',
-                  border: '1px solid rgba(249,115,22,0.2)',
-                  color: FRICTION_ACCENT,
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.08em',
-                }}
-              >
-                NEW
-              </span>
-            </h2>
+            <h2 className="text-lg font-bold text-white mb-1">The Friction Auditor</h2>
             <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
               Paste a clunky business process. Get the bottleneck diagnosed, dead steps identified, and a leaner architecture designed.
             </p>
           </div>
         </div>
 
-        {/* Input */}
         <ToolInput
           testid="tools-input-textarea-friction"
           value={input}
@@ -432,86 +581,31 @@ function FrictionAuditor() {
           )}
         />
 
-        <SubmitButton
-          loading={loading}
-          onClick={run}
-          loadingText="Auditing process…"
-          idleText="Run the Audit"
-          icon={Zap}
-        />
+        <SubmitButton loading={loading} onClick={run} loadingText="Auditing process…" idleText="Run the Audit" icon={Zap} />
+        {error && <ErrorBanner error={error} onRetry={run} onFix={handleFix} />}
+        {loading && <FrictionSkeletonLoader />}
 
-        {error && <ErrorBanner message={error} />}
-
-        {/* Loading skeleton — hints at the multi-section output structure */}
-        {loading && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
-            <p className="section-label mb-5" style={{ color: FRICTION_ACCENT }}>Auditing process flow…</p>
-            {/* Bottleneck */}
-            <div className="p-5 rounded-xl mb-4" style={{ background: 'rgba(249,115,22,0.04)', border: '1px solid rgba(249,115,22,0.1)' }}>
-              <SkeletonBlock style={{ height: '12px', width: '40%', marginBottom: '10px' }} />
-              <SkeletonBlock style={{ height: '16px', width: '90%', marginBottom: '8px' }} />
-              <SkeletonBlock style={{ height: '14px', width: '70%' }} />
-            </div>
-            {/* Steps + Architecture */}
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.08)' }}>
-                <SkeletonBlock style={{ height: '10px', width: '50%', marginBottom: '12px' }} />
-                {[1,2,3].map(i => <SkeletonBlock key={i} style={{ height: '32px', marginBottom: '8px' }} />)}
-              </div>
-              <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <SkeletonBlock style={{ height: '10px', width: '55%', marginBottom: '12px' }} />
-                {[1,2,3,4].map(i => <SkeletonBlock key={i} style={{ height: '28px', marginBottom: '8px' }} />)}
-              </div>
-            </div>
-            {/* Efficiency Signal */}
-            <div className="p-4 rounded-xl" style={{ background: 'rgba(249,115,22,0.03)', border: '1px solid rgba(249,115,22,0.08)' }}>
-              <SkeletonBlock style={{ height: '12px', width: '30%', marginBottom: '10px' }} />
-              <SkeletonBlock style={{ height: '16px', width: '85%' }} />
-            </div>
-          </div>
-        )}
-
-        {/* Results */}
         {result && (
           <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
             <OutputHeader accent={FRICTION_ACCENT} copied={copied} onCopy={copy} />
 
-            {/* Primary Bottleneck — most prominent */}
-            <div
-              className="p-6 rounded-xl mb-5 relative overflow-hidden"
-              style={{
-                background: 'rgba(249,115,22,0.05)',
-                border: `1px solid rgba(249,115,22,0.22)`,
-              }}
-            >
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-                background: `linear-gradient(to right, ${FRICTION_ACCENT}, rgba(249,115,22,0.3), transparent)`,
-              }} />
+            {/* Primary Bottleneck */}
+            <div className="p-6 rounded-xl mb-5 relative overflow-hidden" style={{ background: 'rgba(249,115,22,0.05)', border: `1px solid rgba(249,115,22,0.22)` }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, ${FRICTION_ACCENT}, rgba(249,115,22,0.3), transparent)` }} />
               <div className="flex items-start gap-3">
-                <div
-                  className="p-1.5 rounded shrink-0 mt-0.5"
-                  style={{ background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.2)' }}
-                >
+                <div className="p-1.5 rounded shrink-0 mt-0.5" style={{ background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.2)' }}>
                   <Zap size={12} style={{ color: FRICTION_ACCENT }} />
                 </div>
                 <div>
                   <p className="section-label mb-2" style={{ color: FRICTION_ACCENT }}>Primary Bottleneck</p>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.78)' }}>
-                    {result.bottleneck}
-                  </p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.78)' }}>{result.bottleneck}</p>
                 </div>
               </div>
             </div>
 
-            {/* Steps to Eliminate + Streamlined Architecture — side by side on md+ */}
+            {/* Steps to Eliminate + Streamlined Architecture */}
             <div className="grid md:grid-cols-2 gap-4 mb-4">
-
-              {/* Steps to Eliminate */}
-              <div
-                className="p-5 rounded-xl"
-                style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.12)' }}
-              >
+              <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.12)' }}>
                 <div className="flex items-center gap-2 mb-4">
                   <X size={12} style={{ color: '#fb7185' }} />
                   <p className="section-label" style={{ color: '#fb7185' }}>Steps to Eliminate</p>
@@ -520,80 +614,27 @@ function FrictionAuditor() {
                   {result.eliminate_steps.map((item, i) => (
                     <li key={i} className="flex flex-col gap-0.5">
                       <div className="flex items-start gap-2">
-                        <span
-                          className="text-xs font-semibold shrink-0"
-                          style={{
-                            color: '#fb7185',
-                            opacity: 0.6,
-                            marginTop: '1px',
-                            letterSpacing: '0.02em',
-                          }}
-                        >
-                          —
-                        </span>
-                        <span
-                          className="text-sm font-medium"
-                          style={{
-                            color: 'rgba(255,255,255,0.72)',
-                            textDecoration: 'line-through',
-                            textDecorationColor: 'rgba(251,113,133,0.35)',
-                            textDecorationThickness: '1px',
-                          }}
-                        >
-                          {item.step}
-                        </span>
+                        <span className="text-xs font-semibold shrink-0" style={{ color: '#fb7185', opacity: 0.6, marginTop: '1px' }}>—</span>
+                        <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'line-through', textDecorationColor: 'rgba(251,113,133,0.35)', textDecorationThickness: '1px' }}>{item.step}</span>
                       </div>
-                      <p
-                        className="text-xs leading-relaxed pl-4"
-                        style={{ color: 'rgba(255,255,255,0.35)' }}
-                      >
-                        {item.reason}
-                      </p>
+                      <p className="text-xs leading-relaxed pl-4" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.reason}</p>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Streamlined Architecture */}
-              <div
-                className="p-5 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}
-              >
+              <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}>
                 <div className="flex items-center gap-2 mb-4">
                   <ChevronRight size={12} style={{ color: 'rgba(255,255,255,0.5)' }} />
                   <p className="section-label">Streamlined Architecture</p>
                 </div>
                 <ol className="space-y-0">
                   {result.streamlined_architecture.map((phase, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-4 py-3"
-                      style={{
-                        borderBottom:
-                          i < result.streamlined_architecture.length - 1
-                            ? '1px solid rgba(255,255,255,0.05)'
-                            : 'none',
-                      }}
-                    >
-                      {/* Phase number */}
-                      <span
-                        className="font-extrabold shrink-0"
-                        style={{
-                          fontSize: '0.75rem',
-                          color: FRICTION_ACCENT,
-                          opacity: 0.45,
-                          letterSpacing: '-0.02em',
-                          paddingTop: '2px',
-                          minWidth: '20px',
-                        }}
-                      >
-                        {phase.phase}
-                      </span>
+                    <li key={i} className="flex gap-4 py-3" style={{ borderBottom: i < result.streamlined_architecture.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                      <span className="font-extrabold shrink-0" style={{ fontSize: '0.75rem', color: FRICTION_ACCENT, opacity: 0.45, letterSpacing: '-0.02em', paddingTop: '2px', minWidth: '20px' }}>{phase.phase}</span>
                       <div>
                         <p className="text-sm font-semibold text-white mb-0.5">{phase.name}</p>
-                        <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                          {phase.description}
-                        </p>
+                        <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{phase.description}</p>
                       </div>
                     </li>
                   ))}
@@ -601,28 +642,210 @@ function FrictionAuditor() {
               </div>
             </div>
 
-            {/* Efficiency Signal — closing statement */}
-            <div
-              className="p-5 rounded-xl flex items-start gap-4"
-              style={{
-                background: 'rgba(249,115,22,0.03)',
-                border: '1px solid rgba(249,115,22,0.1)',
-              }}
-            >
-              <div
-                className="p-1.5 rounded shrink-0"
-                style={{ background: 'rgba(249,115,22,0.08)', marginTop: '2px' }}
-              >
+            {/* Efficiency Signal */}
+            <div className="p-5 rounded-xl flex items-start gap-4" style={{ background: 'rgba(249,115,22,0.03)', border: '1px solid rgba(249,115,22,0.1)' }}>
+              <div className="p-1.5 rounded shrink-0" style={{ background: 'rgba(249,115,22,0.08)', marginTop: '2px' }}>
                 <Zap size={11} style={{ color: FRICTION_ACCENT, opacity: 0.7 }} />
               </div>
               <div>
                 <p className="section-label mb-1.5" style={{ color: FRICTION_ACCENT, opacity: 0.7 }}>Efficiency Signal</p>
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}
-                >
-                  “{result.efficiency_signal}”
-                </p>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.efficiency_signal}"</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Tool 4: Scope Slicer ─────────────────────────────────────────────────────
+const SCOPE_ACCENT = '#10b981'; // emerald — precision, sharpness
+
+function ScopeSlicer() {
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const run = async () => {
+    if (input.trim().length < 10) { setError('Please describe your project scope in more detail.'); return; }
+    setLoading(true); setError(''); setResult(null);
+    try {
+      const res = await fetch(`${BACKEND}/api/tools/scope-slice`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: input }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Scope analysis failed.');
+      setResult(data.data);
+    } catch (err) { setError(err.message || 'Scope analysis failed. Please try again.'); }
+    finally { setLoading(false); }
+  };
+
+  const handleFix = () => {
+    const parsed = parseError(error);
+    if (parsed.fixType === 'expand') {
+      setInput(prev => prev + '\n\n[Add more detail: list every feature you plan to build, who the target user is, and what the core problem is.]');
+    } else if (parsed.fixType === 'trim') {
+      setInput(prev => prev.slice(0, 2900));
+    }
+    setError('');
+  };
+
+  const copy = () => {
+    if (!result) return;
+    const lines = [
+      `Core Bet:\n${result.core_bet}`,
+      `\nMVP Scope:\n${result.mvp_scope.map(f => `• ${f.feature}: ${f.reason}`).join('\n')}`,
+      `\nDeferred:\n${result.deferred.map(f => `• ${f.feature} (${f.version}): ${f.reason}`).join('\n')}`,
+      `\nCut Entirely:\n${result.cut_entirely.map(c => `✕ ${c}`).join('\n')}`,
+      `\nLaunch Signal:\n${result.launch_signal}`,
+    ];
+    navigator.clipboard.writeText(lines.join(''));
+    setCopied(true); toast.success('Scope output copied.');
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div
+      data-testid="tools-tab-scope-slicer"
+      className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
+      style={{ background: '#0c0e12', border: `1px solid rgba(16,185,129,0.14)` }}
+    >
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(to right, transparent, rgba(16,185,129,0.4), transparent)` }} />
+      <div style={{ position: 'absolute', top: '-30px', left: '-30px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(16,185,129,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      <div className="relative z-10">
+        <div className="flex items-start gap-4 mb-7">
+          <div className="p-2.5 rounded-lg shrink-0 mt-0.5" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
+            <Scissors size={16} style={{ color: SCOPE_ACCENT }} />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-white mb-1">
+              The Scope Slicer
+              <span
+                className="ml-2 text-xs font-semibold px-2 py-0.5 rounded align-middle"
+                style={{
+                  background: 'rgba(16,185,129,0.1)',
+                  border: '1px solid rgba(16,185,129,0.2)',
+                  color: SCOPE_ACCENT,
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                NEW
+              </span>
+            </h2>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              Paste an ambitious project scope. Get it ruthlessly sliced to a high-leverage MVP — what to build first, what to defer, and what to cut.
+            </p>
+          </div>
+        </div>
+
+        <ToolInput
+          testid="tools-input-textarea-scope"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={`Describe everything you plan to build. List all features, integrations, and ideas — even the ambitious ones.\n\nExample: "We want to build a platform that does X, Y, Z with features A, B, C, D, E, F, G..."`}
+          focusColor="rgba(16,185,129,0.3)"
+          rows={6}
+          onExample={() => setInput(
+            'We\'re building an all-in-one platform for freelancers. It needs: time tracking, invoicing, proposal generation, client portal, project management with Kanban boards, a built-in CRM, expense tracking, tax estimation, contract templates with e-signatures, a public portfolio builder, real-time chat with clients, AI writing assistant for proposals, payment processing (Stripe + crypto), team collaboration features, white-label option for agencies, mobile app (iOS + Android), browser extension for time tracking, Slack/Discord integrations, and an analytics dashboard. We want to launch in 3 months with a team of 2 developers.'
+          )}
+        />
+
+        <SubmitButton loading={loading} onClick={run} loadingText="Slicing scope…" idleText="Slice It Down" icon={Scissors} />
+        {error && <ErrorBanner error={error} onRetry={run} onFix={handleFix} />}
+        {loading && <ScopeSkeletonLoader />}
+
+        {result && (
+          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+            <OutputHeader accent={SCOPE_ACCENT} copied={copied} onCopy={copy} />
+
+            {/* Core Bet */}
+            <div className="p-6 rounded-xl mb-5 relative overflow-hidden" style={{ background: 'rgba(16,185,129,0.05)', border: `1px solid rgba(16,185,129,0.22)` }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(to right, ${SCOPE_ACCENT}, rgba(16,185,129,0.3), transparent)` }} />
+              <div className="flex items-start gap-3">
+                <div className="p-1.5 rounded shrink-0 mt-0.5" style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.2)' }}>
+                  <Scissors size={12} style={{ color: SCOPE_ACCENT }} />
+                </div>
+                <div>
+                  <p className="section-label mb-2" style={{ color: SCOPE_ACCENT }}>The Core Bet</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)', fontStyle: 'italic' }}>"{result.core_bet}"</p>
+                </div>
+              </div>
+            </div>
+
+            {/* MVP Scope + Deferred — side by side */}
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              {/* MVP Scope */}
+              <div className="p-5 rounded-xl" style={{ background: 'rgba(16,185,129,0.03)', border: '1px solid rgba(16,185,129,0.12)' }}>
+                <div className="flex items-center gap-2 mb-4">
+                  <Check size={12} style={{ color: SCOPE_ACCENT }} />
+                  <p className="section-label" style={{ color: SCOPE_ACCENT }}>Build in v1 (MVP)</p>
+                </div>
+                <ul className="space-y-3">
+                  {result.mvp_scope.map((item, i) => (
+                    <li key={i} className="flex flex-col gap-0.5">
+                      <div className="flex items-start gap-2">
+                        <span className="text-xs font-bold shrink-0 mt-0.5" style={{ color: SCOPE_ACCENT, opacity: 0.7 }}>→</span>
+                        <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.82)' }}>{item.feature}</span>
+                      </div>
+                      <p className="text-xs leading-relaxed pl-4" style={{ color: 'rgba(255,255,255,0.4)' }}>{item.reason}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Deferred */}
+              <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="flex items-center gap-2 mb-4">
+                  <ChevronRight size={12} style={{ color: 'rgba(255,255,255,0.5)' }} />
+                  <p className="section-label">Defer to Later</p>
+                </div>
+                <ul className="space-y-3">
+                  {result.deferred.map((item, i) => (
+                    <li key={i} className="flex flex-col gap-0.5">
+                      <div className="flex items-start gap-2">
+                        <span className="text-xs font-semibold px-1.5 py-0.5 rounded shrink-0" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.45)', fontSize: '0.6rem' }}>{item.version}</span>
+                        <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{item.feature}</span>
+                      </div>
+                      <p className="text-xs leading-relaxed pl-10" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.reason}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Cut Entirely + Launch Signal */}
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Cut Entirely */}
+              <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.12)' }}>
+                <div className="flex items-center gap-2 mb-4">
+                  <X size={12} style={{ color: '#fb7185' }} />
+                  <p className="section-label" style={{ color: '#fb7185' }}>Cut Entirely</p>
+                </div>
+                <ul className="space-y-2">
+                  {result.cut_entirely.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span style={{ color: '#fb7185', flexShrink: 0, marginTop: '2px', fontSize: '0.7rem' }}>✕</span>
+                      <span className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through', textDecorationColor: 'rgba(251,113,133,0.3)' }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Launch Signal */}
+              <div className="p-5 rounded-xl flex items-start gap-4" style={{ background: 'rgba(16,185,129,0.03)', border: '1px solid rgba(16,185,129,0.1)' }}>
+                <div className="p-1.5 rounded shrink-0" style={{ background: 'rgba(16,185,129,0.08)', marginTop: '2px' }}>
+                  <Zap size={11} style={{ color: SCOPE_ACCENT, opacity: 0.7 }} />
+                </div>
+                <div>
+                  <p className="section-label mb-1.5" style={{ color: SCOPE_ACCENT, opacity: 0.7 }}>Launch Signal</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.launch_signal}"</p>
+                </div>
               </div>
             </div>
           </div>
@@ -637,6 +860,7 @@ const TABS = [
   { key: 'chaos',   label: 'Chaos Translator',  accent: 'var(--theme-accent, #00f0ff)' },
   { key: 'bloat',   label: 'Bloat Detector',     accent: '#8b5cf6' },
   { key: 'friction', label: 'Friction Auditor',  accent: FRICTION_ACCENT },
+  { key: 'scope',   label: 'Scope Slicer',       accent: SCOPE_ACCENT },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -671,7 +895,7 @@ export default function Tools() {
           </div>
           <div>
             <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>
-              Three working instruments built from the same clarity-first framework.
+              Four working instruments built from the same clarity-first framework.
               Run them against real problems for real output.
             </p>
           </div>
@@ -679,7 +903,7 @@ export default function Tools() {
       </header>
 
       <div className="max-w-4xl mx-auto px-6 pt-10 pb-32">
-        {/* Tab bar — scrollable on mobile */}
+        {/* Tab bar */}
         <div
           data-testid="tools-tabs"
           className="flex gap-1 mb-8 p-1 rounded-xl overflow-x-auto"
@@ -704,7 +928,7 @@ export default function Tools() {
                   flexShrink: 0,
                 }}
               >
-                {tab.key === 'friction' && (
+                {(tab.key === 'friction' || tab.key === 'scope') && (
                   <span
                     className="inline-block w-1.5 h-1.5 rounded-full"
                     style={{
@@ -719,9 +943,10 @@ export default function Tools() {
           })}
         </div>
 
-        {activeTab === 'chaos'   && <ChaosTranslator />}
-        {activeTab === 'bloat'   && <BloatDetector />}
+        {activeTab === 'chaos'    && <ChaosTranslator />}
+        {activeTab === 'bloat'    && <BloatDetector />}
         {activeTab === 'friction' && <FrictionAuditor />}
+        {activeTab === 'scope'    && <ScopeSlicer />}
 
         <p
           className="mt-8 text-xs text-center"

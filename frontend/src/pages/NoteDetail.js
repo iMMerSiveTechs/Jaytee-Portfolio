@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Reveal } from '../components/Reveal';
+import { SocialShare } from '../components/SocialShare';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock } from 'lucide-react';
 
@@ -81,23 +82,26 @@ export default function NoteDetail() {
           <ArrowLeft size={13} /> All Notes
         </Link>
 
-        {/* Meta */}
-        <div className="flex items-center gap-3 mb-5 flex-wrap">
-          {note.tags && note.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-0.5 rounded text-xs"
-              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}
-            >
-              {tag}
-            </span>
-          ))}
-          {note.reading_time && (
-            <span className="flex items-center gap-1 text-xs text-white/25">
-              <Clock size={10} /> {note.reading_time} min read
-            </span>
-          )}
-          {date && <span className="text-xs text-white/25">{date}</span>}
+        {/* Meta + Sharing */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+          <div className="flex items-center gap-3 flex-wrap">
+            {note.tags && note.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 rounded text-xs"
+                style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                {tag}
+              </span>
+            ))}
+            {note.reading_time && (
+              <span className="flex items-center gap-1 text-xs text-white/25">
+                <Clock size={10} /> {note.reading_time} min read
+              </span>
+            )}
+            {date && <span className="text-xs text-white/25">{date}</span>}
+          </div>
+          <SocialShare title={note.title} excerpt={note.excerpt} />
         </div>
 
         {/* Title */}
@@ -116,6 +120,20 @@ export default function NoteDetail() {
         {/* Content */}
         <div className="space-y-1">
           {renderContent(note.content)}
+        </div>
+
+        {/* Bottom share bar */}
+        <div
+          className="mt-12 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+        >
+          <Link
+            to="/notes"
+            className="inline-flex items-center gap-2 text-sm text-white/35 hover:text-white/65 transition-colors duration-200"
+          >
+            <ArrowLeft size={13} /> Back to all notes
+          </Link>
+          <SocialShare title={note.title} excerpt={note.excerpt} />
         </div>
       </div>
     </div>
