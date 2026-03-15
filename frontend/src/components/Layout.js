@@ -3,7 +3,10 @@ import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { SearchCommand } from './SearchCommand';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { LightDarkToggle } from './LightDarkToggle';
 import { Breadcrumbs } from './Breadcrumbs';
+import { AdvancedFooter } from './AdvancedFooter';
+import { useTheme } from '../contexts/ThemeContext';
 
 const navLinks = [
   { to: '/', label: 'Home', testid: 'top-nav-link-home', exact: true },
@@ -18,6 +21,7 @@ export default function Layout() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { mode } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -107,6 +111,7 @@ export default function Layout() {
                         : 'text-white/55 hover:text-white/85 hover:bg-white/[0.03]'
                     }`
                   }
+                  style={{ color: 'var(--theme-text-muted)' }}
                 >
                   {({ isActive }) => (
                     <>
@@ -121,11 +126,16 @@ export default function Layout() {
                   )}
                 </NavLink>
               ))}
+              <LightDarkToggle />
               <ThemeSwitcher />
               <Link
                 to="/contact"
                 data-testid="top-nav-link-contact"
-                className="ml-1 px-4 py-2 text-sm font-semibold rounded-lg text-black bg-white hover:bg-white/90 transition-colors duration-200"
+                className="ml-1 px-4 py-2 text-sm font-semibold rounded-lg transition-colors duration-200"
+                style={{
+                  background: mode === 'light' ? 'black' : 'white',
+                  color: mode === 'light' ? 'white' : 'black',
+                }}
               >
                 Let&apos;s Talk
               </Link>
@@ -185,80 +195,8 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      {/* Footer */}
-      <footer
-        id="footer"
-        style={{
-          background: '#08090a',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-        }}
-        className="relative z-10"
-      >
-        <div className="max-w-6xl mx-auto px-6 pt-16 pb-10">
-          <div className="grid md:grid-cols-2 gap-10 mb-14">
-            <div>
-              <h2
-                className="font-extrabold tracking-tight text-white mb-4"
-                style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', lineHeight: 1.1 }}
-              >
-                If something is overloaded<br />
-                or drifting off-core—
-                <span style={{ color: 'rgba(255,255,255,0.42)' }}> that&apos;s the conversation.</span>
-              </h2>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/92 transition-colors duration-200"
-              >
-                Start the Conversation
-                <ArrowUpRight size={14} />
-              </Link>
-            </div>
-            <div className="flex flex-col justify-between gap-6 md:items-end">
-              <nav className="flex flex-wrap gap-x-5 gap-y-2 md:justify-end">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="text-sm transition-colors duration-200"
-                    style={{ color: 'rgba(255,255,255,0.35)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </div>
-
-          <div
-            className="pt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-          >
-            <div className="flex items-center gap-3">
-              <div
-                className="w-6 h-6 flex items-center justify-center rounded text-white font-extrabold text-xs"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.09)',
-                }}
-              >
-                JT
-              </div>
-              <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                Jethro &ldquo;JayTee&rdquo; &mdash; Operator &amp; Builder
-              </span>
-            </div>
-            <div className="flex items-center gap-4 text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
-              <span>Nemurium ecosystem</span>
-              <span style={{ color: 'rgba(255,255,255,0.1)' }}>/</span>
-              <span>VibeForge Studios</span>
-              <span style={{ color: 'rgba(255,255,255,0.1)' }}>/</span>
-              <span>&copy; 2025</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Advanced Footer */}
+      <AdvancedFooter />
     </div>
   );
 }

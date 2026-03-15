@@ -1,30 +1,58 @@
 [
   {
-    "content": "Update Home.js - Add Reveal animations to all sections, enhance Hero CTAs with metallic effects, convert hard-coded accent colors to theme variables",
-    "status": "completed"
+    "content": "Install Three.js dependencies (@react-three/fiber, @react-three/drei, three)",
+    "status": "in_progress"
   },
   {
-    "content": "Update WorkWithMe.js - Add clear CTAs to each service tier, add Reveal animations, theme variables",
-    "status": "completed"
+    "content": "Extend ThemeContext to support Light/Dark mode (24 theme combinations)",
+    "status": "pending"
   },
   {
-    "content": "Update Tools.js - Convert hard-coded accent colors to theme variables, add Reveal animations to tool sections",
-    "status": "completed"
+    "content": "Create Light/Dark mode toggle button in navigation",
+    "status": "pending"
   },
   {
-    "content": "Update Work.js - Add CTAs to project cards, Reveal animations, theme variables",
-    "status": "completed"
+    "content": "Define light mode color tokens and update CSS variables",
+    "status": "pending"
   },
   {
-    "content": "Update About.js, Contact.js, Notes.js, NoteDetail.js - Add Reveal animations to all major sections",
-    "status": "completed"
+    "content": "Create base 3D infrastructure (Canvas wrapper, lazy loading, fallbacks)",
+    "status": "pending"
   },
   {
-    "content": "Test all pages with theme switching, search functionality, breadcrumbs, and animations",
-    "status": "completed"
+    "content": "Implement 3D Hero section (particle system or geometric shapes)",
+    "status": "pending"
   },
   {
-    "content": "Test search with Cmd+K, verify it finds and navigates to all content types",
-    "status": "completed"
+    "content": "Add 3D elements to Work page (project visualizations)",
+    "status": "pending"
+  },
+  {
+    "content": "Add 3D elements to Tools page (lab chamber lighting)",
+    "status": "pending"
+  },
+  {
+    "content": "Add 3D elements to About page (brand architecture 3D stack)",
+    "status": "pending"
+  },
+  {
+    "content": "Implement page transition system with AnimatePresence",
+    "status": "pending"
+  },
+  {
+    "content": "Add smooth scroll functionality with anchors",
+    "status": "pending"
+  },
+  {
+    "content": "Create Advanced Interactive Footer (multi-column, mini-map, animations)",
+    "status": "pending"
+  },
+  {
+    "content": "Optimize performance (lazy loading, code splitting, reduced motion)",
+    "status": "pending"
+  },
+  {
+    "content": "Comprehensive testing of all new features",
+    "status": "pending"
   }
 ]

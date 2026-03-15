@@ -5,6 +5,7 @@ import {
   Sparkles, ShieldAlert, ArrowUpRight, Zap
 } from 'lucide-react';
 import { Reveal, RevealStagger } from '../components/Reveal';
+import { ThreeDCanvas } from '../components/ThreeDCanvas';
 
 // Subtle dot-grid pattern SVG as data URI
 const DOT_GRID = `url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.8' fill='rgba(255,255,255,0.055)'/%3E%3C/svg%3E")`;
@@ -22,6 +23,9 @@ export default function Home() {
 
       {/* ─── HERO ─────────────────────────────────────────────────── */}
       <section className="relative pt-24 pb-24 overflow-hidden">
+        {/* 3D Background Layer */}
+        <ThreeDCanvas scene="hero" className="opacity-40" />
+        
         {/* Dot grid texture */}
         <div
           className="absolute inset-0 pointer-events-none"

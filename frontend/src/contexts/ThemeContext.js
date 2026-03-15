@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Premium metallic color themes based on reference images
-const THEMES = {
+// Premium metallic color themes
+const ACCENT_THEMES = {
   cyan: {
     name: 'Cyan Electric',
     accent: '#00f0ff',
@@ -10,7 +10,7 @@ const THEMES = {
     ring: 'rgba(0, 240, 255, 0.45)',
     glow: 'rgba(0, 240, 255, 0.15)',
     gradient: 'linear-gradient(135deg, #00f0ff 0%, #00c8d4 100%)',
-    metallic: 'linear-gradient(135deg, #00f0ff 0%, #5ffdff 50%, #00c8d4 100%)',
+    metallic: 'linear-gradient(135deg, #5ffdff 0%, #00f0ff 50%, #00c8d4 100%)',
   },
   sapphire: {
     name: 'Sapphire Blue',
@@ -124,6 +124,34 @@ const THEMES = {
   },
 };
 
+// Mode definitions
+const MODE_TOKENS = {
+  dark: {
+    bg0: '#08090a',
+    bg1: '#0f1115',
+    bg2: '#161920',
+    surface: 'rgba(255,255,255,0.04)',
+    surfaceBorder: 'rgba(255,255,255,0.08)',
+    text: 'rgba(255,255,255,0.95)',
+    textMuted: 'rgba(255,255,255,0.55)',
+    textSubtle: 'rgba(255,255,255,0.35)',
+    border: 'rgba(255,255,255,0.10)',
+    borderSubtle: 'rgba(255,255,255,0.06)',
+  },
+  light: {
+    bg0: '#ffffff',
+    bg1: '#f8f9fa',
+    bg2: '#e9ecef',
+    surface: 'rgba(0,0,0,0.02)',
+    surfaceBorder: 'rgba(0,0,0,0.08)',
+    text: 'rgba(0,0,0,0.95)',
+    textMuted: 'rgba(0,0,0,0.65)',
+    textSubtle: 'rgba(0,0,0,0.45)',
+    border: 'rgba(0,0,0,0.10)',
+    borderSubtle: 'rgba(0,0,0,0.06)',
+  },
+};
+
 const ThemeContext = createContext();
 
 export const useTheme = () => {
@@ -145,9 +173,8 @@ function hexToRgb(hex) {
 
 function createCustomTheme(color) {
   const rgb = hexToRgb(color);
-  if (!rgb) return THEMES.cyan;
+  if (!rgb) return ACCENT_THEMES.cyan;
 
-  // Create lighter and darker variants
   const lighter = `rgb(${Math.min(rgb.r + 40, 255)}, ${Math.min(rgb.g + 40, 255)}, ${Math.min(rgb.b + 40, 255)})`;
   const darker = `rgb(${Math.max(rgb.r - 40, 0)}, ${Math.max(rgb.g - 40, 0)}, ${Math.max(rgb.b - 40, 0)})`;
 
@@ -164,71 +191,101 @@ function createCustomTheme(color) {
 }
 
 export const ThemeProvider = ({ children }) => {
-  const [themeKey, setThemeKey] = useState('cyan');
+  const [mode, setMode] = useState('dark');
+  const [accentKey, setAccentKey] = useState('cyan');
   const [customColor, setCustomColor] = useState(null);
 
   // Load theme from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem('portfolio-theme');
+    const savedMode = localStorage.getItem('portfolio-mode');
+    const savedAccent = localStorage.getItem('portfolio-theme');
     const savedCustom = localStorage.getItem('portfolio-custom-color');
+    
+    if (savedMode && (savedMode === 'light' || savedMode === 'dark')) {
+      setMode(savedMode);
+    }
     
     if (savedCustom) {
       setCustomColor(savedCustom);
-      setThemeKey('custom');
-    } else if (saved && THEMES[saved]) {
-      setThemeKey(saved);
+      setAccentKey('custom');
+    } else if (savedAccent && ACCENT_THEMES[savedAccent]) {
+      setAccentKey(savedAccent);
     }
   }, []);
 
   // Apply theme to CSS variables
   useEffect(() => {
-    const theme = themeKey === 'custom' && customColor
+    const accentTheme = accentKey === 'custom' && customColor
       ? createCustomTheme(customColor)
-      : THEMES[themeKey] || THEMES.cyan;
+      : ACCENT_THEMES[accentKey] || ACCENT_THEMES.cyan;
+
+    const modeTokens = MODE_TOKENS[mode];
 
     const root = document.documentElement;
-    root.style.setProperty('--theme-accent', theme.accent);
-    root.style.setProperty('--theme-accent-light', theme.accentLight);
-    root.style.setProperty('--theme-accent-dark', theme.accentDark);
-    root.style.setProperty('--theme-ring', theme.ring);
-    root.style.setProperty('--theme-glow', theme.glow);
-    root.style.setProperty('--theme-gradient', theme.gradient);
-    root.style.setProperty('--theme-metallic', theme.metallic);
+    
+    // Accent colors
+    root.style.setProperty('--theme-accent', accentTheme.accent);
+    root.style.setProperty('--theme-accent-light', accentTheme.accentLight);
+    root.style.setProperty('--theme-accent-dark', accentTheme.accentDark);
+    root.style.setProperty('--theme-ring', accentTheme.ring);
+    root.style.setProperty('--theme-glow', accentTheme.glow);
+    root.style.setProperty('--theme-gradient', accentTheme.gradient);
+    root.style.setProperty('--theme-metallic', accentTheme.metallic);
 
-    // Also update shadcn ring color
-    root.style.setProperty('--ring', theme.ring);
-  }, [themeKey, customColor]);
+    // Mode-specific tokens
+    root.style.setProperty('--theme-bg0', modeTokens.bg0);
+    root.style.setProperty('--theme-bg1', modeTokens.bg1);
+    root.style.setProperty('--theme-bg2', modeTokens.bg2);
+    root.style.setProperty('--theme-surface', modeTokens.surface);
+    root.style.setProperty('--theme-surface-border', modeTokens.surfaceBorder);
+    root.style.setProperty('--theme-text', modeTokens.text);
+    root.style.setProperty('--theme-text-muted', modeTokens.textMuted);
+    root.style.setProperty('--theme-text-subtle', modeTokens.textSubtle);
+    root.style.setProperty('--theme-border', modeTokens.border);
+    root.style.setProperty('--theme-border-subtle', modeTokens.borderSubtle);
 
-  const setTheme = (key) => {
-    if (key === 'custom') {
-      // Don't set custom without a color
-      return;
-    }
-    setThemeKey(key);
+    // Set data attribute for CSS targeting
+    root.setAttribute('data-theme-mode', mode);
+    
+    // Update body background
+    document.body.style.background = modeTokens.bg0;
+  }, [mode, accentKey, customColor]);
+
+  const toggleMode = () => {
+    const newMode = mode === 'dark' ? 'light' : 'dark';
+    setMode(newMode);
+    localStorage.setItem('portfolio-mode', newMode);
+  };
+
+  const setAccent = (key) => {
+    if (key === 'custom') return;
+    setAccentKey(key);
     setCustomColor(null);
     localStorage.setItem('portfolio-theme', key);
     localStorage.removeItem('portfolio-custom-color');
   };
 
-  const setCustomTheme = (color) => {
+  const setCustomAccent = (color) => {
     setCustomColor(color);
-    setThemeKey('custom');
+    setAccentKey('custom');
     localStorage.setItem('portfolio-custom-color', color);
     localStorage.setItem('portfolio-theme', 'custom');
   };
 
-  const currentTheme = themeKey === 'custom' && customColor
+  const currentAccent = accentKey === 'custom' && customColor
     ? createCustomTheme(customColor)
-    : THEMES[themeKey] || THEMES.cyan;
+    : ACCENT_THEMES[accentKey] || ACCENT_THEMES.cyan;
 
   return (
     <ThemeContext.Provider
       value={{
-        theme: currentTheme,
-        themeKey,
-        themes: THEMES,
-        setTheme,
-        setCustomTheme,
+        mode,
+        toggleMode,
+        accent: currentAccent,
+        accentKey,
+        accents: ACCENT_THEMES,
+        setAccent,
+        setCustomAccent,
         customColor,
       }}
     >
