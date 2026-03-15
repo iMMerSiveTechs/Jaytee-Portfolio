@@ -36,17 +36,20 @@ export const PageTransition = ({ children }) => {
   };
 
   return (
-    <AnimatePresence mode=\"wait\" initial={false}>
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={location.pathname}
         variants={pageVariants}
-        initial=\"initial\"
-        animate=\"animate\"
-        exit=\"exit\"
+        initial="initial"
+        animate="animate"
+        exit="exit"
         style={{
           width: '100%',
           minHeight: '100vh',
         }}
       >
         {children}
-      </motion.div>\n    </AnimatePresence>\n  );\n};\n
+      </motion.div>
+    </AnimatePresence>
+  );
+};
