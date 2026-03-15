@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Reveal } from '../components/Reveal';
 import { SocialShare } from '../components/SocialShare';
+import { SEO } from '../components/SEO';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 
@@ -20,6 +21,7 @@ export default function Notes() {
 
   return (
     <div data-testid="notes-index" className="pt-16">
+      <SEO title="Notes" description="Writing and insights on systems thinking, product strategy, and operational clarity." path="/notes" />
       <header className="pt-24 pb-16 max-w-3xl mx-auto px-6">
         <Reveal delay={0.1}>
           <p className="section-label mb-4">Notes</p>

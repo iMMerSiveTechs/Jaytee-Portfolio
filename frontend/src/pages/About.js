@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Reveal, RevealStagger } from '../components/Reveal';
+import { SEO } from '../components/SEO';
+import { EcosystemGraph } from '../components/EcosystemGraph';
 import {
   Globe, Layers, Hammer, ArrowRight, Shield, Target,
   Compass, Lightbulb, Cpu, Users, TrendingUp, Crosshair,
@@ -58,6 +60,7 @@ const capabilities = [
 export default function About() {
   return (
     <div className="pt-16">
+      <SEO title="About" description="Philosophy, operating method, and brand architecture behind Jethro JayTee — systems strategist and operator." path="/about" />
       {/* ─── Hero ─────────────────────────────────────────────────── */}
       <header className="pt-24 pb-20 px-6 max-w-5xl mx-auto">
         <Reveal delay={0.1}>
@@ -240,6 +243,19 @@ export default function About() {
           <Reveal delay={0.1}>
             <p className="section-label mb-3">The Brand Architecture</p>
             <p className="text-white/50 mb-10 text-base" style={{ fontWeight: 300 }}>At the top is the operator. Around that sits a broader ecosystem taking shape.</p>
+          </Reveal>
+
+          {/* Interactive Ecosystem Graph */}
+          <Reveal delay={0.15}>
+            <div
+              className="rounded-2xl p-6 mb-10"
+              style={{
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              <EcosystemGraph />
+            </div>
           </Reveal>
 
           <div className="space-y-4">

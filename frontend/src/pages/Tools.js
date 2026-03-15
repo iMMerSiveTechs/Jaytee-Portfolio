@@ -3,6 +3,7 @@ import { Sparkles, ShieldAlert, Zap, Scissors, Copy, Check, AlertCircle, ArrowRi
 import { toast } from 'sonner';
 import { hapticMedium } from '../utils/haptics';
 import { Skeleton } from '../components/ui/skeleton';
+import { SEO } from '../components/SEO';
 
 const BACKEND = process.env.REACT_APP_BACKEND_URL;
 
@@ -869,6 +870,7 @@ export default function Tools() {
 
   return (
     <div data-testid="tools-page" className="pt-16">
+      <SEO title="Clarity Lab" description="AI-powered operator tools — translate chaos, detect bloat, audit friction, and slice scope." path="/tools" />
       <header
         className="pt-24 pb-14 max-w-4xl mx-auto px-6"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
@@ -906,6 +908,8 @@ export default function Tools() {
         {/* Tab bar */}
         <div
           data-testid="tools-tabs"
+          role="tablist"
+          aria-label="Clarity Lab tools"
           className="flex gap-1 mb-8 p-1 rounded-xl overflow-x-auto"
           style={{
             background: 'rgba(18,21,28,0.95)',
@@ -920,6 +924,9 @@ export default function Tools() {
               <button
                 key={tab.key}
                 data-testid={`tools-tab-${tab.key}`}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`panel-${tab.key}`}
                 onClick={() => setActiveTab(tab.key)}
                 className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
                 style={{

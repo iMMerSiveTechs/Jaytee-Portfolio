@@ -2,6 +2,7 @@ import React from 'react';
 import { Reveal } from '../components/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 // Abstract visual panels — CSS-only, no placeholders
 function JobForgeVisual() {
@@ -208,6 +209,7 @@ const systems = [
 export default function Work() {
   return (
     <div className="pt-16">
+      <SEO title="Work" description="Selected systems and projects — case studies in turning ambiguity into structure and leverage." path="/work" />
       <header
         className="pt-24 pb-16 max-w-6xl mx-auto px-6"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
@@ -307,7 +309,7 @@ export default function Work() {
                     </span>
                   </div>
                   <Link
-                    to="/contact"
+                    to={`/work/${system.id}`}
                     data-testid={`cta-project-${system.id}`}
                     className="group inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200"
                     style={{
@@ -324,7 +326,7 @@ export default function Work() {
                       e.currentTarget.style.transform = 'translateX(0)';
                     }}
                   >
-                    Discuss This System <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
+                    View Case Study <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
                   </Link>
                 </div>
 

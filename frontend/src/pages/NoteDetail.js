@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Reveal } from '../components/Reveal';
 import { SocialShare } from '../components/SocialShare';
+import { SEO } from '../components/SEO';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock } from 'lucide-react';
 
@@ -51,28 +52,155 @@ export default function NoteDetail() {
     ? new Date(note.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : '';
 
-  // Simple markdown-like rendering
-  const renderContent = (content) => {
-    return content.split('\n').map((line, i) => {
-      if (line.startsWith('**') && line.endsWith('**')) {
-        const text = line.slice(2, -2);
-        return <p key={i} className="font-bold text-white/90 mt-6 mb-2">{text}</p>;
+  // Enhanced markdown rendering
+  const renderInline = (text) => {
+    // Process inline formatting: bold, inline code, links
+    const tokens = [];
+    let remaining = text;
+    let key = 0;
+    while (remaining.length > 0) {
+      // Inline code
+      const codeMatch = remaining.match(/^`([^`]+)`/);
+      if (codeMatch) {
+        tokens.push(<code key={key++} className="prose-dark">{codeMatch[1]}</code>);
+        remaining = remaining.slice(codeMatch[0].length);
+        continue;
       }
-      if (line.trim() === '') return <br key={i} />;
-      // Inline bold
-      const parts = line.split(/\*\*(.*?)\*\*/g);
-      return (
-        <p key={i} className="text-white/65 leading-[1.8] text-base" style={{ fontWeight: 300 }}>
-          {parts.map((part, j) =>
-            j % 2 === 1 ? <strong key={j} className="text-white/85 font-semibold">{part}</strong> : part
-          )}
+      // Links
+      const linkMatch = remaining.match(/^\[([^\]]+)\]\(([^)]+)\)/);
+      if (linkMatch) {
+        tokens.push(<a key={key++} href={linkMatch[2]} className="prose-dark" target="_blank" rel="noopener noreferrer">{linkMatch[1]}</a>);
+        remaining = remaining.slice(linkMatch[0].length);
+        continue;
+      }
+      // Bold
+      const boldMatch = remaining.match(/^\*\*([^*]+)\*\*/);
+      if (boldMatch) {
+        tokens.push(<strong key={key++} className="text-white/85 font-semibold">{boldMatch[1]}</strong>);
+        remaining = remaining.slice(boldMatch[0].length);
+        continue;
+      }
+      // Regular text — consume until next special char
+      const nextSpecial = remaining.search(/[`[*]/);
+      if (nextSpecial === -1) {
+        tokens.push(remaining);
+        break;
+      } else if (nextSpecial === 0) {
+        // Special char that didn't match a pattern — consume it as text
+        tokens.push(remaining[0]);
+        remaining = remaining.slice(1);
+      } else {
+        tokens.push(remaining.slice(0, nextSpecial));
+        remaining = remaining.slice(nextSpecial);
+      }
+    }
+    return tokens;
+  };
+
+  const renderContent = (content) => {
+    const lines = content.split('\n');
+    const elements = [];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Horizontal rule
+      if (line.trim() === '---' || line.trim() === '***') {
+        elements.push(<hr key={i} className="prose-dark" />);
+        i++;
+        continue;
+      }
+
+      // Heading 2
+      if (line.startsWith('## ')) {
+        elements.push(<h2 key={i} className="prose-dark">{line.slice(3)}</h2>);
+        i++;
+        continue;
+      }
+
+      // Heading 3
+      if (line.startsWith('### ')) {
+        elements.push(<h3 key={i} className="prose-dark">{line.slice(4)}</h3>);
+        i++;
+        continue;
+      }
+
+      // Blockquote
+      if (line.startsWith('> ')) {
+        const quoteLines = [];
+        while (i < lines.length && lines[i].startsWith('> ')) {
+          quoteLines.push(lines[i].slice(2));
+          i++;
+        }
+        elements.push(
+          <blockquote key={`bq-${i}`} className="prose-dark">
+            {quoteLines.map((ql, qi) => <p key={qi}>{renderInline(ql)}</p>)}
+          </blockquote>
+        );
+        continue;
+      }
+
+      // Unordered list
+      if (line.startsWith('- ') || line.startsWith('* ')) {
+        const listItems = [];
+        while (i < lines.length && (lines[i].startsWith('- ') || lines[i].startsWith('* '))) {
+          listItems.push(lines[i].slice(2));
+          i++;
+        }
+        elements.push(
+          <ul key={`ul-${i}`} className="prose-dark">
+            {listItems.map((item, li) => <li key={li}>{renderInline(item)}</li>)}
+          </ul>
+        );
+        continue;
+      }
+
+      // Ordered list
+      const olMatch = line.match(/^(\d+)\.\s/);
+      if (olMatch) {
+        const listItems = [];
+        while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
+          listItems.push(lines[i].replace(/^\d+\.\s/, ''));
+          i++;
+        }
+        elements.push(
+          <ol key={`ol-${i}`} className="prose-dark">
+            {listItems.map((item, li) => <li key={li}>{renderInline(item)}</li>)}
+          </ol>
+        );
+        continue;
+      }
+
+      // Empty line
+      if (line.trim() === '') {
+        i++;
+        continue;
+      }
+
+      // Bold-only line (legacy support)
+      if (line.startsWith('**') && line.endsWith('**') && line.indexOf('**', 2) === line.length - 2) {
+        const text = line.slice(2, -2);
+        elements.push(<p key={i} className="font-bold text-white/90 mt-6 mb-2">{text}</p>);
+        i++;
+        continue;
+      }
+
+      // Regular paragraph
+      elements.push(
+        <p key={i} className="prose-dark">
+          {renderInline(line)}
         </p>
       );
-    });
+      i++;
+    }
+
+    return elements;
   };
 
   return (
     <div data-testid="notes-detail" className="pt-16">
+      <SEO title={note.title} description={note.summary || ''} path={`/notes/${slug}`} type="article" article={{ publishedTime: note.created_at, tags: note.tags }} />
       <div className="max-w-2xl mx-auto px-6 pt-16 pb-32">
         {/* Breadcrumb */}
         <Link

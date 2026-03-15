@@ -227,3 +227,71 @@ a:focus-visible {
     transform: none;
   }
 }
+
+/* Skip navigation link — a11y */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  padding: 8px 16px;
+  background: var(--theme-accent, #00f0ff);
+  color: #08090a;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: top 150ms ease;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* Enhanced prose for markdown notes */
+.prose-dark h2 { font-size: 1.375rem; }
+.prose-dark h3 {
+  color: rgba(255,255,255,0.88);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+.prose-dark blockquote {
+  border-left: 3px solid var(--theme-accent, #00f0ff);
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+  color: rgba(255,255,255,0.55);
+  font-style: italic;
+}
+.prose-dark code {
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--theme-accent, #00f0ff);
+  font-family: ui-monospace, 'SF Mono', monospace;
+}
+.prose-dark ul, .prose-dark ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+  color: rgba(255,255,255,0.65);
+}
+.prose-dark li {
+  margin-bottom: 0.35rem;
+  line-height: 1.7;
+}
+.prose-dark hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 2rem 0;
+}
+.prose-dark a {
+  color: var(--theme-accent, #00f0ff);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0,240,255,0.3);
+  transition: text-decoration-color 200ms;
+}
+.prose-dark a:hover {
+  text-decoration-color: var(--theme-accent, #00f0ff);
+}

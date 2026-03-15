@@ -125,6 +125,9 @@ class ContactSubmission(BaseModel):
     message: str
     honeypot: Optional[str] = None  # spam trap
 
+class NewsletterSubscribe(BaseModel):
+    email: str
+
 class NoteCreate(BaseModel):
     title: str
     slug: str
@@ -318,6 +321,23 @@ async def submit_contact(body: ContactSubmission):
     return {"success": True, "message": "Your intake has been received. I'll be in touch within 48 hours.", "id": str(result.inserted_id)}
 
 
+# ─── Routes: Newsletter ──────────────────────────────────────────────────────
+@app.post("/api/newsletter/subscribe")
+async def subscribe_newsletter(body: NewsletterSubscribe):
+    import re
+    email = body.email.strip().lower()
+    email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+    if not email or not email_pattern.match(email):
+        raise HTTPException(status_code=422, detail="Please provide a valid email address.")
+
+    await db.subscribers.update_one(
+        {"email": email},
+        {"$set": {"email": email, "subscribed_at": datetime.utcnow()}},
+        upsert=True
+    )
+    return {"success": True, "message": "You're in. Welcome to the signal."}
+
+
 # ─── Routes: Notes ────────────────────────────────────────────────────────────
 @app.get("/api/notes")
 async def get_notes():
@@ -426,7 +446,117 @@ The goal isn't a perfect system. It's a resilient one.""",
     ]
 
     await db.notes.insert_many(seed_data)
-    return {"message": f"Seeded {len(seed_data)} notes."}
+
+    # Additional notes with richer markdown formatting
+    rich_notes = [
+        {
+            "title": "The Leverage Map: Finding Your 10x Moves",
+            "slug": "leverage-map-finding-10x-moves",
+            "excerpt": "Not all effort is created equal. A leverage map helps you find the moves that produce disproportionate results.",
+            "content": """## The Problem With Equal Effort
+
+Most teams treat every task as equally important. They work linearly through backlogs, distribute effort evenly, and wonder why progress feels slow despite everyone being busy.
+
+The truth is brutal: **80% of your effort produces 20% of your results.** The question isn't whether you're working hard — it's whether you're working on the right things.
+
+### What Is a Leverage Map?
+
+A leverage map is a simple framework for categorizing every initiative by two dimensions:
+
+1. **Impact** — how much does this move the needle on your core metric?
+2. **Effort** — how much time, money, and attention does it require?
+
+> The goal isn't to do more. The goal is to find the smallest set of actions that produce the largest set of outcomes.
+
+### The Four Quadrants
+
+- **High Impact, Low Effort** — Do these immediately. These are your 10x moves.
+- **High Impact, High Effort** — Plan these carefully. They're worth doing but need proper resourcing.
+- **Low Impact, Low Effort** — Automate or delegate. Don't waste senior attention on these.
+- **Low Impact, High Effort** — Kill these. They're the silent killers of velocity.
+
+### How to Build Yours
+
+1. List every active initiative, project, and recurring task
+2. Score each on impact (1-5) and effort (1-5)
+3. Plot them on a 2x2 grid
+4. Ruthlessly cut or defer anything in the bottom-right quadrant
+5. Double down on the top-left quadrant
+
+### The Hard Part
+
+The hardest part isn't building the map — it's acting on it. **Killing projects feels like failure.** Saying no to stakeholders feels political. But the alternative is spreading yourself so thin that nothing gets the attention it deserves.
+
+---
+
+The best operators I know don't work harder. They work on fewer things, with more intensity, on the things that actually matter. That's leverage.""",
+            "tags": ["strategy", "leverage", "operations"],
+            "reading_time": 5,
+            "published": True,
+            "created_at": datetime(2025, 4, 12)
+        },
+        {
+            "title": "Friction Is a Feature (When Used Intentionally)",
+            "slug": "friction-is-a-feature",
+            "excerpt": "We spend so much time removing friction that we forget: sometimes friction is exactly what the system needs.",
+            "content": """## The Reflex to Remove
+
+In product and operations, the default instinct is to remove friction. Faster onboarding. Fewer clicks. Smoother workflows. And most of the time, this instinct is right.
+
+But not always.
+
+### When Friction Protects
+
+Some friction exists for good reasons:
+
+- **Confirmation dialogs** before irreversible actions prevent costly mistakes
+- **Cooling-off periods** in high-stakes decisions reduce regret and support tickets
+- **Manual review steps** in critical workflows catch errors that automation misses
+
+> The question isn't "how do we remove all friction?" — it's "which friction is protecting us, and which is just slowing us down?"
+
+### The Intentional Friction Framework
+
+Here's how I evaluate friction in any system:
+
+1. **Map every friction point** — where does the user or operator slow down, stop, or get confused?
+2. **Classify each one:**
+   - `Protective` — prevents errors, enforces quality, or ensures compliance
+   - `Educational` — teaches the user something they need to know
+   - `Accidental` — exists because no one thought to remove it
+   - `Legacy` — existed for a reason that no longer applies
+3. **Remove accidental and legacy friction aggressively**
+4. **Preserve and optimize protective and educational friction**
+
+### A Real Example
+
+A client wanted to remove the review step from their content publishing pipeline. "It slows us down," they said. We analyzed six months of data and found that the review step caught an average of `3.2 errors per week` that would have gone live — including two that would have caused compliance issues.
+
+We didn't remove the review step. We made it faster:
+
+- Pre-populated checklists based on content type
+- Automated the mechanical checks (links, formatting, metadata)
+- Reduced review time from **45 minutes to 12 minutes**
+
+The friction stayed. The pain went away.
+
+---
+
+**The takeaway:** Don't reflexively remove friction. Understand it first. The best systems aren't frictionless — they're *intentionally* frictioned.""",
+            "tags": ["product", "systems", "friction"],
+            "reading_time": 5,
+            "published": True,
+            "created_at": datetime(2025, 5, 3)
+        }
+    ]
+
+    for note in rich_notes:
+        try:
+            await db.notes.insert_one(note)
+        except Exception:
+            pass  # Skip if slug already exists
+
+    return {"message": f"Seeded {len(seed_data) + len(rich_notes)} notes."}
 
 
 # Seed notes on startup
@@ -438,3 +568,4 @@ async def startup_event():
     # Create indexes
     await db.notes.create_index("slug", unique=True)
     await db.contacts.create_index("created_at")
+    await db.subscribers.create_index("email", unique=True)

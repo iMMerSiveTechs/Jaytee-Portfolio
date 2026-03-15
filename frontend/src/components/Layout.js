@@ -39,6 +39,13 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#08090a' }}>
+      {/* Skip to content — a11y */}
+      <a
+        href="#main-content"
+        className="skip-link"
+      >
+        Skip to main content
+      </a>
       <CustomCursor />
       {/* Ambient blobs */}
       <div
@@ -194,7 +201,7 @@ export default function Layout() {
       </nav>
 
       {/* Page Content */}
-      <main className="relative z-10">
+      <main id="main-content" className="relative z-10" role="main">
         <Breadcrumbs />
         <Outlet />
       </main>

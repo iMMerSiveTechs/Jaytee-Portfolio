@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
+import { SEO } from '../components/SEO';
 
 const tiers = [
   {
@@ -62,6 +63,7 @@ const tiers = [
 export default function WorkWithMe() {
   return (
     <div className="pt-16">
+      <SEO title="Work With Me" description="Service tiers and engagement options — from one-session diagnosis to full system delivery." path="/work-with-me" />
       <header
         className="pt-24 pb-16 max-w-5xl mx-auto px-6"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
