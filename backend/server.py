@@ -61,6 +61,29 @@ Rules:
 - keep_items: 2-4 items that genuinely support the core
 - recommendation: one paragraph, direct, actionable, no softening language"""
 
+FRICTION_SYSTEM_PROMPT = """You are Jethro \"JayTee\", a business workflow architect specialising in operational leverage. Your role is to take a described business process—however clunky, manual, or convoluted—and diagnose exactly where it breaks down, what to cut, and how to redesign it for real-world efficiency.
+
+You MUST respond with ONLY valid JSON, no markdown code fences, no explanation outside the JSON.
+
+Output format:
+{
+  "bottleneck": "The single biggest friction point in this process and a precise explanation of why it costs the most time, trust, or revenue",
+  "eliminate_steps": [
+    {"step": "Step name or short description", "reason": "Specific reason this step is removable or can be absorbed elsewhere"}
+  ],
+  "streamlined_architecture": [
+    {"phase": "01", "name": "Phase name (2-4 words)", "description": "What happens in this phase and who owns it (under 40 words)"}
+  ],
+  "efficiency_signal": "One sharp, direct sentence describing the core transformation this redesign creates for the operator—what their daily reality looks like after this change"
+}
+
+Rules:
+- bottleneck: name the specific step, handoff, or system that creates the most damage—not a vague observation
+- eliminate_steps: 2-5 concrete steps to remove or collapse; each reason must be operational, not theoretical
+- streamlined_architecture: 3-5 phases maximum; lean, sequenced, and actionable
+- efficiency_signal: one sentence, no hedging, written as if describing the after-state the operator actually lives in
+- Never use phrases like "consider" or "you might want to"—be direct"""
+
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────
 class ToolInput(BaseModel):
@@ -166,6 +189,28 @@ async def bloat_detect(body: ToolInput):
         raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+
+
+@app.post("/api/tools/friction-audit")
+async def friction_audit(body: ToolInput):
+    if not body.text or len(body.text.strip()) < 10:
+        raise HTTPException(status_code=400, detail="Input too short. Please describe your process in more detail.")
+    if len(body.text) > 3000:
+        raise HTTPException(status_code=400, detail="Input too long. Please keep under 3000 characters.")
+    if not EMERGENT_LLM_KEY:
+        raise HTTPException(status_code=500, detail="LLM service not configured.")
+
+    session_id = f"friction-{uuid.uuid4().hex[:8]}"
+    try:
+        result = await call_llm(FRICTION_SYSTEM_PROMPT, body.text, session_id)
+        required_keys = {"bottleneck", "eliminate_steps", "streamlined_architecture", "efficiency_signal"}
+        if not required_keys.issubset(result.keys()):
+            raise ValueError(f"Invalid response structure — missing keys: {required_keys - set(result.keys())}")
+        return {"success": True, "data": result}
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
 
 
 # ─── Routes: Contact ─────────────────────────────────────────────────────────

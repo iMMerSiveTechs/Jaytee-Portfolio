@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Box, GitMerge, Crosshair, Shield,
-  Sparkles, ShieldAlert, ArrowUpRight
+  Sparkles, ShieldAlert, ArrowUpRight, Zap
 } from 'lucide-react';
 
 // Subtle dot-grid pattern SVG as data URI
@@ -645,6 +645,39 @@ export default function Home() {
                   <h4 className="text-white font-bold text-sm mb-1">The Bloat Detector</h4>
                   <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
                     Paste a feature list or pitch. Identify what's core, what's off-core, and what to cut first.
+                  </p>
+                </div>
+              </div>
+              <div
+                className="p-5 rounded-xl flex items-start gap-4"
+                style={{
+                  background: 'rgba(22,25,32,0.85)',
+                  border: '1px solid rgba(249,115,22,0.12)',
+                }}
+              >
+                <div
+                  className="p-2.5 rounded-lg shrink-0"
+                  style={{ background: 'rgba(249,115,22,0.07)', border: '1px solid rgba(249,115,22,0.15)' }}
+                >
+                  <Zap size={15} style={{ color: '#f97316' }} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-sm mb-1 flex items-center gap-2">
+                    The Friction Auditor
+                    <span
+                      className="text-[0.5rem] font-semibold px-1.5 py-0.5 rounded"
+                      style={{
+                        background: 'rgba(249,115,22,0.1)',
+                        border: '1px solid rgba(249,115,22,0.2)',
+                        color: '#f97316',
+                        letterSpacing: '0.08em',
+                      }}
+                    >
+                      NEW
+                    </span>
+                  </h4>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
+                    Paste a clunky business process. Get the bottleneck diagnosed, dead steps identified, and a leaner architecture designed.
                   </p>
                 </div>
               </div>
