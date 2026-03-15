@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Reveal } from '../components/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 
@@ -19,13 +20,15 @@ export default function Notes() {
   return (
     <div data-testid="notes-index" className="pt-16">
       <header className="pt-24 pb-16 max-w-3xl mx-auto px-6">
-        <p className="section-label mb-4">Notes</p>
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-5">
-          Thinking out loud.
-        </h1>
-        <p className="text-lg text-white/50 max-w-xl" style={{ fontWeight: 300 }}>
-          Observations, frameworks, and distilled thinking from working at the intersection of systems, product, and operations.
-        </p>
+        <Reveal delay={0.1}>
+          <p className="section-label mb-4">Notes</p>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-5">
+            Thinking out loud.
+          </h1>
+          <p className="text-lg text-white/50 max-w-xl" style={{ fontWeight: 300 }}>
+            Observations, frameworks, and distilled thinking from working at the intersection of systems, product, and operations.
+          </p>
+        </Reveal>
       </header>
 
       <div className="max-w-3xl mx-auto px-6 pb-32">
@@ -43,14 +46,14 @@ export default function Notes() {
           <p className="text-white/35 text-sm">No notes published yet.</p>
         ) : (
           <div>
-            {notes.map((note) => (
-              <Link
-                key={note.id}
-                to={`/notes/${note.slug}`}
-                data-testid="notes-item"
-                className="block py-8 group"
-                style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-              >
+            {notes.map((note, idx) => (
+              <Reveal key={note.id} delay={0.2 + (idx * 0.08)} y={15}>
+                <Link
+                  to={`/notes/${note.slug}`}
+                  data-testid="notes-item"
+                  className="block py-8 group"
+                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                >
                 <div className="flex items-center gap-3 mb-3">
                   {note.tags && note.tags.map((tag) => (
                     <span
@@ -77,6 +80,7 @@ export default function Notes() {
                   Read more <ArrowRight size={11} />
                 </span>
               </Link>
+              </Reveal>
             ))}
           </div>
         )}

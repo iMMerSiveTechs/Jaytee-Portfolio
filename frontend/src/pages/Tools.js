@@ -160,7 +160,7 @@ function ChaosTranslator() {
       <div className="relative z-10">
         <div className="flex items-start gap-4 mb-7">
           <div className="p-2.5 rounded-lg shrink-0 mt-0.5" style={{ background: 'rgba(0,240,255,0.07)', border: '1px solid rgba(0,240,255,0.14)' }}>
-            <Sparkles size={16} style={{ color: '#00f0ff' }} />
+            <Sparkles size={16} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
           </div>
           <div>
             <h2 className="text-lg font-bold text-white mb-1">The Chaos Translator</h2>
@@ -191,7 +191,7 @@ function ChaosTranslator() {
 
         {result && (
           <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
-            <OutputHeader accent="#00f0ff" copied={copied} onCopy={copy} />
+            <OutputHeader accent="var(--theme-accent, #00f0ff)" copied={copied} onCopy={copy} />
             <div className="p-5 rounded-xl mb-5" style={{ background: 'rgba(0,240,255,0.035)', border: '1px solid rgba(0,240,255,0.12)' }}>
               <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)', fontStyle: 'italic' }}>
                 “{result.summary}”
@@ -200,7 +200,7 @@ function ChaosTranslator() {
             <div className="space-y-3">
               {result.steps.map((step) => (
                 <div key={step.stepNumber} className="flex gap-5 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="font-extrabold shrink-0" style={{ color: '#00f0ff', opacity: 0.5, fontSize: '0.75rem', paddingTop: '2px', letterSpacing: '-0.02em' }}>{step.stepNumber}</span>
+                  <span className="font-extrabold shrink-0" style={{ color: 'var(--theme-accent, #00f0ff)', opacity: 0.5, fontSize: '0.75rem', paddingTop: '2px', letterSpacing: '-0.02em' }}>{step.stepNumber}</span>
                   <div>
                     <h4 className="text-white font-semibold text-sm mb-1">{step.title}</h4>
                     <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.48)' }}>{step.content}</p>
@@ -289,7 +289,7 @@ function BloatDetector() {
             <OutputHeader accent="#8b5cf6" copied={copied} onCopy={copy} />
             <div className="grid md:grid-cols-3 gap-3 mb-4">
               <div className="p-5 rounded-xl" style={{ background: 'rgba(0,240,255,0.03)', border: '1px solid rgba(0,240,255,0.12)' }}>
-                <p className="section-label mb-3" style={{ color: '#00f0ff' }}>The True Core</p>
+                <p className="section-label mb-3" style={{ color: 'var(--theme-accent, #00f0ff)' }}>The True Core</p>
                 <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>{result.core_value}</p>
               </div>
               <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.15)' }}>
@@ -629,7 +629,7 @@ function FrictionAuditor() {
 
 // ─── Tab config ───────────────────────────────────────────────────────────────
 const TABS = [
-  { key: 'chaos',   label: 'Chaos Translator',  accent: '#00f0ff' },
+  { key: 'chaos',   label: 'Chaos Translator',  accent: 'var(--theme-accent, #00f0ff)' },
   { key: 'bloat',   label: 'Bloat Detector',     accent: '#8b5cf6' },
   { key: 'friction', label: 'Friction Auditor',  accent: FRICTION_ACCENT },
 ];
@@ -646,7 +646,7 @@ export default function Tools() {
       >
         <div className="grid md:grid-cols-2 gap-8 items-end">
           <div>
-            <p className="section-label mb-4" style={{ color: '#00f0ff' }}>Clarity Lab</p>
+            <p className="section-label mb-4" style={{ color: 'var(--theme-accent, #00f0ff)' }}>Clarity Lab</p>
             <h1
               className="font-extrabold tracking-tight text-white"
               style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.06 }}

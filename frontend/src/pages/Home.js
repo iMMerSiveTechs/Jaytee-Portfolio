@@ -4,12 +4,13 @@ import {
   ArrowRight, Box, GitMerge, Crosshair, Shield,
   Sparkles, ShieldAlert, ArrowUpRight, Zap
 } from 'lucide-react';
+import { Reveal, RevealStagger } from '../components/Reveal';
 
 // Subtle dot-grid pattern SVG as data URI
 const DOT_GRID = `url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.8' fill='rgba(255,255,255,0.055)'/%3E%3C/svg%3E")`;
 
 const sequenceSteps = [
-  { num: '01', title: 'Structure', desc: 'Find the true shape inside the mess. Name what it actually is, not what it feels like.', accent: '#00f0ff', testid: 'operating-sequence-step-structure' },
+  { num: '01', title: 'Structure', desc: 'Find the true shape inside the mess. Name what it actually is, not what it feels like.', accent: 'var(--theme-accent, #00f0ff)', testid: 'operating-sequence-step-structure' },
   { num: '02', title: 'Connect', desc: 'See how the parts fit a larger architecture. Understand the system before touching it.', accent: '#3b82f6', testid: 'operating-sequence-step-connect' },
   { num: '03', title: 'Leverage', desc: 'Clarify where the commercial or strategic value actually lives. Find the real signal.', accent: '#6366f1', testid: 'operating-sequence-step-leverage' },
   { num: '04', title: 'Refine', desc: "Remove dilution. Strengthen the core. Cut what doesn't serve the central promise.", accent: '#8b5cf6', testid: 'operating-sequence-step-refine' },
@@ -44,100 +45,140 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-10">
-            <span
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ background: '#00f0ff' }}
-            />
-            <span className="section-label" style={{ color: '#00f0ff' }}>Operator · Systems Strategist · Builder</span>
-          </div>
+          <Reveal delay={0.1}>
+            <div className="flex items-center gap-3 mb-10">
+              <span
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ background: 'var(--theme-accent, #00f0ff)' }}
+              />
+              <span className="section-label" style={{ color: 'var(--theme-accent, #00f0ff)' }}>Operator · Systems Strategist · Builder</span>
+            </div>
+          </Reveal>
 
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
             {/* Headline block */}
             <div className="lg:col-span-7">
-              <h1
-                data-testid="hero-heading"
-                className="font-extrabold tracking-tight leading-[1.03] mb-8"
-                style={{ fontSize: 'clamp(2.75rem, 6vw, 5rem)' }}
-              >
-                <span
-                  style={{
-                    display: 'block',
-                    background: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(180,185,195,0.4) 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
+              <Reveal delay={0.2} y={30}>
+                <h1
+                  data-testid="hero-heading"
+                  className="font-extrabold tracking-tight leading-[1.03] mb-8"
+                  style={{ fontSize: 'clamp(2.75rem, 6vw, 5rem)' }}
                 >
-                  Turns ambiguity into
-                </span>
-                <span style={{ display: 'block', color: '#ffffff' }}>
-                  structure, direction,
-                </span>
-                <span
-                  style={{
-                    display: 'block',
-                    background: 'linear-gradient(90deg, #00f0ff 0%, #6366f1 60%, #8b5cf6 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
+                  <span
+                    style={{
+                      display: 'block',
+                      background: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(180,185,195,0.4) 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
+                    Turns ambiguity into
+                  </span>
+                  <span style={{ display: 'block', color: '#ffffff' }}>
+                    structure, direction,
+                  </span>
+                  <span
+                    style={{
+                      display: 'block',
+                      background: 'var(--theme-metallic, linear-gradient(90deg, #00f0ff 0%, #6366f1 60%, #8b5cf6 100%))',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
+                    and leverage.
+                  </span>
+                </h1>
+              </Reveal>
+              <Reveal delay={0.3}>
+                <p
+                  className="text-lg md:text-xl leading-relaxed mb-10 max-w-lg"
+                  style={{ color: 'rgba(255,255,255,0.52)', fontWeight: 300 }}
                 >
-                  and leverage.
-                </span>
-              </h1>
-              <p
-                className="text-lg md:text-xl leading-relaxed mb-10 max-w-lg"
-                style={{ color: 'rgba(255,255,255,0.52)', fontWeight: 300 }}
-              >
-                Founder, systems strategist, and product builder working across life, business, and immersive technology ecosystems.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  to="/work"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/92 transition-colors duration-200"
-                >
-                  Selected Work <ArrowUpRight size={14} />
-                </Link>
-                <Link
-                  to="/work-with-me"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-colors duration-200"
-                  style={{
-                    border: '1px solid rgba(255,255,255,0.10)',
-                    background: 'rgba(255,255,255,0.025)',
-                    color: 'rgba(255,255,255,0.72)',
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.95)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.72)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'; }}
-                >
-                  How I Engage <ArrowRight size={14} />
-                </Link>
-              </div>
+                  Founder, systems strategist, and product builder working across life, business, and immersive technology ecosystems.
+                </p>
+              </Reveal>
+              <Reveal delay={0.4}>
+                <div className="flex flex-wrap gap-4">
+                  <Link
+                    to="/work"
+                    data-testid="hero-cta-primary"
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold transition-all duration-200 relative overflow-hidden"
+                    style={{
+                      boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+                    }}
+                  >
+                    <span className="relative z-10">Selected Work</span>
+                    <ArrowUpRight size={14} className="relative z-10 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    {/* Shimmer effect */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                        backgroundSize: '200% 100%',
+                        animation: 'shimmer 2s ease-in-out infinite',
+                      }}
+                    />
+                  </Link>
+                  <Link
+                    to="/work-with-me"
+                    data-testid="hero-cta-secondary"
+                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200"
+                    style={{
+                      border: '1px solid rgba(255,255,255,0.10)',
+                      background: 'rgba(255,255,255,0.025)',
+                      color: 'rgba(255,255,255,0.72)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'var(--theme-accent, #00f0ff)';
+                      e.currentTarget.style.borderColor = 'var(--theme-accent, #00f0ff)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.72)';
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.025)';
+                    }}
+                  >
+                    How I Engage <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </Reveal>
             </div>
 
             {/* Operator signal panel */}
             <div className="lg:col-span-5 mt-2">
-              <div
-                className="rounded-2xl overflow-hidden"
-                style={{
-                  background: 'rgba(15,17,21,0.85)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                }}
-              >
-                {/* Panel header */}
+              <Reveal delay={0.5} y={40}>
                 <div
-                  className="px-6 py-4 flex items-center justify-between"
-                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                  className="rounded-2xl overflow-hidden"
+                  style={{
+                    background: 'rgba(15,17,21,0.85)',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                  }}
                 >
-                  <span className="section-label">Operator signal</span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
-                    <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
-                    <span className="w-2 h-2 rounded-full" style={{ background: '#00f0ff', opacity: 0.7 }} />
+                  {/* Panel header */}
+                  <div
+                    className="px-6 py-4 flex items-center justify-between"
+                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                  >
+                    <span className="section-label">Operator signal</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'var(--theme-accent, #00f0ff)', opacity: 0.7 }} />
+                    </div>
                   </div>
-                </div>
-                {/* Panel body */}
-                <div className="px-6 py-5 space-y-4">
+                  {/* Panel body */}
+                  <div className="px-6 py-5 space-y-4">
                   <p
                     className="text-sm leading-relaxed"
                     style={{ color: 'rgba(255,255,255,0.62)', fontWeight: 300 }}
@@ -167,16 +208,18 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              </Reveal>
             </div>
           </div>
         </div>
       </section>
 
       {/* ─── ECOSYSTEM SIGNAL STRIP (subtle inline) ─────────────── */}
-      <div
-        data-testid="ecosystem-signal-strip"
-        style={{
-          borderTop: '1px solid rgba(255,255,255,0.05)',
+      <Reveal delay={0.6} shimmer>
+        <div
+          data-testid="ecosystem-signal-strip"
+          style={{
+            borderTop: '1px solid rgba(255,255,255,0.05)',
           borderBottom: '1px solid rgba(255,255,255,0.05)',
           background: 'rgba(255,255,255,0.015)',
         }}
@@ -226,6 +269,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      </Reveal>
 
       {/* ─── OPERATING SEQUENCE ─────────────────────────────────── */}
       <section
@@ -234,7 +278,8 @@ export default function Home() {
         style={{ background: 'rgba(15,17,21,0.35)' }}
       >
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
+          <Reveal delay={0.2}>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
             <div>
               <p className="section-label mb-3">Signature Process</p>
               <h2
@@ -248,25 +293,26 @@ export default function Home() {
               to="/about"
               className="text-sm font-medium transition-colors duration-200 flex items-center gap-1.5"
               style={{ color: 'rgba(0,240,255,0.8)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#00f0ff'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-accent, #00f0ff)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(0,240,255,0.8)'; }}
             >
               The philosophy behind it <ArrowRight size={13} />
             </Link>
           </div>
+          </Reveal>
 
           {/* Editorial list — not a card grid */}
           <div className="space-y-0">
             {sequenceSteps.map((step, i) => (
-              <div
-                key={step.num}
-                data-testid={step.testid}
-                className="flex flex-col md:flex-row gap-6 md:gap-12 py-8 group"
-                style={{
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                  borderBottom: i === sequenceSteps.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
-                }}
-              >
+              <Reveal key={step.num} delay={0.4 + (i * 0.1)} y={15}>
+                <div
+                  data-testid={step.testid}
+                  className="flex flex-col md:flex-row gap-6 md:gap-12 py-8 group"
+                  style={{
+                    borderTop: '1px solid rgba(255,255,255,0.06)',
+                    borderBottom: i === sequenceSteps.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                  }}
+                >
                 {/* Step number — big typographic element */}
                 <div className="md:w-24 shrink-0 flex items-start">
                   <span
@@ -310,6 +356,7 @@ export default function Home() {
                   />
                 </div>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -321,17 +368,18 @@ export default function Home() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0,240,255,0.025) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, var(--theme-glow, rgba(0,240,255,0.025)) 0%, transparent 70%)',
           }}
         />
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           {/* Section header — editorial */}
-          <div className="grid lg:grid-cols-12 gap-8 mb-14">
-            <div className="lg:col-span-7">
-              <p className="section-label mb-4">Selected Systems</p>
-              <h2
-                className="font-extrabold tracking-tight text-white mb-5"
-                style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.08 }}
+          <Reveal delay={0.2}>
+            <div className="grid lg:grid-cols-12 gap-8 mb-14">
+              <div className="lg:col-span-7">
+                <p className="section-label mb-4">Selected Systems</p>
+                <h2
+                  className="font-extrabold tracking-tight text-white mb-5"
+                  style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.08 }}
               >
                 Where the method becomes something usable.
               </h2>
@@ -345,9 +393,11 @@ export default function Home() {
               </p>
             </div>
           </div>
+          </Reveal>
 
           {/* Primary row */}
-          <div className="grid lg:grid-cols-12 gap-4 mb-4">
+          <Reveal delay={0.4} y={30}>
+            <div className="grid lg:grid-cols-12 gap-4 mb-4">
 
             {/* Job Forge — dominant primary */}
             <div
@@ -380,7 +430,7 @@ export default function Home() {
                       style={{
                         background: 'rgba(0,240,255,0.08)',
                         border: '1px solid rgba(0,240,255,0.18)',
-                        color: '#00f0ff',
+                        color: 'var(--theme-accent, #00f0ff)',
                         letterSpacing: '0.06em',
                         textTransform: 'uppercase',
                         fontSize: '0.6rem',
@@ -414,7 +464,7 @@ export default function Home() {
                 >
                   <span
                     className="text-sm font-medium"
-                    style={{ color: '#00f0ff' }}
+                    style={{ color: 'var(--theme-accent, #00f0ff)' }}
                   >
                     System design for real-world friction.
                   </span>
@@ -570,6 +620,7 @@ export default function Home() {
               Full portfolio and context <ArrowRight size={13} />
             </Link>
           </div>
+          </Reveal>
         </div>
       </section>
 
@@ -584,30 +635,45 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-            <div>
-              <p className="section-label mb-3" style={{ color: '#00f0ff' }}>Clarity Lab</p>
-              <h2
-                className="font-extrabold text-white tracking-tight mb-5"
-                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
-              >
-                Tools built from the method.
-              </h2>
-              <p
-                className="text-base leading-relaxed mb-8"
-                style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, maxWidth: '32rem' }}
-              >
-                I build operator tools to accelerate the clarity process. Not demos—instruments. Designed to structure chaos and surface product drift in real time.
-              </p>
-              <Link
-                to="/tools"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/92 transition-colors duration-200"
-              >
-                Enter the Lab <ArrowUpRight size={14} />
-              </Link>
-            </div>
+            <Reveal delay={0.2}>
+              <div>
+                <p className="section-label mb-3" style={{ color: 'var(--theme-accent, #00f0ff)' }}>Clarity Lab</p>
+                <h2
+                  className="font-extrabold text-white tracking-tight mb-5"
+                  style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
+                >
+                  Tools built from the method.
+                </h2>
+                <p
+                  className="text-base leading-relaxed mb-8"
+                  style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, maxWidth: '32rem' }}
+                >
+                  I build operator tools to accelerate the clarity process. Not demos—instruments. Designed to structure chaos and surface product drift in real time.
+                </p>
+                <Link
+                  to="/tools"
+                  data-testid="tools-preview-cta"
+                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold transition-all duration-200"
+                  style={{
+                    boxShadow: '0 4px 20px rgba(255,255,255,0.08)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.12)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.08)';
+                  }}
+                >
+                  Enter the Lab <ArrowUpRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </div>
+            </Reveal>
 
             {/* Tool signal cards */}
-            <div className="flex flex-col gap-3">
+            <Reveal delay={0.3} y={30}>
+              <div className="flex flex-col gap-3">
               <div
                 className="p-5 rounded-xl flex items-start gap-4"
                 style={{
@@ -619,7 +685,7 @@ export default function Home() {
                   className="p-2.5 rounded-lg shrink-0"
                   style={{ background: 'rgba(0,240,255,0.07)', border: '1px solid rgba(0,240,255,0.12)' }}
                 >
-                  <Sparkles size={15} style={{ color: '#00f0ff' }} />
+                  <Sparkles size={15} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                 </div>
                 <div>
                   <h4 className="text-white font-bold text-sm mb-1">The Chaos Translator</h4>
@@ -682,6 +748,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -693,52 +760,62 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-4">
-              <p className="section-label mb-3">Work With Me</p>
-              <h2
-                className="font-extrabold text-white tracking-tight mb-5"
-                style={{ fontSize: 'clamp(1.75rem, 2.5vw, 2.25rem)' }}
-              >
-                Four ways to engage.
-              </h2>
-              <p
-                className="text-sm leading-relaxed mb-8"
-                style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}
-              >
-                I take on a small number of engagements at a time. Each is direct, outcomes-focused, and scoped for the actual problem.
-              </p>
-              <Link
-                to="/work-with-me"
-                className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.5)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
-              >
-                Full engagement options <ArrowRight size={13} />
-              </Link>
-            </div>
+            <Reveal delay={0.2}>
+              <div className="lg:col-span-4">
+                <p className="section-label mb-3">Work With Me</p>
+                <h2
+                  className="font-extrabold text-white tracking-tight mb-5"
+                  style={{ fontSize: 'clamp(1.75rem, 2.5vw, 2.25rem)' }}
+                >
+                  Four ways to engage.
+                </h2>
+                <p
+                  className="text-sm leading-relaxed mb-8"
+                  style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}
+                >
+                  I take on a small number of engagements at a time. Each is direct, outcomes-focused, and scoped for the actual problem.
+                </p>
+                <Link
+                  to="/work-with-me"
+                  data-testid="services-preview-cta"
+                  className="group inline-flex items-center gap-2 text-sm font-medium transition-all duration-200"
+                  style={{ color: 'var(--theme-accent, #00f0ff)' }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.color = 'var(--theme-accent-light, #5ffdff)';
+                    e.currentTarget.style.transform = 'translateX(2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--theme-accent, #00f0ff)';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                  }}
+                >
+                  Full engagement options <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </Reveal>
             <div className="lg:col-span-8">
               <div className="grid md:grid-cols-2 gap-4">
                 {[
-                  { num: '01', title: 'Clarity Teardown', sub: 'One concentrated session. One clear diagnosis. Actionable output by end of call.', accent: '#00f0ff' },
+                  { num: '01', title: 'Clarity Teardown', sub: 'One concentrated session. One clear diagnosis. Actionable output by end of call.', accent: 'var(--theme-accent, #00f0ff)' },
                   { num: '02', title: 'System Architecture Sprint', sub: 'Multi-week engagement to rebuild, simplify, and document your operational workflows.', accent: '#3b82f6' },
                   { num: '03', title: 'Strategic Operator Support', sub: 'Ongoing advisory. A systems-thinker in your corner as you make high-stakes decisions.', accent: '#6366f1' },
                   { num: '04', title: 'White-Glove Build', sub: 'Architecture and build via VibeForge Studios. We design and ship the system.', accent: '#8b5cf6', flagship: true },
-                ].map((svc) => (
-                  <div
-                    key={svc.num}
-                    className="p-5 rounded-xl relative"
-                    style={{
-                      background: svc.flagship ? 'rgba(15,17,21,0.9)' : '#0f1115',
-                      border: svc.flagship
-                        ? '1px solid rgba(0,240,255,0.18)'
-                        : '1px solid rgba(255,255,255,0.07)',
-                    }}
-                  >
-                    <div className="section-label mb-2" style={{ color: svc.accent, fontSize: '0.55rem' }}>{svc.num}</div>
-                    <h3 className="text-sm font-bold text-white mb-2">{svc.title}</h3>
-                    <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{svc.sub}</p>
-                  </div>
+                ].map((svc, idx) => (
+                  <Reveal key={svc.num} delay={0.3 + (idx * 0.1)} y={20}>
+                    <div
+                      className="p-5 rounded-xl relative"
+                      style={{
+                        background: svc.flagship ? 'rgba(15,17,21,0.9)' : '#0f1115',
+                        border: svc.flagship
+                          ? '1px solid rgba(0,240,255,0.18)'
+                          : '1px solid rgba(255,255,255,0.07)',
+                      }}
+                    >
+                      <div className="section-label mb-2" style={{ color: svc.accent, fontSize: '0.55rem' }}>{svc.num}</div>
+                      <h3 className="text-sm font-bold text-white mb-2">{svc.title}</h3>
+                      <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{svc.sub}</p>
+                    </div>
+                  </Reveal>
                 ))}
               </div>
             </div>

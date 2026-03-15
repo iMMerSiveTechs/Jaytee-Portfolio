@@ -1,18 +1,30 @@
 [
   {
-    "content": "Add FRICTION_AUDIT_SYSTEM_PROMPT + /api/tools/friction-audit endpoint to server.py",
-    "status": "in_progress"
+    "content": "Update Home.js - Add Reveal animations to all sections, enhance Hero CTAs with metallic effects, convert hard-coded accent colors to theme variables",
+    "status": "completed"
   },
   {
-    "content": "Add FrictionAuditor component + update tab bar in Tools.js",
-    "status": "in_progress"
+    "content": "Update WorkWithMe.js - Add clear CTAs to each service tier, add Reveal animations, theme variables",
+    "status": "completed"
   },
   {
-    "content": "Update Home page tools preview to include Friction Auditor",
-    "status": "pending"
+    "content": "Update Tools.js - Convert hard-coded accent colors to theme variables, add Reveal animations to tool sections",
+    "status": "completed"
   },
   {
-    "content": "Test end-to-end: API + UI output rendering",
-    "status": "pending"
+    "content": "Update Work.js - Add CTAs to project cards, Reveal animations, theme variables",
+    "status": "completed"
+  },
+  {
+    "content": "Update About.js, Contact.js, Notes.js, NoteDetail.js - Add Reveal animations to all major sections",
+    "status": "completed"
+  },
+  {
+    "content": "Test all pages with theme switching, search functionality, breadcrumbs, and animations",
+    "status": "completed"
+  },
+  {
+    "content": "Test search with Cmd+K, verify it finds and navigates to all content types",
+    "status": "completed"
   }
 ]

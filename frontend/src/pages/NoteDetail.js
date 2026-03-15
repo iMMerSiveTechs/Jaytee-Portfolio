@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Reveal } from '../components/Reveal';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock } from 'lucide-react';
 

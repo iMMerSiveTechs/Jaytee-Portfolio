@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { Reveal } from '../components/Reveal';
 
 const tiers = [
   {
@@ -11,8 +12,9 @@ const tiers = [
     for: 'A specific friction point. A product that feels unclear. A decision that\'s been circling too long.',
     what: 'One concentrated session. I diagnose the immediate friction in your product or workflow, name the actual problem, and give you a structured set of next actions to take out of the room.',
     format: 'Single session · 90 min',
-    accentColor: '#00f0ff',
-    accentBg: 'rgba(0,240,255,0.04)',
+    cta: 'Request a Teardown',
+    accentColor: 'var(--theme-accent, #00f0ff)',
+    accentBg: 'var(--theme-glow, rgba(0,240,255,0.04))',
     accentBorder: 'rgba(0,240,255,0.12)',
   },
   {
@@ -23,6 +25,7 @@ const tiers = [
     for: 'Something is structurally broken and you know it. The system is making the work harder than it should be.',
     what: 'A multi-week engagement to map the current state, identify the core breaks, and design a leaner, more reliable system. We build the architecture together, then you run it.',
     format: 'Multi-week · Structured',
+    cta: 'Start a Sprint',
     accentColor: '#3b82f6',
     accentBg: 'rgba(59,130,246,0.04)',
     accentBorder: 'rgba(59,130,246,0.12)',
@@ -35,6 +38,7 @@ const tiers = [
     for: 'You\'re growing and you want a clear-eyed systems-thinker available as you make high-stakes decisions.',
     what: 'Ongoing advisory. I\'m a sounding board for product direction, system design, and business structure decisions. Available on a retainer basis—not as a full-time advisor, but as someone who knows your architecture.',
     format: 'Monthly retainer',
+    cta: 'Inquire About Support',
     accentColor: '#8b5cf6',
     accentBg: 'rgba(139,92,246,0.04)',
     accentBorder: 'rgba(139,92,246,0.12)',
@@ -48,8 +52,9 @@ const tiers = [
     for: 'You need a system designed and built—not just advised on. End-to-end, from architecture to delivery.',
     what: 'Full system design and build via VibeForge Studios. We architect the solution, build it, and hand off something that works under real conditions. This is the highest-touch engagement I offer.',
     format: 'Project-based · VibeForge Studios',
-    accentColor: '#00f0ff',
-    accentBg: 'rgba(0,240,255,0.04)',
+    cta: 'Commission a Build',
+    accentColor: 'var(--theme-accent, #00f0ff)',
+    accentBg: 'var(--theme-glow, rgba(0,240,255,0.04))',
     accentBorder: 'rgba(0,240,255,0.22)',
   },
 ];
@@ -106,17 +111,17 @@ export default function WorkWithMe() {
         className="max-w-5xl mx-auto px-6 py-16"
       >
         <div className="space-y-4 mb-16">
-          {tiers.map((tier) => (
-            <div
-              key={tier.id}
-              data-testid={tier.testid}
-              className="rounded-2xl relative overflow-hidden"
-              style={{
-                background: '#0f1115',
-                border: `1px solid ${tier.accentBorder}`,
-                boxShadow: tier.flagship ? '0 0 40px rgba(0,240,255,0.04)' : 'none',
-              }}
-            >
+          {tiers.map((tier, idx) => (
+            <Reveal key={tier.id} delay={0.2 + (idx * 0.15)} y={30} shimmer={tier.flagship}>
+              <div
+                data-testid={tier.testid}
+                className="rounded-2xl relative overflow-hidden"
+                style={{
+                  background: '#0f1115',
+                  border: `1px solid ${tier.accentBorder}`,
+                  boxShadow: tier.flagship ? '0 0 40px rgba(0,240,255,0.04)' : 'none',
+                }}
+              >
               {tier.flagship && (
                 <div
                   style={{
@@ -195,16 +200,28 @@ export default function WorkWithMe() {
                   </p>
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 text-sm font-semibold transition-colors duration-200"
-                    style={{ color: tier.accentColor }}
-                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.7'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+                    data-testid={`cta-${tier.testid}`}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200"
+                    style={{
+                      background: tier.accentBg,
+                      border: `1px solid ${tier.accentBorder}`,
+                      color: tier.accentColor,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = `${tier.accentColor}15`;
+                      e.currentTarget.style.transform = 'translateX(2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = tier.accentBg;
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
                   >
-                    Get in touch about this <ArrowRight size={13} />
+                    {tier.cta} <ArrowRight size={13} className="transition-transform duration-200" />
                   </Link>
                 </div>
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
 

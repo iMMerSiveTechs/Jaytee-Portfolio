@@ -1,4 +1,5 @@
 import React from 'react';
+import { Reveal } from '../components/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
@@ -246,19 +247,19 @@ export default function Work() {
         {systems.map((system, idx) => {
           const { Visual } = system;
           return (
-            <div
-              key={system.id}
-              data-testid={`work-project-${system.id}`}
-              className="py-12 md:py-16"
-              style={{
-                borderBottom: idx < systems.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
-              }}
-            >
+            <Reveal key={system.id} delay={0.2 + (idx * 0.15)} y={40}>
               <div
-                className={`flex flex-col lg:flex-row gap-10 lg:gap-16 items-start ${
-                  system.reverse ? 'lg:flex-row-reverse' : ''
-                }`}
+                data-testid={`work-project-${system.id}`}
+                className="py-12 md:py-16"
+                style={{
+                  borderBottom: idx < systems.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                }}
               >
+                <div
+                  className={`flex flex-col lg:flex-row gap-10 lg:gap-16 items-start ${
+                    system.reverse ? 'lg:flex-row-reverse' : ''
+                  }`}
+                >
                 {/* Content */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-5">
@@ -305,6 +306,26 @@ export default function Work() {
                       {system.tagline}
                     </span>
                   </div>
+                  <Link
+                    to="/contact"
+                    data-testid={`cta-project-${system.id}`}
+                    className="group inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200"
+                    style={{
+                      background: `${system.accent}08`,
+                      border: `1px solid ${system.accent}22`,
+                      color: system.accent,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = `${system.accent}15`;
+                      e.currentTarget.style.transform = 'translateX(2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = `${system.accent}08`;
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                  >
+                    Discuss This System <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
+                  </Link>
                 </div>
 
                 {/* Abstract visual — intentional, not placeholder */}
@@ -312,41 +333,58 @@ export default function Work() {
                   <Visual />
                 </div>
               </div>
-            </div>
+              </div>
+            </Reveal>
           );
         })}
       </div>
 
       {/* CTA strip */}
-      <div
-        className="py-16"
-        style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(15,17,21,0.4)',
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-          <div>
-            <p
-              className="text-base font-bold text-white mb-1"
+      <Reveal delay={0.3}>
+        <div
+          className="py-16"
+          style={{
+            borderTop: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(15,17,21,0.4)',
+          }}
+        >
+          <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+            <div>
+              <p
+                className="text-base font-bold text-white mb-1"
+              >
+                See how this thinking applies to your situation.
+              </p>
+              <p
+                className="text-sm"
+                style={{ color: 'rgba(255,255,255,0.4)' }}
+              >
+                Every engagement starts with a direct conversation about the actual problem.
+              </p>
+            </div>
+            <Link
+              to="/contact"
+              data-testid="work-bottom-cta"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 shrink-0"
+              style={{
+                background: 'white',
+                color: 'black',
+                boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+              }}
             >
-              See how this thinking applies to your situation.
-            </p>
-            <p
-              className="text-sm"
-              style={{ color: 'rgba(255,255,255,0.4)' }}
-            >
-              Every engagement starts with a direct conversation about the actual problem.
-            </p>
+              Start the conversation <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+            </Link>
           </div>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/92 transition-colors duration-200 shrink-0"
-          >
-            Start the conversation <ArrowRight size={14} />
-          </Link>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }
