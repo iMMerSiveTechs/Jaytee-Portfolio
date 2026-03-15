@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { Reveal } from '../components/Reveal';
 import { toast } from 'sonner';
 import { ArrowUpRight, ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
@@ -56,14 +57,30 @@ const stepVariants = {
 };
 
 export default function Contact() {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [form, setForm] = useState({
     name: '', email: '', company: '', service: '',
-    budget: '', timeline: '', message: '', honeypot: ''
+    budget: '', timeline: '', message: '', honeypot: '',
+    triedAlready: '', breakingMost: '', successLooksLike: ''
   });
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Pre-fill from tool-to-lead flow or URL params
+  useEffect(() => {
+    if (location.state?.toolOutput) {
+      setForm(f => ({
+        ...f,
+        message: location.state.toolOutput,
+        service: location.state.service || f.service,
+      }));
+    }
+    const svc = searchParams.get('service');
+    if (svc) setForm(f => ({ ...f, service: svc }));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
@@ -82,7 +99,7 @@ export default function Contact() {
       return;
     }
     setDirection(1);
-    setStep((s) => Math.min(s + 1, 2));
+    setStep((s) => Math.min(s + 1, 3));
   };
 
   const goBack = () => {
@@ -101,7 +118,12 @@ export default function Contact() {
       const res = await fetch(`${BACKEND}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          tried_already: form.triedAlready,
+          breaking_most: form.breakingMost,
+          success_looks_like: form.successLooksLike,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || 'Submission failed.');
@@ -113,7 +135,7 @@ export default function Contact() {
     }
   };
 
-  const progress = ((step + 1) / 3) * 100;
+  const progress = ((step + 1) / 4) * 100;
 
   return (
     <div data-testid="contact-page" className="pt-16">
@@ -201,10 +223,10 @@ export default function Contact() {
                 <div className="mb-6">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                      Step {step + 1} of 3
+                      Step {step + 1} of 4
                     </span>
                     <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
-                      {['What\'s the friction?', 'Context', 'Let\'s connect'][step]}
+                      {['What\'s the friction?', 'Diagnostic depth', 'Context', 'Let\'s connect'][step]}
                     </span>
                   </div>
                   <div className="h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
@@ -283,6 +305,64 @@ export default function Contact() {
                         className="space-y-5"
                       >
                         <div>
+                          <label htmlFor="contact-tried" className="section-label mb-2 block">What have you tried already?</label>
+                          <textarea
+                            id="contact-tried"
+                            value={form.triedAlready}
+                            onChange={set('triedAlready')}
+                            rows={3}
+                            placeholder="Tools, consultants, internal efforts — what's been attempted so far?"
+                            className="resize-none"
+                            style={fieldStyle}
+                            onFocus={focus()}
+                            onBlur={blur}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="contact-breaking" className="section-label mb-2 block">What is breaking most right now?</label>
+                          <textarea
+                            id="contact-breaking"
+                            value={form.breakingMost}
+                            onChange={set('breakingMost')}
+                            rows={3}
+                            placeholder="The single biggest pain point or failure mode you're experiencing."
+                            className="resize-none"
+                            style={fieldStyle}
+                            onFocus={focus()}
+                            onBlur={blur}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="contact-success" className="section-label mb-2 block">What does success look like?</label>
+                          <textarea
+                            id="contact-success"
+                            value={form.successLooksLike}
+                            onChange={set('successLooksLike')}
+                            rows={3}
+                            placeholder="In 90 days, what would 'fixed' actually look and feel like?"
+                            className="resize-none"
+                            style={fieldStyle}
+                            onFocus={focus()}
+                            onBlur={blur}
+                          />
+                        </div>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                          All fields optional — but the more context, the better the first response.
+                        </p>
+                      </motion.div>
+                    )}
+
+                    {step === 2 && (
+                      <motion.div
+                        key="step-2"
+                        custom={direction}
+                        variants={stepVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        className="space-y-5"
+                      >
+                        <div>
                           <label htmlFor="contact-company" className="section-label mb-2 block">Company / Project</label>
                           <input
                             id="contact-company"
@@ -332,9 +412,9 @@ export default function Contact() {
                       </motion.div>
                     )}
 
-                    {step === 2 && (
+                    {step === 3 && (
                       <motion.div
-                        key="step-2"
+                        key="step-3"
                         custom={direction}
                         variants={stepVariants}
                         initial="enter"
@@ -406,6 +486,18 @@ export default function Contact() {
                                 <span style={{ color: 'rgba(255,255,255,0.7)' }}>{form.timeline}</span>
                               </div>
                             )}
+                            {form.triedAlready && (
+                              <div className="flex justify-between">
+                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Tried</span>
+                                <span className="text-right max-w-[200px] truncate" style={{ color: 'rgba(255,255,255,0.7)' }}>{form.triedAlready}</span>
+                              </div>
+                            )}
+                            {form.breakingMost && (
+                              <div className="flex justify-between">
+                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Breaking</span>
+                                <span className="text-right max-w-[200px] truncate" style={{ color: 'rgba(255,255,255,0.7)' }}>{form.breakingMost}</span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -435,7 +527,7 @@ export default function Contact() {
                     )}
                   </div>
 
-                  {step < 2 ? (
+                  {step < 3 ? (
                     <button
                       type="button"
                       onClick={goNext}

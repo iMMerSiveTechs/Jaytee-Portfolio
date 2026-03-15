@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Sparkles, ShieldAlert, Zap, Scissors, Copy, Check, AlertCircle, ArrowRight, Terminal, X, ChevronRight, RefreshCw, Wrench } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Sparkles, ShieldAlert, Zap, Scissors, Copy, Check, AlertCircle, ArrowRight, Terminal, X, ChevronRight, RefreshCw, Wrench, Flame } from 'lucide-react';
 import { toast } from 'sonner';
 import { hapticMedium } from '../utils/haptics';
 import { Skeleton } from '../components/ui/skeleton';
@@ -96,6 +97,50 @@ function OutputHeader({ accent, copied, onCopy }) {
       >
         {copied ? <><Check size={11} /> Copied</> : <><Copy size={11} /> Copy</>}
       </button>
+    </div>
+  );
+}
+
+function ToolCTA({ accent, resultText }) {
+  return (
+    <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.25)' }}>
+        What to do with this
+      </p>
+      <div className="grid sm:grid-cols-3 gap-3">
+        <Link
+          to="/contact"
+          className="p-4 rounded-xl text-left transition-all duration-200"
+          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+        >
+          <p className="text-sm font-semibold text-white mb-1">Want help applying this?</p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Start a conversation about your situation.</p>
+        </Link>
+        <Link
+          to="/contact"
+          state={{ service: 'Clarity Teardown' }}
+          className="p-4 rounded-xl text-left transition-all duration-200"
+          style={{ background: `${accent}06`, border: `1px solid ${accent}15` }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = `${accent}12`; e.currentTarget.style.borderColor = `${accent}25`; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = `${accent}06`; e.currentTarget.style.borderColor = `${accent}15`; }}
+        >
+          <p className="text-sm font-semibold text-white mb-1">Turn this into a working plan</p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Book a Clarity Teardown session.</p>
+        </Link>
+        <Link
+          to="/contact"
+          state={{ toolOutput: resultText, service: 'Clarity Teardown' }}
+          className="p-4 rounded-xl text-left transition-all duration-200"
+          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+        >
+          <p className="text-sm font-semibold text-white mb-1">Send this with your inquiry</p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Pre-fill your contact form with this result.</p>
+        </Link>
+      </div>
     </div>
   );
 }
@@ -380,6 +425,10 @@ function ChaosTranslator() {
                 </div>
               ))}
             </div>
+            <ToolCTA
+              accent="var(--theme-accent, #00f0ff)"
+              resultText={`Summary:\n${result.summary}\n\nSteps:\n${result.steps.map(s => `${s.stepNumber}. ${s.title}\n${s.content}`).join('\n\n')}`}
+            />
           </div>
         )}
       </div>
@@ -493,6 +542,10 @@ function BloatDetector() {
               <p className="section-label mb-3">Recommendation</p>
               <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.62)' }}>{result.recommendation}</p>
             </div>
+            <ToolCTA
+              accent="#8b5cf6"
+              resultText={`Core Value: ${result.core_value}\n\nBloat: ${result.bloat_items.join(', ')}\n\nKeep: ${result.keep_items.join(', ')}\n\nRecommendation: ${result.recommendation}`}
+            />
           </div>
         )}
       </div>
@@ -653,6 +706,10 @@ function FrictionAuditor() {
                 <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.efficiency_signal}"</p>
               </div>
             </div>
+            <ToolCTA
+              accent={FRICTION_ACCENT}
+              resultText={`Bottleneck: ${result.bottleneck}\n\nEliminate: ${result.eliminate_steps.map(s => s.step).join(', ')}\n\nEfficiency Signal: ${result.efficiency_signal}`}
+            />
           </div>
         )}
       </div>
@@ -848,7 +905,169 @@ function ScopeSlicer() {
                   <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.launch_signal}"</p>
                 </div>
               </div>
+              <ToolCTA
+                accent={SCOPE_ACCENT}
+                resultText={`Core Bet: ${result.core_bet}\n\nMVP: ${result.mvp_scope.map(s => s.feature).join(', ')}\n\nDeferred: ${result.deferred.map(s => s.feature).join(', ')}\n\nCut: ${result.cut_entirely.join(', ')}\n\nLaunch Signal: ${result.launch_signal}`}
+              />
             </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Tool 5: Entropy Audit ───────────────────────────────────────────────────
+const ENTROPY_ACCENT = '#2563eb';
+
+function EntropyAudit() {
+  const [input, setInput] = useState('');
+  const [domain, setDomain] = useState('operations');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const run = async () => {
+    if (input.trim().length < 10) { setError('Please provide at least a sentence of context.'); return; }
+    setLoading(true); setError(''); setResult(null);
+    try {
+      const res = await fetch(`${BACKEND}/api/tools/entropy-audit`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: input, domain }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Audit failed.');
+      setResult(data.data);
+    } catch (err) { setError(err.message || 'System disruption. Please try again.'); }
+    finally { setLoading(false); }
+  };
+
+  const handleFix = () => {
+    const parsed = parseError(error);
+    if (parsed.fixType === 'expand') {
+      setInput(prev => prev + '\n\n[Add more: what are you worried about? What tasks are piling up? What feels urgent vs. what IS urgent?]');
+    } else if (parsed.fixType === 'trim') {
+      setInput(prev => prev.slice(0, 2900));
+    }
+    setError('');
+  };
+
+  const copy = () => {
+    if (!result) return;
+    navigator.clipboard.writeText(
+      `Noise: ${result.noise}\n\nSignal: ${result.signal}\n\nLeverage: ${result.leverage}\n${result.leverage_detail}`
+    );
+    setCopied(true); toast.success('Output copied.');
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div
+      data-testid="tools-tab-entropy-audit"
+      className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
+      style={{ background: '#0c0e12', border: `1px solid ${ENTROPY_ACCENT}18` }}
+    >
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(to right, transparent, ${ENTROPY_ACCENT}50, transparent)` }} />
+      <div className="relative z-10">
+        <div className="flex items-start gap-4 mb-7">
+          <div className="p-2.5 rounded-lg shrink-0 mt-0.5" style={{ background: `${ENTROPY_ACCENT}12`, border: `1px solid ${ENTROPY_ACCENT}25` }}>
+            <Flame size={16} style={{ color: ENTROPY_ACCENT }} />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-white mb-1">The Entropy Audit</h2>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Dump your current chaos. The system will isolate the signal from the noise.</p>
+          </div>
+        </div>
+
+        <ToolInput
+          testid="tools-entropy-input"
+          value={input} onChange={(e) => setInput(e.target.value)}
+          placeholder="Dump everything on your mind — tasks, worries, decisions, frustrations. The messier, the better."
+          focusColor={`${ENTROPY_ACCENT}40`}
+          onExample={() => setInput("I have 3 clients waiting, my invoices are late, I need to hire an admin but have no cash flow, I'm behind on a product launch, my co-founder wants to pivot, and I'm tired. Also need to update the website and respond to a partnership inquiry that's been sitting for 2 weeks.")}
+        />
+
+        {/* Domain toggle */}
+        <div className="flex items-center gap-4 mt-4 mb-2">
+          {['operations', 'strategy'].map((d) => (
+            <label key={d} className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: domain === d ? ENTROPY_ACCENT : 'rgba(255,255,255,0.4)' }}>
+              <input
+                type="radio"
+                name="entropy-domain"
+                value={d}
+                checked={domain === d}
+                onChange={() => setDomain(d)}
+                style={{ accentColor: ENTROPY_ACCENT }}
+              />
+              {d.charAt(0).toUpperCase() + d.slice(1)}
+            </label>
+          ))}
+        </div>
+
+        <SubmitButton loading={loading} onClick={run} loadingText="Auditing entropy…" idleText="Run Analysis" icon={ArrowRight} />
+        {error && <ErrorBanner error={error} onRetry={run} onFix={handleFix} />}
+
+        {loading && (
+          <div className="mt-8 space-y-4">
+            <Skeleton className="h-28 rounded-xl" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Skeleton className="h-32 rounded-xl" />
+              <Skeleton className="h-32 rounded-xl" />
+              <Skeleton className="h-32 rounded-xl" />
+            </div>
+          </div>
+        )}
+
+        {result && (
+          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+            <OutputHeader accent={ENTROPY_ACCENT} copied={copied} onCopy={copy} />
+
+            {/* 3-column output grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* The Noise */}
+              <div
+                className="p-6 rounded-xl"
+                style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  opacity: 0.6,
+                }}
+              >
+                <p className="text-xs font-bold mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Noise (Ignore)</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{result.noise}</p>
+              </div>
+
+              {/* The Signal */}
+              <div
+                className="p-6 rounded-xl"
+                style={{
+                  background: 'rgba(245,158,11,0.04)',
+                  border: '1px solid rgba(245,158,11,0.15)',
+                }}
+              >
+                <p className="text-xs font-bold mb-3" style={{ color: '#f59e0b', letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Signal (Fix)</p>
+                <p className="text-sm font-semibold leading-relaxed text-white">{result.signal}</p>
+              </div>
+
+              {/* The Leverage */}
+              <div
+                className="p-6 rounded-xl"
+                style={{
+                  background: 'rgba(15,17,21,0.95)',
+                  border: `1px solid ${ENTROPY_ACCENT}25`,
+                }}
+              >
+                <p className="text-xs font-bold mb-3" style={{ color: ENTROPY_ACCENT, letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Leverage (Execute)</p>
+                <p className="text-xl font-bold text-white mb-2">{result.leverage}</p>
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>{result.leverage_detail}</p>
+              </div>
+            </div>
+
+            <ToolCTA
+              accent={ENTROPY_ACCENT}
+              resultText={`Noise: ${result.noise}\n\nSignal: ${result.signal}\n\nLeverage: ${result.leverage}\n${result.leverage_detail}`}
+            />
           </div>
         )}
       </div>
@@ -862,6 +1081,7 @@ const TABS = [
   { key: 'bloat',   label: 'Bloat Detector',     accent: '#8b5cf6' },
   { key: 'friction', label: 'Friction Auditor',  accent: FRICTION_ACCENT },
   { key: 'scope',   label: 'Scope Slicer',       accent: SCOPE_ACCENT },
+  { key: 'entropy', label: 'Entropy Audit',      accent: ENTROPY_ACCENT },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -870,7 +1090,7 @@ export default function Tools() {
 
   return (
     <div data-testid="tools-page" className="pt-16">
-      <SEO title="Clarity Lab" description="AI-powered operator tools — translate chaos, detect bloat, audit friction, and slice scope." path="/tools" />
+      <SEO title="Clarity Lab" description="AI-powered operator tools — translate chaos, detect bloat, audit friction, slice scope, and run entropy audits." path="/tools" />
       <header
         className="pt-24 pb-14 max-w-4xl mx-auto px-6"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
@@ -897,7 +1117,7 @@ export default function Tools() {
           </div>
           <div>
             <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>
-              Four working instruments built from the same clarity-first framework.
+              Five working instruments built from the same clarity-first framework.
               Run them against real problems for real output.
             </p>
           </div>
@@ -935,7 +1155,7 @@ export default function Tools() {
                   flexShrink: 0,
                 }}
               >
-                {(tab.key === 'friction' || tab.key === 'scope') && (
+                {(tab.key === 'friction' || tab.key === 'scope' || tab.key === 'entropy') && (
                   <span
                     className="inline-block w-1.5 h-1.5 rounded-full"
                     style={{
@@ -954,6 +1174,7 @@ export default function Tools() {
         {activeTab === 'bloat'    && <BloatDetector />}
         {activeTab === 'friction' && <FrictionAuditor />}
         {activeTab === 'scope'    && <ScopeSlicer />}
+        {activeTab === 'entropy'  && <EntropyAudit />}
 
         <p
           className="mt-8 text-xs text-center"

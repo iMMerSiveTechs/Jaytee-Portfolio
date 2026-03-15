@@ -111,9 +111,34 @@ Rules:
 - Never use phrases like "consider" or "you might want to" — be direct"""
 
 
+ENTROPY_AUDIT_SYSTEM_PROMPT = """You are Jethro \"JayTee\", a Cross-Domain Clarity Architect. Your role is to take a chaotic dump of someone's current situation — worries, tasks, problems, feelings, ambitions — and ruthlessly separate the noise from the signal, then identify the single highest-leverage action.
+
+You MUST respond with ONLY valid JSON, no markdown code fences, no explanation outside the JSON.
+
+Output format:
+{
+  "noise": "The items that are distractions, emotional venting, or irrelevant to the actual problem — listed clearly so the person can see what to ignore",
+  "signal": "The actual core problem or bottleneck identified from the chaos — one clear, specific statement of what is really going on",
+  "leverage": "The single highest-leverage action to take RIGHT NOW — not a plan, not a strategy, one concrete action",
+  "leverage_detail": "A specific instruction on when or how to execute this action (e.g., 'Do this before 5pm today' or 'Send this email within the next hour')"
+}
+
+Rules:
+- noise: identify 2-4 items that are distractions, emotional weight, or secondary concerns. Be direct but not cruel.
+- signal: one sentence, brutally specific. Name the actual problem, not the symptom.
+- leverage: one action. Not three. Not a plan. One thing.
+- leverage_detail: make it concrete and time-bound when possible.
+- If the domain is "strategy", focus on business/product decisions. If "operations", focus on workflow/execution.
+- Never hedge. Never say "consider" or "you might want to". Be direct."""
+
+
 # ─── Pydantic Models ─────────────────────────────────────────────────────────
 class ToolInput(BaseModel):
     text: str
+
+class EntropyAuditInput(BaseModel):
+    text: str
+    domain: str = "operations"
 
 class ContactSubmission(BaseModel):
     name: str
@@ -124,6 +149,9 @@ class ContactSubmission(BaseModel):
     service: Optional[str] = None
     message: str
     honeypot: Optional[str] = None  # spam trap
+    tried_already: Optional[str] = None
+    breaking_most: Optional[str] = None
+    success_looks_like: Optional[str] = None
 
 class NewsletterSubscribe(BaseModel):
     email: str
@@ -264,6 +292,29 @@ async def scope_slice(body: ToolInput):
         raise HTTPException(status_code=500, detail=f"Scope analysis failed: {str(e)}")
 
 
+@app.post("/api/tools/entropy-audit")
+async def entropy_audit(body: EntropyAuditInput):
+    if not body.text or len(body.text.strip()) < 10:
+        raise HTTPException(status_code=400, detail="Input too short. Please dump more of your current chaos.")
+    if len(body.text) > 3000:
+        raise HTTPException(status_code=400, detail="Input too long. Please keep under 3000 characters.")
+    if not EMERGENT_LLM_KEY:
+        raise HTTPException(status_code=500, detail="LLM service not configured.")
+
+    domain_context = f"\n\nDomain context: The user is focused on {body.domain}. Weight your analysis accordingly."
+    session_id = f"entropy-{uuid.uuid4().hex[:8]}"
+    try:
+        result = await call_llm(ENTROPY_AUDIT_SYSTEM_PROMPT + domain_context, body.text, session_id)
+        required_keys = {"noise", "signal", "leverage", "leverage_detail"}
+        if not required_keys.issubset(result.keys()):
+            raise ValueError(f"Invalid response structure — missing keys: {required_keys - set(result.keys())}")
+        return {"success": True, "data": result}
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Entropy audit failed: {str(e)}")
+
+
 # ─── Routes: Contact ─────────────────────────────────────────────────────────
 @app.post("/api/contact")
 async def submit_contact(body: ContactSubmission):
@@ -313,6 +364,9 @@ async def submit_contact(body: ContactSubmission):
         "timeline": body.timeline,
         "service": body.service,
         "message": body.message.strip(),
+        "tried_already": body.tried_already,
+        "breaking_most": body.breaking_most,
+        "success_looks_like": body.success_looks_like,
         "created_at": datetime.utcnow(),
         "status": "new"
     }

@@ -1,8 +1,16 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Box, GitMerge, Crosshair, Shield } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Box, GitMerge, Crosshair, Shield, Users, Zap, Target, CheckCircle, Circle } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import { SEO } from '../components/SEO';
+
+const STATUS_COLORS = {
+  'beta': '#34d399',
+  'active build': 'var(--theme-accent, #00f0ff)',
+  'shipped': '#34d399',
+  'concept': 'rgba(255,255,255,0.35)',
+  'prototype': '#3b82f6',
+};
 
 const caseStudies = {
   'job-forge': {
@@ -11,6 +19,18 @@ const caseStudies = {
     tag: 'VibeForge Studios',
     accent: '#00f0ff',
     tagline: 'System design for real-world friction.',
+    status: 'beta',
+    statusLabel: 'Beta — TestFlight',
+    audience: 'Field-based service operators and their management teams.',
+    friction: 'Operational layers (scheduling, docs, compliance) create more friction than the field work itself.',
+    strategic: 'Proves clarity-first architecture works for blue-collar operational systems, not just SaaS.',
+    timeline: [
+      { date: 'Q3 2024', milestone: 'Discovery & friction mapping', complete: true },
+      { date: 'Q4 2024', milestone: 'System architecture design', complete: true },
+      { date: 'Q1 2025', milestone: 'MVP build — core workflows', complete: true },
+      { date: 'Q2 2025', milestone: 'TestFlight beta — field testing', complete: true },
+      { date: 'Now', milestone: 'Iteration based on field feedback', complete: false },
+    ],
     ambiguity: {
       heading: 'The Ambiguity',
       content: 'Field operators were drowning in admin. Scheduling, documentation, compliance reporting — every operational layer created more friction than the work itself. The tools meant to help were actively slowing teams down. No one had a clear picture of what was actually happening on the ground, and the gap between field reality and management visibility was growing.',
@@ -41,6 +61,17 @@ const caseStudies = {
     tag: 'Consumer Product',
     accent: '#3b82f6',
     tagline: 'Clear product thinking applied to everyday software.',
+    status: 'active build',
+    statusLabel: 'Active Build',
+    audience: 'Individuals and households managing 5+ recurring subscriptions.',
+    friction: 'Subscription sprawl is invisible until expensive — existing tools add complexity instead of reducing it.',
+    strategic: 'Consumer-facing product thinking using the same diagnostic method applied to enterprise problems.',
+    timeline: [
+      { date: 'Q1 2025', milestone: 'Problem definition & product scoping', complete: true },
+      { date: 'Q2 2025', milestone: 'Core app build — subscription engine', complete: true },
+      { date: 'Now', milestone: 'Refinement & feature completion', complete: false },
+      { date: 'Next', milestone: 'Public launch preparation', complete: false },
+    ],
     ambiguity: {
       heading: 'The Ambiguity',
       content: 'Subscription sprawl is a modern problem most people recognize but few address. Users sign up for services, forget about them, and end up paying for tools they never use. The existing solutions were either too complex (full financial dashboards) or too simple (basic list apps). No one was solving the real problem: making the invisible visible without creating more cognitive load.',
@@ -71,6 +102,17 @@ const caseStudies = {
     tag: 'Working Title',
     accent: '#8b5cf6',
     tagline: 'A human system problem, approached with the clarity-first mindset.',
+    status: 'active build',
+    statusLabel: 'Active Build',
+    audience: 'Post-transplant patients managing complex, ongoing medical routines.',
+    friction: 'Medical data fragmented across disconnected apps and paper, creating cognitive overload during recovery.',
+    strategic: 'Applies the clarity-first framework to a deeply personal human system — the hardest test of universality.',
+    timeline: [
+      { date: 'Q4 2024', milestone: 'Personal experience mapping', complete: true },
+      { date: 'Q1 2025', milestone: 'System architecture & data model', complete: true },
+      { date: 'Now', milestone: 'Core build — daily view & tracking', complete: false },
+      { date: 'Next', milestone: 'Pattern recognition engine', complete: false },
+    ],
     ambiguity: {
       heading: 'The Ambiguity',
       content: "Post-transplant life is a complex management challenge that most technology ignores. Medication schedules, lab results, symptom tracking, appointment coordination — all of these happen across disconnected systems. Patients managing complex medical realities don't need more apps. They need one system that adapts to how life actually works after a transformative health event.",
@@ -166,6 +208,67 @@ export default function CaseStudy() {
             <p className="text-lg" style={{ color: study.accent, fontWeight: 500 }}>
               {study.tagline}
             </p>
+          </div>
+        </Reveal>
+
+        {/* Project Meta Strip */}
+        <Reveal delay={0.18}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-16">
+            {/* Status */}
+            <div
+              className="rounded-xl p-4"
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: STATUS_COLORS[study.status] || 'rgba(255,255,255,0.3)' }}
+                />
+                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Status</span>
+              </div>
+              <p className="text-sm font-semibold" style={{ color: STATUS_COLORS[study.status] || 'rgba(255,255,255,0.5)' }}>
+                {study.statusLabel}
+              </p>
+            </div>
+            {/* Audience */}
+            <div
+              className="rounded-xl p-4"
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Users size={12} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Built For</span>
+              </div>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+                {study.audience}
+              </p>
+            </div>
+            {/* Friction */}
+            <div
+              className="rounded-xl p-4"
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Zap size={12} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Core Friction</span>
+              </div>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+                {study.friction}
+              </p>
+            </div>
+            {/* Strategic Value */}
+            <div
+              className="rounded-xl p-4"
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Target size={12} style={{ color: 'rgba(255,255,255,0.3)' }} />
+                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Why It Matters</span>
+              </div>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+                {study.strategic}
+              </p>
+            </div>
           </div>
         </Reveal>
 
@@ -267,6 +370,58 @@ export default function CaseStudy() {
             </div>
           </section>
         </Reveal>
+
+        {/* Timeline / Progress Section */}
+        {study.timeline && (
+          <Reveal delay={0.33}>
+            <section className="mb-16">
+              <div className="flex items-center gap-3 mb-8">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ background: `${study.accent}12`, border: `1px solid ${study.accent}25` }}
+                >
+                  <span className="text-xs font-bold" style={{ color: study.accent }}>04</span>
+                </div>
+                <h2 className="text-xl font-bold text-white">The Progress</h2>
+              </div>
+              <div className="relative pl-6">
+                {/* Vertical line */}
+                <div
+                  className="absolute left-[7px] top-2 bottom-2 w-px"
+                  style={{ background: 'rgba(255,255,255,0.08)' }}
+                />
+                <div className="space-y-6">
+                  {study.timeline.map((item, i) => (
+                    <div key={i} className="relative flex items-start gap-4">
+                      {/* Dot */}
+                      <div className="absolute -left-6 top-0.5">
+                        {item.complete ? (
+                          <CheckCircle size={14} style={{ color: study.accent }} />
+                        ) : (
+                          <Circle size={14} style={{ color: 'rgba(255,255,255,0.15)' }} />
+                        )}
+                      </div>
+                      <div>
+                        <span
+                          className="text-xs font-semibold block mb-0.5"
+                          style={{ color: item.complete ? study.accent : 'rgba(255,255,255,0.25)', letterSpacing: '0.06em' }}
+                        >
+                          {item.date}
+                        </span>
+                        <span
+                          className="text-sm"
+                          style={{ color: item.complete ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.3)', fontWeight: 300 }}
+                        >
+                          {item.milestone}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </Reveal>
+        )}
 
         {/* CTA */}
         <Reveal delay={0.35}>

@@ -386,6 +386,17 @@ export default function Home() {
                     >
                       VibeForge Studios
                     </span>
+                    <span
+                      className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5"
+                      style={{
+                        background: 'rgba(52,211,153,0.08)',
+                        border: '1px solid rgba(52,211,153,0.2)',
+                        color: '#34d399',
+                      }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#34d399' }} />
+                      Beta
+                    </span>
                   </div>
                   <h3
                     className="font-extrabold tracking-tight text-white mb-4"
@@ -443,12 +454,24 @@ export default function Home() {
               }} />
               <div className="relative z-10 p-8 flex flex-col h-full" style={{ minHeight: '380px' }}>
                 <div className="flex-1">
-                  <div className="mb-6">
+                  <div className="mb-6 flex items-center gap-3">
                     <span
                       className="section-label"
                       style={{ color: '#3b82f6' }}
                     >
                       Consumer Utility
+                    </span>
+                    <span
+                      className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5"
+                      style={{
+                        background: 'rgba(0,240,255,0.06)',
+                        border: '1px solid rgba(0,240,255,0.15)',
+                        color: 'var(--theme-accent, #00f0ff)',
+                        fontSize: '0.6rem',
+                      }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'currentColor' }} />
+                      Active Build
                     </span>
                   </div>
                   <h3
@@ -518,6 +541,18 @@ export default function Home() {
                     }}
                   >
                     Working title
+                  </span>
+                  <span
+                    className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5"
+                    style={{
+                      background: 'rgba(0,240,255,0.06)',
+                      border: '1px solid rgba(0,240,255,0.15)',
+                      color: 'var(--theme-accent, #00f0ff)',
+                      fontSize: '0.6rem',
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'currentColor' }} />
+                    Active Build
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-white tracking-tight mb-3">Transplant Tracker</h3>
@@ -686,6 +721,39 @@ export default function Home() {
                   </h4>
                   <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
                     Paste a clunky business process. Get the bottleneck diagnosed, dead steps identified, and a leaner architecture designed.
+                  </p>
+                </div>
+              </div>
+              <div
+                className="p-5 rounded-xl flex items-start gap-4"
+                style={{
+                  background: 'rgba(22,25,32,0.85)',
+                  border: '1px solid rgba(37,99,235,0.12)',
+                }}
+              >
+                <div
+                  className="p-2.5 rounded-lg shrink-0"
+                  style={{ background: 'rgba(37,99,235,0.07)', border: '1px solid rgba(37,99,235,0.15)' }}
+                >
+                  <Zap size={15} style={{ color: '#2563eb' }} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-sm mb-1 flex items-center gap-2">
+                    The Entropy Audit
+                    <span
+                      className="text-[0.5rem] font-semibold px-1.5 py-0.5 rounded"
+                      style={{
+                        background: 'rgba(37,99,235,0.1)',
+                        border: '1px solid rgba(37,99,235,0.2)',
+                        color: '#2563eb',
+                        letterSpacing: '0.08em',
+                      }}
+                    >
+                      NEW
+                    </span>
+                  </h4>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
+                    Dump your current chaos. Isolate the noise, find the signal, and get one high-leverage action.
                   </p>
                 </div>
               </div>

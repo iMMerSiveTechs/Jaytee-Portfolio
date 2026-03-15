@@ -152,6 +152,32 @@ export default function About() {
           </section>
         </Reveal>
 
+        {/* ─── Why This Work ─────────────────────────────────────── */}
+        <Reveal delay={0.2}>
+          <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+            <p className="section-label mb-6">Why This Work</p>
+            <div className="lg:max-w-3xl space-y-5 text-lg leading-relaxed prose-dark">
+              <p>
+                The systems lens didn&apos;t come from a textbook. It came from watching broken processes
+                hurt real people — in workplaces where the tools created more friction than the work,
+                in healthcare systems where fragmented data made recovery harder than it needed to be,
+                and in businesses where good ideas drowned under the weight of their own complexity.
+              </p>
+              <p>
+                Transplant Tracker exists because I&apos;ve lived inside a medical system that expects
+                patients to be their own project managers — across disconnected apps, paper forms, and
+                phone calls — while managing something as serious as post-transplant recovery.
+                That experience made the method personal, not theoretical.
+              </p>
+              <p>
+                Every project I take on carries the same conviction: if the system around the work is
+                broken, no amount of effort fixes the work itself. You have to fix the system first.
+                That&apos;s what I do — whether the system is a product, a business, or a life.
+              </p>
+            </div>
+          </section>
+        </Reveal>
+
         {/* ─── Operating Method (The Sequence) ────────────────────── */}
         <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
           <Reveal delay={0.1}>
@@ -267,10 +293,19 @@ export default function About() {
                 <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)' }}>
                   <Globe size={18} style={{ color: '#8b5cf6' }} />
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Nemurium</h3>
-                  <p className="text-white/50 text-sm leading-relaxed">
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-bold text-white">Nemurium</h3>
+                    <span className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5" style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399' }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#34d399' }} />Live
+                    </span>
+                  </div>
+                  <p className="text-white/50 text-sm leading-relaxed mb-3">
                     The larger immersive ecosystem framing the products, systems, and tools being built across utility, workflow, and digital experience. Nemurium is the umbrella — the territory where this work lives and compounds.
+                  </p>
+                  <p className="text-xs flex items-center gap-2" style={{ color: 'rgba(139,92,246,0.7)' }}>
+                    <span className="w-1 h-1 rounded-full" style={{ background: '#8b5cf6' }} />
+                    Active: Unified brand architecture, product portfolio, strategic direction
                   </p>
                 </div>
               </div>
@@ -284,11 +319,20 @@ export default function About() {
                 <div className="p-3 rounded-xl shrink-0" style={{ background: 'var(--theme-glow, rgba(0,240,255,0.08))', border: '1px solid rgba(0,240,255,0.15)' }}>
                   <Layers size={18} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1">iMMerSiveTechs</h3>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-lg font-bold text-white">iMMerSiveTechs</h3>
+                    <span className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', color: '#f59e0b' }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#f59e0b' }} />In Progress
+                    </span>
+                  </div>
                   <div className="section-label mb-2" style={{ color: 'var(--theme-accent, #00f0ff)', fontSize: '0.6rem' }}>Within Nemurium</div>
-                  <p className="text-white/50 text-sm leading-relaxed">
+                  <p className="text-white/50 text-sm leading-relaxed mb-3">
                     The dedicated immersive technology layer and spatial/XR tooling direction. This is where the work goes deeper into technology infrastructure for immersive experiences.
+                  </p>
+                  <p className="text-xs flex items-center gap-2" style={{ color: 'rgba(0,240,255,0.6)' }}>
+                    <span className="w-1 h-1 rounded-full" style={{ background: 'var(--theme-accent, #00f0ff)' }} />
+                    Building: Spatial computing tooling and XR experience framework
                   </p>
                 </div>
               </div>
@@ -302,11 +346,20 @@ export default function About() {
                 <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.15)' }}>
                   <Hammer size={18} style={{ color: '#3b82f6' }} />
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1">VibeForge Studios</h3>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-lg font-bold text-white">VibeForge Studios</h3>
+                    <span className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5" style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399' }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#34d399' }} />Live
+                    </span>
+                  </div>
                   <div className="section-label mb-2" style={{ color: '#3b82f6', fontSize: '0.6rem' }}>Builder Engine</div>
-                  <p className="text-white/50 text-sm leading-relaxed">
+                  <p className="text-white/50 text-sm leading-relaxed mb-3">
                     The studio layer and engine room where these products, tools, and system experiences are shaped, coded, and forged into usable form. VibeForge is where strategy becomes product.
+                  </p>
+                  <p className="text-xs flex items-center gap-2" style={{ color: 'rgba(59,130,246,0.7)' }}>
+                    <span className="w-1 h-1 rounded-full" style={{ background: '#3b82f6' }} />
+                    Shipping: Job Forge, Clarity Lab tools, portfolio systems
                   </p>
                 </div>
               </div>

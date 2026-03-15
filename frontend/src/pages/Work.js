@@ -164,12 +164,21 @@ function TransplantVisual() {
   );
 }
 
+const STATUS_COLORS = {
+  'beta': '#34d399',
+  'active build': '#00f0ff',
+  'shipped': '#34d399',
+  'concept': 'rgba(255,255,255,0.35)',
+};
+
 const systems = [
   {
     id: 'job-forge',
     label: 'Business Systems',
     title: 'Job Forge',
     tag: 'VibeForge Studios',
+    status: 'beta',
+    statusLabel: 'Beta',
     accent: '#00f0ff',
     accentBorder: 'rgba(0,240,255,0.18)',
     tagline: 'System design for real-world friction.',
@@ -183,6 +192,8 @@ const systems = [
     label: 'Consumer Utility',
     title: 'ChurnWise',
     tag: 'Consumer Product',
+    status: 'active build',
+    statusLabel: 'Active Build',
     accent: '#3b82f6',
     accentBorder: 'rgba(59,130,246,0.15)',
     tagline: 'Clear product thinking applied to everyday software.',
@@ -196,6 +207,8 @@ const systems = [
     label: 'Human Systems',
     title: 'Transplant Tracker',
     tag: 'Working Title',
+    status: 'active build',
+    statusLabel: 'Active Build',
     accent: '#8b5cf6',
     accentBorder: 'rgba(139,92,246,0.12)',
     tagline: 'A human system problem, approached with the clarity-first mindset.',
@@ -281,6 +294,19 @@ export default function Work() {
                     >
                       {system.tag}
                     </span>
+                    {system.statusLabel && (
+                      <span
+                        className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5"
+                        style={{
+                          background: `${STATUS_COLORS[system.status] || 'rgba(255,255,255,0.3)'}12`,
+                          border: `1px solid ${STATUS_COLORS[system.status] || 'rgba(255,255,255,0.3)'}30`,
+                          color: STATUS_COLORS[system.status] || 'rgba(255,255,255,0.3)',
+                        }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'currentColor' }} />
+                        {system.statusLabel}
+                      </span>
+                    )}
                   </div>
                   <h2
                     className="font-extrabold text-white tracking-tight mb-5"

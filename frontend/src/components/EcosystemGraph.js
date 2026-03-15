@@ -12,6 +12,8 @@ const nodes = [
     x: 50,
     y: 50,
     center: true,
+    status: 'Active',
+    statusColor: '#34d399',
   },
   {
     id: 'nemurium',
@@ -21,6 +23,8 @@ const nodes = [
     color: '#8b5cf6',
     x: 50,
     y: 10,
+    status: 'Live',
+    statusColor: '#34d399',
   },
   {
     id: 'immersivetech',
@@ -30,6 +34,8 @@ const nodes = [
     color: '#00f0ff',
     x: 15,
     y: 75,
+    status: 'In Progress',
+    statusColor: '#f59e0b',
   },
   {
     id: 'vibeforge',
@@ -39,6 +45,8 @@ const nodes = [
     color: '#3b82f6',
     x: 85,
     y: 75,
+    status: 'Live',
+    statusColor: '#34d399',
   },
 ];
 
@@ -120,6 +128,17 @@ export function EcosystemGraph() {
               >
                 {node.label}
               </span>
+              {node.status && (
+                <span
+                  className="flex items-center gap-1"
+                  style={{ marginLeft: '4px' }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: node.statusColor }} />
+                  <span className="text-[0.55rem] font-medium" style={{ color: node.statusColor, opacity: 0.8 }}>
+                    {node.status}
+                  </span>
+                </span>
+              )}
             </div>
             {/* Tooltip */}
             {isActive && (
@@ -135,6 +154,12 @@ export function EcosystemGraph() {
                 }}
               >
                 {node.desc}
+                {node.status && (
+                  <div className="flex items-center gap-1.5 mt-1.5 pt-1.5" style={{ borderTop: `1px solid ${node.color}15` }}>
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: node.statusColor }} />
+                    <span className="text-[0.55rem] font-medium" style={{ color: node.statusColor }}>{node.status}</span>
+                  </div>
+                )}
               </motion.div>
             )}
           </motion.div>
