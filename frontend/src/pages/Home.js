@@ -311,7 +311,7 @@ export default function Home() {
               <Reveal key={step.num} delay={0.4 + (i * 0.1)} y={15}>
                 <div
                   data-testid={step.testid}
-                  className="flex flex-col md:flex-row gap-6 md:gap-12 py-8 group"
+                  className="interactive-card flex flex-col md:flex-row gap-6 md:gap-12 py-8 group rounded-xl px-4 -mx-4"
                   style={{
                     borderTop: '1px solid rgba(255,255,255,0.06)',
                     borderBottom: i === sequenceSteps.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',

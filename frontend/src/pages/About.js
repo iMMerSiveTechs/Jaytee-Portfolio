@@ -50,7 +50,7 @@ export default function About() {
             {/* Nemurium */}
             <Reveal delay={0.2} y={25}>
               <div
-                className="p-7 rounded-2xl flex items-start gap-6"
+                className="interactive-card p-7 rounded-2xl flex items-start gap-6"
                 style={{ background: '#0f1115', border: '1px solid rgba(139,92,246,0.18)' }}
               >
                 <div
@@ -71,7 +71,7 @@ export default function About() {
             {/* iMMerSiveTechs */}
             <Reveal delay={0.3} y={25}>
               <div
-                className="ml-6 p-7 rounded-2xl flex items-start gap-6"
+                className="interactive-card ml-6 p-7 rounded-2xl flex items-start gap-6"
                 style={{
                   background: 'rgba(15,17,21,0.7)',
                   border: '1px solid var(--theme-glow, rgba(0,240,255,0.12))',
@@ -96,7 +96,7 @@ export default function About() {
             {/* VibeForge Studios */}
             <Reveal delay={0.4} y={25}>
               <div
-                className="ml-6 p-7 rounded-2xl flex items-start gap-6"
+                className="interactive-card ml-6 p-7 rounded-2xl flex items-start gap-6"
                 style={{
                   background: 'rgba(15,17,21,0.7)',
                   border: '1px solid rgba(59,130,246,0.12)',
@@ -134,7 +134,7 @@ export default function About() {
             ].map((p, idx) => (
               <Reveal key={p.num} delay={0.2 + (idx * 0.1)} y={20}>
                 <div
-                  className="p-6 rounded-xl"
+                  className="interactive-card p-6 rounded-xl"
                   style={{ background: 'rgba(22,25,32,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}
                 >
                   <div className="section-label mb-3" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.6rem' }}>{p.num}</div>

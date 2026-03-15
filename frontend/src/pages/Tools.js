@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, ShieldAlert, Zap, Copy, Check, AlertCircle, ArrowRight, Terminal, X, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
+import { hapticMedium } from '../utils/haptics';
 
 const BACKEND = process.env.REACT_APP_BACKEND_URL;
 
@@ -91,12 +92,16 @@ function ToolInput({ value, onChange, placeholder, testid, focusColor, onExample
 }
 
 function SubmitButton({ loading, disabled, onClick, accent, loadingText, idleText, icon: Icon }) {
+  const handleClick = () => {
+    hapticMedium();
+    onClick();
+  };
   return (
     <div className="flex justify-end mt-5">
       <button
         data-testid="tools-submit-button"
         type="button"
-        onClick={onClick}
+        onClick={handleClick}
         disabled={loading || disabled}
         className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         style={{ background: '#ffffff', color: '#08090a' }}

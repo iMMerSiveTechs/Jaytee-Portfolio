@@ -84,7 +84,7 @@ export const Reveal = ({
  */
 export const RevealStagger = ({
   children,
-  staggerDelay = 0.1,
+  staggerDelay = 0.05,
   initialDelay = 0,
   ...revealProps
 }) => {

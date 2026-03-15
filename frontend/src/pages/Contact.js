@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Reveal } from '../components/Reveal';
 import { toast } from 'sonner';
 import { ArrowUpRight, CheckCircle } from 'lucide-react';
+import { hapticMedium } from '../utils/haptics';
 
 const BACKEND = process.env.REACT_APP_BACKEND_URL;
 
@@ -57,6 +58,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    hapticMedium();
     if (!form.name || !form.email || !form.message) {
       toast.error('Name, email, and message are required.');
       return;

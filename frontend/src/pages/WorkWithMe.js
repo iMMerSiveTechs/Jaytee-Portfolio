@@ -115,7 +115,7 @@ export default function WorkWithMe() {
             <Reveal key={tier.id} delay={0.2 + (idx * 0.15)} y={30} shimmer={tier.flagship}>
               <div
                 data-testid={tier.testid}
-                className="rounded-2xl relative overflow-hidden"
+                className="interactive-card rounded-2xl relative overflow-hidden"
                 style={{
                   background: '#0f1115',
                   border: `1px solid ${tier.accentBorder}`,
