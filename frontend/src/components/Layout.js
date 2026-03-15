@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { SearchCommand } from './SearchCommand';
+import { ThemeSwitcher } from './ThemeSwitcher';
+import { Breadcrumbs } from './Breadcrumbs';
 
 const navLinks = [
   { to: '/', label: 'Home', testid: 'top-nav-link-home', exact: true },
@@ -89,7 +92,8 @@ export default function Layout() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-3">
+              <SearchCommand />
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
@@ -110,17 +114,18 @@ export default function Layout() {
                       {isActive && (
                         <span
                           className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                          style={{ background: '#00f0ff' }}
+                          style={{ background: 'var(--theme-accent, #00f0ff)' }}
                         />
                       )}
                     </>
                   )}
                 </NavLink>
               ))}
+              <ThemeSwitcher />
               <Link
                 to="/contact"
                 data-testid="top-nav-link-contact"
-                className="ml-3 px-4 py-2 text-sm font-semibold rounded-lg text-base bg-white text-black hover:bg-white/90 transition-colors duration-200"
+                className="ml-1 px-4 py-2 text-sm font-semibold rounded-lg text-black bg-white hover:bg-white/90 transition-colors duration-200"
               >
                 Let&apos;s Talk
               </Link>
@@ -176,6 +181,7 @@ export default function Layout() {
 
       {/* Page Content */}
       <main className="relative z-10">
+        <Breadcrumbs />
         <Outlet />
       </main>
 

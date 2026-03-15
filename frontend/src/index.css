@@ -38,6 +38,15 @@
   --shadow-elev: 0 18px 55px rgba(0,0,0,0.55);
   --shadow-soft: 0 10px 30px rgba(0,0,0,0.45);
   --focus: rgba(0,240,255,0.45);
+  
+  /* Theme variables (set dynamically by ThemeContext) */
+  --theme-accent: #00f0ff;
+  --theme-accent-light: #5ffdff;
+  --theme-accent-dark: #00c8d4;
+  --theme-ring: rgba(0, 240, 255, 0.45);
+  --theme-glow: rgba(0, 240, 255, 0.15);
+  --theme-gradient: linear-gradient(135deg, #00f0ff 0%, #00c8d4 100%);
+  --theme-metallic: linear-gradient(135deg, #5ffdff 0%, #00f0ff 50%, #00c8d4 100%);
 }
 
 * {
@@ -162,4 +171,27 @@ a:focus-visible {
 .prose-dark strong {
   color: rgba(255,255,255,0.9);
   font-weight: 600;
+}
+
+
+
+/* Shimmer animation for premium entrance effects */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--theme-glow, rgba(0,240,255,0.15)) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
 }

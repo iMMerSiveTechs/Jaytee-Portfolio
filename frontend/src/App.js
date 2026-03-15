@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -13,7 +14,7 @@ import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   return (
-    <>
+    <ThemeProvider>
       <Toaster richColors position="top-right" />
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -27,6 +28,6 @@ export default function App() {
           <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }

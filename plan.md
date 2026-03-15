@@ -1,182 +1,112 @@
-# plan.md (Updated)
+# plan.md — Premium UX Enhancements (CTAs, Motion, Search, Breadcrumbs, Theme Switcher)
 
 ## 1) Objectives
-- ✅ Deliver a production-quality, premium dark-themed multi-page portfolio for **Jethro “JayTee”** that sells operator/strategist/builder capability.
-- ✅ Implement **real React Router** navigation across 7 pages (Home, About, Work, Tools, Work With Me, Notes, Contact) + notes detail route.
-- ✅ Prove and ship the **core workflow**: AI-powered **Chaos Translator** + **Bloat Detector** via **FastAPI backend** (**no client-side keys**).
-- ✅ Capture conversion via a premium **Contact/Intake form** and store submissions in **MongoDB**.
-- ✅ Apply the specified visual system (graphite surfaces, metallic type, controlled neon accents) **without** generic “AI startup template” energy.
-- ✅ Complete a **V1 refinement pass** focused on visible core polish while preserving future-ready architecture underneath (no auth, dashboards, or unnecessary complexity).
-- 🔜 Finalize hardening/polish: run final QA matrix (breakpoints + tool failure modes), confirm no dead CTAs/placeholder links, and document how to operate/extend.
+- Add **clear CTA pathways** (Hero, Work, Service Tiers, Tools, Contact) to increase conversion to “View Work” + “Let’s Talk”.
+- Introduce **subtle, premium entrance motion** (viewport-based) with shimmer accents while respecting `prefers-reduced-motion`.
+- Ship **site-wide search** (Cmd/Ctrl+K) to quickly navigate pages, notes, tools, and service tiers.
+- Add **breadcrumbs** (route-aware) to improve orientation on multi-page navigation.
+- Implement a **theme switcher** with **full-spectrum metallic accents** (from reference images) + **custom user accent**; persist selection.
 
 ---
 
 ## 2) Implementation Steps
 
-### Phase 1 — Core Feature POC (LLM Tools in Isolation)
-**Goal:** verify LLM integration is stable before building the full site.
+### Phase 1 — Core POC (Isolation): Search + Theme Engine
+**Core risk:** global theming + search indexing must work everywhere without breaking premium styling.
 
-**User stories**
-1. ✅ As a visitor, I can paste a messy idea and get a structured plan (summary + steps).
-2. ✅ As a visitor, I can paste a feature list and get bloat/core/cut recommendations.
-3. ✅ As a visitor, I see clear loading, success, and error states for AI runs.
-4. ✅ As a builder, I can change prompts server-side without redeploying the frontend.
-5. ✅ As an owner, I can be confident no API keys are exposed in the browser.
+**User stories (POC)**
+1. As a user, I can open search with Cmd/Ctrl+K and jump to a page instantly.
+2. As a user, I can search notes by title/summary and open the detail page.
+3. As a user, I can switch metallic accent themes and see updates immediately.
+4. As a user, my chosen theme persists after refresh.
+5. As a user, I can choose a custom accent color and keep it.
 
-**Steps (Completed)**
-- ✅ Implemented deterministic JSON-shaped outputs for both tools using backend-only LLM calls.
-- ✅ Built and ran a standalone **Python POC script** validating both tools repeatedly.
-- ✅ Confirmed results are parseable, stable, and returned as structured JSON.
+**POC tasks**
+- Create `ThemeProvider` (React context) + CSS variables (`--accent`, `--accent-2`, `--ring`, etc.).
+- Add **12–15 metallic presets** (cyan, sapphire, emerald, ruby, gold, rose, magenta, teal, lime, obsidian, etc.) + **custom picker**.
+- Persist theme in `localStorage`; safe default if missing.
+- Build minimal **Search Command Palette** (shadcn `Command`) with static in-memory index:
+  - pages (Home/About/Work/Tools/Work With Me/Notes/Contact)
+  - tools (Chaos/Bloat/Friction)
+  - service tiers (4)
+  - notes (fetched from `/api/notes`)
+- Verify keyboard shortcut + open/close behavior and route navigation.
 
-**Deliverables (Completed)**
-- ✅ Working FastAPI tool endpoints with validated JSON outputs:
-  - `POST /api/tools/chaos-translate`
-  - `POST /api/tools/bloat-detect`
-- ✅ POC script proving both flows end-to-end.
-
----
-
-### Phase 2 — V1 App Development (Full Site around Proven Core)
-
-**User stories**
-1. ✅ As a visitor, I can navigate across 7 pages without hash routing and without broken links.
-2. ✅ As a visitor, the Home page clearly communicates the promise + method + selected systems in under 10 seconds.
-3. ✅ As a visitor, I can use both AI tools on the Tools page and copy results.
-4. ✅ As a prospective client, I can understand service options and initiate contact from multiple CTAs.
-5. ✅ As the owner, contact submissions are stored in MongoDB and can be reviewed later.
-
-**Backend (FastAPI + MongoDB) — Completed**
-- ✅ Implemented:
-  - `POST /api/contact` (server-side validation + honeypot; persists to MongoDB)
-  - `GET /api/notes` and `GET /api/notes/{slug}` (seeded notes; published-only)
-  - Notes seeding on startup + indexes (slug unique, created_at)
-- ✅ Confirmed **backend tests: 100%** passing (10/10).
-
-**Frontend (React + Router + Tailwind + shadcn/ui) — Completed**
-- ✅ Real routes implemented:
-  - `/` Home, `/about`, `/work`, `/tools`, `/work-with-me`, `/notes`, `/notes/:slug`, `/contact`
-- ✅ Shared layout:
-  - premium top nav with active state indicator
-  - global footer with primary CTA
-- ✅ Pages implemented per requirements:
-  - **Home:** hero, Operating Sequence, Selected Systems hierarchy, ecosystem presence, tools preview, work-with-me preview, final CTA
-  - **Work:** selective 3-project portfolio (Job Forge, ChurnWise, Transplant Tracker)
-  - **Tools:** Chaos Translator + Bloat Detector wired to backend with loading/error/copy
-  - **Work With Me:** 4 tiers + flagship treatment
-  - **Notes:** index + detail page (simple markdown-like rendering)
-  - **Contact:** premium intake form → backend
-- ✅ Visual system implemented:
-  - deep charcoal/graphite surfaces, metallic headline treatments, restrained neon instrumentation accents (cyan/blue/violet)
-
-**Close Phase 2 with testing — Completed**
-- ✅ End-to-end pass completed with testing agent.
-- ✅ Frontend major feature pass rate: ~95%.
-- ✅ Medium issues addressed:
-  - Contact form inputs updated with `name` attributes + `data-testid` hooks.
-  - Mobile nav implementation reviewed/confirmed correct (toggle uses `md:hidden`).
+**Exit criteria (POC)**
+- Search opens/closes reliably, returns results, navigates correctly.
+- Theme switcher changes accent tokens globally without layout regressions.
 
 ---
 
-### Phase 2.5 — V1 Refinement Pass (Visible Core Polish, Future-Ready Architecture Preserved) — Completed
-**Goal:** refine the visible “core” experience to feel like a high-end operator portfolio with an immersive ecosystem behind it—without surfacing extra complexity.
+### Phase 2 — V1 App Development: CTAs + Breadcrumbs + Motion + Wire-up Search/Theme
 
-**Priority outcomes (Completed)**
-1. ✅ **Homepage polish (Nemurium signal, less template energy)**
-   - Added subtle **dot-grid texture** + controlled glow sweeps for a more immersive/Nemurium feel.
-   - Rebuilt ecosystem messaging as a **subtle inline signal strip** (Nemurium / iMMerSiveTechs / VibeForge Studios) — not an org chart.
-   - Redesigned **Operating Sequence** from a generic 4-card grid into an **editorial numbered list** with typographic hierarchy.
-   - Improved spacing/rhythm/hierarchy and rewrote CTA language to be more operator-specific.
+**User stories (V1)**
+1. As a visitor, I see a primary CTA in the Hero that takes me to Contact or Work.
+2. As a visitor, each service tier has a clear “Start” CTA that routes to Contact with context.
+3. As a visitor, I can open search from the nav and find any page/tool/note quickly.
+4. As a visitor, I can see breadcrumbs showing where I am (e.g., Notes → Post).
+5. As a visitor, sections animate in subtly as I scroll, improving flow without distraction.
 
-2. ✅ **Selected Systems (premium/editorial composition)**
-   - Preserved hierarchy rules:
-     - Job Forge left / primary
-     - ChurnWise right / secondary
-     - Transplant Tracker quieter third below
-   - Reduced “card-template sameness” via differentiated treatments:
-     - Job Forge gets dominant, accented framing
-     - ChurnWise gets lighter secondary framing with signal lines
-     - Transplant Tracker becomes quieter horizontal panel
+**V1 tasks**
+- **Navigation**
+  - Add nav items: Search trigger + Theme switcher (dropdown/panel).
+  - Add Cmd/Ctrl+K hint.
+- **Breadcrumbs**
+  - Implement in `Layout.js` using shadcn `Breadcrumb`.
+  - Route map for labels; handle dynamic `notes/:slug` label via loaded note title (fallback to “Note”).
+- **CTAs**
+  - Hero: ensure 2 CTAs (Primary: “Let’s Talk”, Secondary: “View Work”).
+  - Work With Me page: each tier gets primary CTA (“Request a Teardown”, etc.).
+  - Tools page: add “Use this tool” / “Run another” micro-CTAs where appropriate.
+  - Contact: add a strong “Start Intake” CTA (even if mailto for now).
+- **Entrance motion**
+  - Create `Reveal` component (framer-motion + IntersectionObserver) with stagger support.
+  - Apply to major sections across Home/Work/WorkWithMe/Tools/Notes.
+  - Add shimmer as a very subtle highlight line using accent tokens.
+  - Respect `prefers-reduced-motion`.
+- **Integrate POC components**
+  - Theme tokens applied to existing accent usage (convert hard-coded accent colors to CSS vars where feasible).
+  - Search indexes Notes via API and caches locally.
 
-3. ✅ **Work page (remove placeholder energy)**
-   - Removed placeholder preview blocks.
-   - Added **CSS-only abstract visual panels** per project:
-     - Job Forge workflow bars
-     - ChurnWise subscription stack
-     - Transplant Tracker continuity chart
-   - Shifted to more editorial layout with hairline separators and clearer differentiation.
-
-4. ✅ **Tools / Lab (operator instrument framing, not identity takeover)**
-   - Strengthened “instrument” framing and reduced demo vibes.
-   - Improved output presentation as report-like panels (Terminal icon header, structured sections).
-   - Added top gradient accent lines differentiating tools; kept backend-safe monetization runway.
-
-5. ✅ **Contact + Work With Me (premium, direct, useful)**
-   - Work With Me: editorial numbered service tiers, italic “Best for” context, sharper CTAs, rewritten “How I work”.
-   - Contact: two-column layout with trust/intent signals (response time, who reads it, what next) + improved “What’s the situation?” framing and “Send this” CTA.
-
-6. ✅ **Keep V1 lean**
-   - No auth, dashboards, user accounts, or surfaced app complexity.
-   - Preserved the future-ready backend/component architecture underneath.
+**Phase 2 testing**
+- Run end-to-end UI verification: open search, navigate, switch themes, breadcrumbs display, CTAs route correctly.
 
 ---
 
-### Phase 3 — Testing, Polish, and Hardening (Remaining)
-**User stories**
-1. As a visitor, pages load fast and animations never block reading.
-2. As a visitor, tool failures are explained with actionable retry guidance.
-3. As the owner, the site feels premium and consistent across pages.
-4. As a prospective client, the contact flow feels intentional and high-trust.
-5. As the owner, there are no placeholder links or dead CTAs.
+### Phase 3 — Hardening + UX Polish
 
-**Steps (Revised for current status)**
-- 🔜 Run final QA matrix:
-  - mobile/desktop breakpoints (verify nav toggle visibility)
-  - Safari/Chrome smoke pass
-  - slow network + tool timeout/error simulation
-- 🔜 Verify conversion flow end-to-end:
-  - contact submit → Mongo persistence
-  - success state + toast reliability
-- 🔜 Tool resilience hardening:
-  - explicit timeouts/retries/backoff for LLM calls (if not already)
-  - clearer error retry messages for transient failures
-  - optional lightweight rate limiting guardrail (v1)
-- 🔜 Notes polish:
-  - confirm canonical metadata (date/tag display) + 404 handling
-- 🔜 Performance pass:
-  - ensure no oversized assets
-  - optional route-level code splitting
-- 🔜 Content sweep:
-  - confirm JayTee remains primary; Nemurium is present but subtle
-  - remove/replace any remaining placeholders (links, copy, footer metadata)
+**User stories (Hardening)**
+1. As a user, search results feel instant and highlight matches.
+2. As a user, I can filter search by type (Page/Note/Tool/Service).
+3. As a user, theme selection is accessible and doesn’t reduce readability.
+4. As a user, breadcrumbs never overflow and remain readable on mobile.
+5. As a user, motion never feels jarring and is disabled when I prefer reduced motion.
+
+**Hardening tasks**
+- Search: fuzzy matching, type filters, empty states, loading states for notes.
+- Theme: ensure contrast rules, tune metallic palette, apply to focus rings + subtle borders.
+- Breadcrumbs: responsive truncation + ellipsis; ensure correct labeling.
+- Motion: tune durations/easing; ensure no layout shift.
+- Refactor: extract Search + Theme + Reveal into `/src/components/` modules.
+
+**Phase 3 testing**
+- Comprehensive regression pass across all pages (desktop + mobile viewport), verify no broken layouts.
 
 ---
 
-### Phase 4 — Feature Expansion (after V1 is stable)
-**User stories**
-1. As the owner, I can add/edit notes without redeploying (admin workflow).
-2. As the owner, I can view contact submissions in a simple internal dashboard.
-3. As a visitor, I can share notes with clean social previews.
-4. As the owner, I can gate advanced tool usage for monetization later.
-5. As a visitor, I can subscribe for updates (optional).
-
-**Steps (Unchanged; post-V1)**
-- Add lightweight admin (or CLI) for notes + contact review.
-- Add monetization-ready architecture: user tiers, quotas, and tool run metering.
-- If auth is requested: propose approach and get user approval before implementing.
-
----
-
-## 3) Next Actions (Immediate)
-1. 🔜 Run final cross-device QA pass (nav toggle + typography/spacing across breakpoints).
-2. 🔜 Confirm tool failure handling under forced failures (simulate backend 500/timeout).
-3. 🔜 Confirm Mongo contact persistence and indexes in current environment.
-4. 🔜 Do a final content/link sweep to ensure no placeholders or dead CTAs remain.
+## 3) Next Actions
+1. Implement ThemeProvider + CSS variable tokens + presets + custom color (POC).
+2. Implement Command Palette search modal + keyboard shortcut + index builder (POC).
+3. Integrate Search + Theme switcher into `Layout.js` nav.
+4. Add Breadcrumbs in `Layout.js`.
+5. Add `Reveal` component and apply to key sections.
+6. Add/upgrade CTA buttons in Hero + Service Tiers + Tools + Contact.
 
 ---
 
 ## 4) Success Criteria
-- ✅ POC: both tool endpoints return valid, consistently shaped JSON across repeated runs; no client-side key exposure.
-- ✅ V1: all 7 routes render with premium styling; Tools page works end-to-end; Contact submissions persist in MongoDB.
-- ✅ UX: clear positioning hierarchy (JayTee primary; Nemurium ecosystem present but not noisy); Selected Systems layout rules honored.
-- ✅ Refinement: homepage/editorial rhythm improved; Work page feels intentional; tools framed as instruments; conversion pages feel premium and direct.
-- 🔜 Quality (final sign-off): verified responsive behavior across breakpoints, robust error states under timeouts, no dead CTAs/placeholder links, and documented operation/extension steps.
+- **Search:** Cmd/Ctrl+K works; results cover pages/tools/services/notes; navigation is correct; no key exposure.
+- **Theme switcher:** 12–15 metallic presets + custom; persists; updates accent styling globally without readability regressions.
+- **Breadcrumbs:** correct for all routes; dynamic notes handled; mobile-friendly.
+- **CTAs:** clear primary/secondary CTAs in Hero + per-service CTA; routing works.
+- **Motion:** subtle section entrance animations + shimmer accents; respects reduced-motion; no layout shift.
