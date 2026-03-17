@@ -145,11 +145,12 @@ function ToolCTA({ accent, resultText }) {
   );
 }
 
-function ToolInput({ value, onChange, placeholder, testid, focusColor, onExample, rows = 5 }) {
+function ToolInput({ value, onChange, placeholder, testid, focusColor, onExample, rows = 5, label = 'Describe the process' }) {
+  const inputId = testid || 'tool-input';
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <label className="section-label">Describe the process</label>
+        <label htmlFor={inputId} className="section-label">{label}</label>
         <button
           type="button"
           onClick={onExample}
@@ -162,6 +163,7 @@ function ToolInput({ value, onChange, placeholder, testid, focusColor, onExample
         </button>
       </div>
       <textarea
+        id={inputId}
         data-testid={testid}
         value={value}
         onChange={onChange}
@@ -351,10 +353,11 @@ function ChaosTranslator() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input }),
       });
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
       if (!res.ok) throw new Error(data.detail || 'Analysis failed.');
       setResult(data.data);
-    } catch (err) { setError(err.message || 'System disruption. Please try again.'); }
+    } catch (err) { console.error('ChaosTranslator error:', err); setError(err.message || 'System disruption. Please try again.'); }
     finally { setLoading(false); }
   };
 
@@ -372,9 +375,10 @@ function ChaosTranslator() {
     if (!result) return;
     navigator.clipboard.writeText(
       `Summary:\n${result.summary}\n\nSteps:\n${result.steps.map(s => `${s.stepNumber}. ${s.title}\n${s.content}`).join('\n\n')}`
-    );
-    setCopied(true); toast.success('Output copied.');
-    setTimeout(() => setCopied(false), 2000);
+    ).then(() => {
+      setCopied(true); toast.success('Output copied.');
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => toast.error('Failed to copy to clipboard.'));
   };
 
   return (
@@ -452,10 +456,11 @@ function BloatDetector() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input }),
       });
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
       if (!res.ok) throw new Error(data.detail || 'Analysis failed.');
       setResult(data.data);
-    } catch (err) { setError(err.message || 'Scanner failed. Please try again.'); }
+    } catch (err) { console.error('BloatDetector error:', err); setError(err.message || 'Scanner failed. Please try again.'); }
     finally { setLoading(false); }
   };
 
@@ -473,9 +478,10 @@ function BloatDetector() {
     if (!result) return;
     navigator.clipboard.writeText(
       `Core Value:\n${result.core_value}\n\nBloat Detected:\n${result.bloat_items.map(i => `• ${i}`).join('\n')}\n\nKeep:\n${result.keep_items.map(i => `• ${i}`).join('\n')}\n\nRecommendation:\n${result.recommendation}`
-    );
-    setCopied(true); toast.success('Output copied.');
-    setTimeout(() => setCopied(false), 2000);
+    ).then(() => {
+      setCopied(true); toast.success('Output copied.');
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => toast.error('Failed to copy to clipboard.'));
   };
 
   return (
@@ -571,10 +577,11 @@ function FrictionAuditor() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input }),
       });
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
       if (!res.ok) throw new Error(data.detail || 'Audit failed.');
       setResult(data.data);
-    } catch (err) { setError(err.message || 'Audit failed. Please try again.'); }
+    } catch (err) { console.error('FrictionAuditor error:', err); setError(err.message || 'Audit failed. Please try again.'); }
     finally { setLoading(false); }
   };
 
@@ -596,9 +603,10 @@ function FrictionAuditor() {
       `\nStreamlined Architecture:\n${result.streamlined_architecture.map(p => `${p.phase}. ${p.name}: ${p.description}`).join('\n')}`,
       `\nEfficiency Signal:\n${result.efficiency_signal}`,
     ];
-    navigator.clipboard.writeText(lines.join(''));
-    setCopied(true); toast.success('Audit output copied.');
-    setTimeout(() => setCopied(false), 2000);
+    navigator.clipboard.writeText(lines.join('')).then(() => {
+      setCopied(true); toast.success('Audit output copied.');
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => toast.error('Failed to copy to clipboard.'));
   };
 
   return (
@@ -735,10 +743,11 @@ function ScopeSlicer() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input }),
       });
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
       if (!res.ok) throw new Error(data.detail || 'Scope analysis failed.');
       setResult(data.data);
-    } catch (err) { setError(err.message || 'Scope analysis failed. Please try again.'); }
+    } catch (err) { console.error('ScopeSlicer error:', err); setError(err.message || 'Scope analysis failed. Please try again.'); }
     finally { setLoading(false); }
   };
 
@@ -761,9 +770,10 @@ function ScopeSlicer() {
       `\nCut Entirely:\n${result.cut_entirely.map(c => `✕ ${c}`).join('\n')}`,
       `\nLaunch Signal:\n${result.launch_signal}`,
     ];
-    navigator.clipboard.writeText(lines.join(''));
-    setCopied(true); toast.success('Scope output copied.');
-    setTimeout(() => setCopied(false), 2000);
+    navigator.clipboard.writeText(lines.join('')).then(() => {
+      setCopied(true); toast.success('Scope output copied.');
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => toast.error('Failed to copy to clipboard.'));
   };
 
   return (
@@ -905,11 +915,11 @@ function ScopeSlicer() {
                   <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.launch_signal}"</p>
                 </div>
               </div>
-              <ToolCTA
-                accent={SCOPE_ACCENT}
-                resultText={`Core Bet: ${result.core_bet}\n\nMVP: ${result.mvp_scope.map(s => s.feature).join(', ')}\n\nDeferred: ${result.deferred.map(s => s.feature).join(', ')}\n\nCut: ${result.cut_entirely.join(', ')}\n\nLaunch Signal: ${result.launch_signal}`}
-              />
             </div>
+            <ToolCTA
+              accent={SCOPE_ACCENT}
+              resultText={`Core Bet: ${result.core_bet}\n\nMVP: ${result.mvp_scope.map(s => s.feature).join(', ')}\n\nDeferred: ${result.deferred.map(s => s.feature).join(', ')}\n\nCut: ${result.cut_entirely.join(', ')}\n\nLaunch Signal: ${result.launch_signal}`}
+            />
           </div>
         )}
       </div>
@@ -936,10 +946,11 @@ function EntropyAudit() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input, domain }),
       });
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
       if (!res.ok) throw new Error(data.detail || 'Audit failed.');
       setResult(data.data);
-    } catch (err) { setError(err.message || 'System disruption. Please try again.'); }
+    } catch (err) { console.error('EntropyAudit error:', err); setError(err.message || 'System disruption. Please try again.'); }
     finally { setLoading(false); }
   };
 
@@ -957,9 +968,10 @@ function EntropyAudit() {
     if (!result) return;
     navigator.clipboard.writeText(
       `Noise: ${result.noise}\n\nSignal: ${result.signal}\n\nLeverage: ${result.leverage}\n${result.leverage_detail}`
-    );
-    setCopied(true); toast.success('Output copied.');
-    setTimeout(() => setCopied(false), 2000);
+    ).then(() => {
+      setCopied(true); toast.success('Output copied.');
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => toast.error('Failed to copy to clipboard.'));
   };
 
   return (
@@ -1143,6 +1155,7 @@ export default function Tools() {
             return (
               <button
                 key={tab.key}
+                id={`tools-tab-${tab.key}`}
                 data-testid={`tools-tab-${tab.key}`}
                 role="tab"
                 aria-selected={isActive}
@@ -1170,11 +1183,13 @@ export default function Tools() {
           })}
         </div>
 
-        {activeTab === 'chaos'    && <ChaosTranslator />}
-        {activeTab === 'bloat'    && <BloatDetector />}
-        {activeTab === 'friction' && <FrictionAuditor />}
-        {activeTab === 'scope'    && <ScopeSlicer />}
-        {activeTab === 'entropy'  && <EntropyAudit />}
+        <div role="tabpanel" id={`panel-${activeTab}`} aria-labelledby={`tools-tab-${activeTab}`}>
+          {activeTab === 'chaos'    && <ChaosTranslator />}
+          {activeTab === 'bloat'    && <BloatDetector />}
+          {activeTab === 'friction' && <FrictionAuditor />}
+          {activeTab === 'scope'    && <ScopeSlicer />}
+          {activeTab === 'entropy'  && <EntropyAudit />}
+        </div>
 
         <p
           className="mt-8 text-xs text-center"

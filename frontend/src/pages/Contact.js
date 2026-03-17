@@ -125,10 +125,12 @@ export default function Contact() {
           success_looks_like: form.successLooksLike,
         }),
       });
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
       if (!res.ok) throw new Error(data.detail || 'Submission failed.');
       setSubmitted(true);
     } catch (err) {
+      console.error('Contact form error:', err);
       toast.error(err.message || 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
@@ -217,6 +219,7 @@ export default function Contact() {
                   style={{ display: 'none' }}
                   tabIndex={-1}
                   autoComplete="off"
+                  aria-hidden="true"
                 />
 
                 {/* Progress bar */}
