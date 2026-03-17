@@ -47,6 +47,9 @@ const caseStudies = {
     leverage: {
       heading: 'The Leverage',
       content: 'The system now works with the field instead of against it. Operators spend time on actual work, not fighting software. Management gets better data from less input. The gap between what happens in the field and what the office sees has effectively closed.',
+      before: 'Operators buried in admin. 5+ disconnected tools. Management flying blind on field activity.',
+      after: 'Single unified system. Field data captured once, routed automatically. Real-time visibility without reporting burden.',
+      metricsSource: 'Beta testing benchmarks',
       metrics: [
         { label: 'Admin time reduced', value: '62%' },
         { label: 'Data accuracy', value: '3.4x' },
@@ -54,6 +57,7 @@ const caseStudies = {
         { label: 'Compliance gaps closed', value: '100%' },
       ],
     },
+    artifacts: ['System architecture diagram', 'Unified intake flow wireframe', 'Field operator dashboard'],
   },
   'churnwise': {
     title: 'ChurnWise',
@@ -88,6 +92,9 @@ const caseStudies = {
     leverage: {
       heading: 'The Leverage',
       content: 'Users gain control over subscription spending without needing to become financial analysts. The tool is opinionated enough to be useful but respectful enough to let users make their own decisions. Subscription awareness becomes a 30-second monthly habit instead of a dreaded quarterly audit.',
+      before: 'Invisible subscription sprawl. Average user paying for 4+ unused services without knowing.',
+      after: 'Full subscription visibility in one view. Keep/cancel/downgrade decisions in under 30 seconds.',
+      metricsSource: 'Internal prototype testing',
       metrics: [
         { label: 'Avg savings identified', value: '$847/yr' },
         { label: 'Unused subs surfaced', value: '4.2 avg' },
@@ -95,6 +102,7 @@ const caseStudies = {
         { label: 'User retention', value: '78%' },
       ],
     },
+    artifacts: ['Subscription detection engine', 'Usage pattern dashboard', 'One-tap action flow'],
   },
   'transplant-tracker': {
     title: 'Transplant Tracker',
@@ -129,6 +137,9 @@ const caseStudies = {
     leverage: {
       heading: 'The Leverage',
       content: 'Continuity becomes the default, not something patients fight for. The system reduces the cognitive load of chronic health management while giving healthcare providers better longitudinal data. Care coordination improves because the patient shows up with organized, relevant information.',
+      before: 'Fragmented data across 5+ apps and paper. No pattern visibility. Care appointments feel uncoordinated.',
+      after: 'Single daily view. Automatic pattern recognition. Organized data for every care appointment.',
+      metricsSource: 'Personal use case benchmarks',
       metrics: [
         { label: 'Med adherence', value: '97%' },
         { label: 'Data entry time', value: '<2min/day' },
@@ -136,6 +147,7 @@ const caseStudies = {
         { label: 'Pattern detection', value: '14 days early' },
       ],
     },
+    artifacts: ['Daily tracking view', 'Pattern recognition engine', 'Care coordination timeline'],
   },
 };
 
@@ -349,6 +361,21 @@ export default function CaseStudy() {
             >
               {study.leverage.content}
             </p>
+
+            {/* Before / After */}
+            {study.leverage.before && (
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.12)' }}>
+                  <p className="text-xs font-semibold mb-2" style={{ color: '#fb7185', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Before</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 300 }}>{study.leverage.before}</p>
+                </div>
+                <div className="p-5 rounded-xl" style={{ background: 'rgba(52,211,153,0.03)', border: '1px solid rgba(52,211,153,0.12)' }}>
+                  <p className="text-xs font-semibold mb-2" style={{ color: '#34d399', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>After</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 300 }}>{study.leverage.after}</p>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {study.leverage.metrics.map((metric, i) => (
                 <div
@@ -368,6 +395,11 @@ export default function CaseStudy() {
                 </div>
               ))}
             </div>
+            {study.leverage.metricsSource && (
+              <p className="text-xs mt-3 text-right" style={{ color: 'rgba(255,255,255,0.2)', fontStyle: 'italic' }}>
+                Source: {study.leverage.metricsSource}
+              </p>
+            )}
           </section>
         </Reveal>
 
@@ -418,6 +450,45 @@ export default function CaseStudy() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </section>
+          </Reveal>
+        )}
+
+        {/* Artifacts */}
+        {study.artifacts && study.artifacts.length > 0 && (
+          <Reveal delay={0.36}>
+            <section className="mb-16">
+              <div className="flex items-center gap-3 mb-6">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ background: `${study.accent}12`, border: `1px solid ${study.accent}25` }}
+                >
+                  <span className="text-xs font-bold" style={{ color: study.accent }}>05</span>
+                </div>
+                <h2 className="text-xl font-bold text-white">Artifacts</h2>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4">
+                {study.artifacts.map((artifact, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl p-5 flex flex-col items-center justify-center text-center"
+                    style={{
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      minHeight: '120px',
+                    }}
+                  >
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                      style={{ background: `${study.accent}08`, border: `1px solid ${study.accent}15` }}
+                    >
+                      <Box size={16} style={{ color: study.accent, opacity: 0.6 }} />
+                    </div>
+                    <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.55)' }}>{artifact}</p>
+                    <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Coming soon</p>
+                  </div>
+                ))}
               </div>
             </section>
           </Reveal>

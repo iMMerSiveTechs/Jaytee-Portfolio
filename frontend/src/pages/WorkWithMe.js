@@ -13,6 +13,7 @@ const tiers = [
     for: 'A specific friction point. A product that feels unclear. A decision that\'s been circling too long.',
     what: 'One concentrated session. I diagnose the immediate friction in your product or workflow, name the actual problem, and give you a structured set of next actions to take out of the room.',
     format: 'Single session · 90 min',
+    pricing: 'Starting at $1.5k',
     cta: 'Request a Teardown',
     accentColor: 'var(--theme-accent, #00f0ff)',
     accentBg: 'var(--theme-glow, rgba(0,240,255,0.04))',
@@ -26,6 +27,7 @@ const tiers = [
     for: 'Something is structurally broken and you know it. The system is making the work harder than it should be.',
     what: 'A multi-week engagement to map the current state, identify the core breaks, and design a leaner, more reliable system. We build the architecture together, then you run it.',
     format: 'Multi-week · Structured',
+    pricing: 'Starting at $8k',
     cta: 'Start a Sprint',
     accentColor: '#3b82f6',
     accentBg: 'rgba(59,130,246,0.04)',
@@ -39,6 +41,7 @@ const tiers = [
     for: 'You\'re growing and you want a clear-eyed systems-thinker available as you make high-stakes decisions.',
     what: 'Ongoing advisory. I\'m a sounding board for product direction, system design, and business structure decisions. Available on a retainer basis—not as a full-time advisor, but as someone who knows your architecture.',
     format: 'Monthly retainer',
+    pricing: 'By fit · Limited availability',
     cta: 'Inquire About Support',
     accentColor: '#8b5cf6',
     accentBg: 'rgba(139,92,246,0.04)',
@@ -53,6 +56,7 @@ const tiers = [
     for: 'You need a system designed and built—not just advised on. End-to-end, from architecture to delivery.',
     what: 'Full system design and build via VibeForge Studios. We architect the solution, build it, and hand off something that works under real conditions. This is the highest-touch engagement I offer.',
     format: 'Project-based · VibeForge Studios',
+    pricing: 'Custom scope',
     cta: 'Commission a Build',
     accentColor: 'var(--theme-accent, #00f0ff)',
     accentBg: 'var(--theme-glow, rgba(0,240,255,0.04))',
@@ -177,6 +181,14 @@ export default function WorkWithMe() {
                       >
                         {tier.format}
                       </p>
+                      {tier.pricing && (
+                        <p
+                          className="text-xs mt-1.5 font-medium"
+                          style={{ color: 'rgba(255,255,255,0.5)' }}
+                        >
+                          {tier.pricing}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

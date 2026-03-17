@@ -102,45 +102,60 @@ function OutputHeader({ accent, copied, onCopy }) {
 }
 
 function ToolCTA({ accent, resultText }) {
+  const [exporting, setExporting] = useState(false);
+
+  const handleExport = () => {
+    setExporting(true);
+    const blob = new Blob([resultText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'clarity-lab-result.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Result exported.');
+    setTimeout(() => setExporting(false), 1500);
+  };
+
   return (
     <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.25)' }}>
         What to do with this
       </p>
-      <div className="grid sm:grid-cols-3 gap-3">
-        <Link
-          to="/contact"
-          className="p-4 rounded-xl text-left transition-all duration-200"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
-        >
-          <p className="text-sm font-semibold text-white mb-1">Want help applying this?</p>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Start a conversation about your situation.</p>
-        </Link>
+      <div className="grid sm:grid-cols-2 gap-3">
         <Link
           to="/contact"
           state={{ service: 'Clarity Teardown' }}
           className="p-4 rounded-xl text-left transition-all duration-200"
-          style={{ background: `${accent}06`, border: `1px solid ${accent}15` }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = `${accent}12`; e.currentTarget.style.borderColor = `${accent}25`; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = `${accent}06`; e.currentTarget.style.borderColor = `${accent}15`; }}
+          style={{ background: `rgba(255,255,255,0.03)`, border: `1px solid rgba(255,255,255,0.08)` }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
         >
           <p className="text-sm font-semibold text-white mb-1">Turn this into a working plan</p>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Book a Clarity Teardown session.</p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Book a Clarity Teardown — starting at $1.5k.</p>
         </Link>
         <Link
           to="/contact"
-          state={{ toolOutput: resultText, service: 'Clarity Teardown' }}
+          state={{ toolOutput: resultText, service: 'General Inquiry' }}
           className="p-4 rounded-xl text-left transition-all duration-200"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
         >
           <p className="text-sm font-semibold text-white mb-1">Send this with your inquiry</p>
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Pre-fill your contact form with this result.</p>
         </Link>
       </div>
+      <button
+        onClick={handleExport}
+        disabled={exporting}
+        className="mt-3 w-full p-3 rounded-xl text-left text-xs transition-all duration-200 disabled:opacity-50"
+        style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.35)' }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.015)'; }}
+      >
+        {exporting ? 'Exported ✓' : 'Export result as .txt'}
+      </button>
     </div>
   );
 }

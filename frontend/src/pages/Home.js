@@ -270,6 +270,41 @@ export default function Home() {
       </div>
       </Reveal>
 
+      {/* ─── PROOF OF WORK ──────────────────────────────────────── */}
+      <Reveal delay={0.3}>
+        <section className="py-12 md:py-14" style={{ background: 'rgba(15,17,21,0.25)' }}>
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: 'Active Build Lanes', value: '3', sub: 'Concurrent projects in motion' },
+                { label: 'Operator Tools', value: '5', sub: 'Live instruments in Clarity Lab' },
+                { label: 'Work Modes', value: '4', sub: 'Diagnostic · Architecture · Build · Advisory' },
+                { label: 'System Types', value: '3', sub: 'Workflow · Product · Human' },
+              ].map((card) => (
+                <div
+                  key={card.label}
+                  className="rounded-xl p-5"
+                  style={{
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                  }}
+                >
+                  <div className="text-2xl font-extrabold mb-1" style={{ color: 'var(--theme-accent, #00f0ff)' }}>
+                    {card.value}
+                  </div>
+                  <div className="text-xs font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                    {card.label}
+                  </div>
+                  <div className="text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>
+                    {card.sub}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
       {/* ─── OPERATING SEQUENCE ─────────────────────────────────── */}
       <section
         data-testid="operating-sequence"
