@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation, useOutlet } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { SearchCommand } from './SearchCommand';
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -9,6 +10,24 @@ import { AdvancedFooter } from './AdvancedFooter';
 import { CustomCursor } from './CustomCursor';
 import { useTheme } from '../contexts/ThemeContext';
 import { hapticLight } from '../utils/haptics';
+
+// Freeze the outlet content so exit animations show the old page, not the new one
+function FrozenOutlet() {
+  const outlet = useOutlet();
+  const [frozen] = useState(outlet);
+  return frozen;
+}
+
+const prefersReducedMotion = typeof window !== 'undefined'
+  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const pageVariants = prefersReducedMotion
+  ? { initial: {}, animate: {}, exit: {} }
+  : {
+      initial: { opacity: 0, y: 12 },
+      animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] } },
+      exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } },
+    };
 
 const navLinks = [
   { to: '/', label: 'Home', testid: 'top-nav-link-home', exact: true },
@@ -212,7 +231,17 @@ export default function Layout() {
       {/* Page Content */}
       <main id="main-content" className="relative z-10" role="main">
         <Breadcrumbs />
-        <Outlet />
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={location.pathname}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <FrozenOutlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Advanced Footer */}

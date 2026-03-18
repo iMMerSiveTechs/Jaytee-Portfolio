@@ -3,10 +3,13 @@ import Lenis from 'lenis';
 
 /**
  * SmoothScroll - Implements buttery-smooth scroll with Lenis
- * Automatically handles smooth scrolling and anchor navigation
+ * Respects prefers-reduced-motion
  */
 export const useSmoothScroll = () => {
   useEffect(() => {
+    // Respect user preference for reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo

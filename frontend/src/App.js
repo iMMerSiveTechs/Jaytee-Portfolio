@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -30,53 +29,6 @@ function PageLoader() {
         <span className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>Loading…</span>
       </div>
     </div>
-  );
-}
-
-function AnimatedOutlet() {
-  const location = useLocation();
-
-  const pageVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
-    exit: { opacity: 0, y: -10, transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } },
-  };
-
-  const routes = [
-    { path: '/', element: <Home /> },
-    { path: '/about', element: <About /> },
-    { path: '/work', element: <Work /> },
-    { path: '/work/:slug', element: <CaseStudy /> },
-    { path: '/tools', element: <Tools /> },
-    { path: '/work-with-me', element: <WorkWithMe /> },
-    { path: '/notes', element: <Notes /> },
-    { path: '/notes/:slug', element: <NoteDetail /> },
-    { path: '/contact', element: <Contact /> },
-  ];
-
-  const currentRoute = routes.find(r => {
-    if (r.path === location.pathname) return true;
-    if (r.path.includes(':')) {
-      const pattern = r.path.replace(/:[^/]+/g, '[^/]+');
-      return new RegExp(`^${pattern}$`).test(location.pathname);
-    }
-    return false;
-  });
-
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={location.pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
-        <Suspense fallback={<PageLoader />}>
-          {currentRoute?.element}
-        </Suspense>
-      </motion.div>
-    </AnimatePresence>
   );
 }
 
