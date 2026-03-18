@@ -180,6 +180,15 @@ export const useTheme = () => {
   return context;
 };
 
+// Calculate relative luminance for contrast checks
+function luminance(r, g, b) {
+  const [rs, gs, bs] = [r, g, b].map(c => {
+    c = c / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
 function hexToRgb(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
@@ -240,9 +249,23 @@ export const ThemeProvider = ({ children }) => {
     const modeTokens = MODE_TOKENS[mode];
 
     const root = document.documentElement;
-    
+
+    // In light mode, use darker accent variant if contrast is too low on white
+    const rgb = hexToRgb(accentTheme.accent);
+    let contrastAccent = accentTheme.accent;
+    if (mode === 'light' && rgb) {
+      const lum = luminance(rgb.r, rgb.g, rgb.b);
+      // WCAG AA needs 4.5:1 contrast ratio against white (luminance 1.0)
+      const ratio = (1.05) / (lum + 0.05);
+      if (ratio < 3) {
+        // Use the dark variant for better contrast
+        contrastAccent = accentTheme.accentDark;
+      }
+    }
+
     // Accent colors
     root.style.setProperty('--theme-accent', accentTheme.accent);
+    root.style.setProperty('--theme-accent-contrast', contrastAccent);
     root.style.setProperty('--theme-accent-light', accentTheme.accentLight);
     root.style.setProperty('--theme-accent-dark', accentTheme.accentDark);
     root.style.setProperty('--theme-ring', accentTheme.ring);

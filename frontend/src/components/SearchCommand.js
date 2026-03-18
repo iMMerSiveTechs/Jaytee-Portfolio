@@ -15,6 +15,7 @@ const STATIC_CONTENT = [
   { id: 'tool-bloat', title: 'The Bloat Detector', description: 'Identify core vs off-core features', url: '/tools', icon: Wrench, type: 'tool' },
   { id: 'tool-friction', title: 'The Friction Auditor', description: 'Diagnose workflow bottlenecks', url: '/tools', icon: Wrench, type: 'tool' },
   { id: 'tool-scope', title: 'The Scope Slicer', description: 'Cut scope to protect your core bet', url: '/tools', icon: Scissors, type: 'tool' },
+  { id: 'tool-entropy', title: 'The Entropy Audit', description: 'Separate signal from noise in your domain', url: '/tools', icon: Wrench, type: 'tool' },
   { id: 'case-job-forge', title: 'Job Forge Case Study', description: 'AI-powered job application system', url: '/work/job-forge', icon: Briefcase, type: 'page' },
   { id: 'case-churnwise', title: 'ChurnWise Case Study', description: 'Predictive churn analytics platform', url: '/work/churnwise', icon: Briefcase, type: 'page' },
   { id: 'case-transplant-tracker', title: 'Transplant Tracker Case Study', description: 'Organ transplant logistics system', url: '/work/transplant-tracker', icon: Briefcase, type: 'page' },
@@ -47,7 +48,10 @@ export const SearchCommand = () => {
     if (open && notes.length === 0) {
       setLoading(true);
       fetch(`${process.env.REACT_APP_BACKEND_URL}/api/notes`)
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch notes');
+          return res.json();
+        })
         .then(data => {
           const notesData = data.notes || [];
           setNotes(notesData.map(note => ({
