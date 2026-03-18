@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
-  ArrowUpRight, Sparkles, ShieldAlert, Zap,
+  ArrowUpRight, Sparkles, ShieldAlert, Zap, ChevronUp,
   Mail, Github, Linkedin, Twitter,
   Home, User, Briefcase, Wrench, BookOpen
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { Reveal } from './Reveal';
 import { hapticMedium } from '../utils/haptics';
+import { scrollToSection } from '../utils/smoothScroll';
 
 export const AdvancedFooter = () => {
   const [email, setEmail] = useState('');
   const [subscribing, setSubscribing] = useState(false);
+  const location = useLocation();
+
+  const handleBackToTop = () => {
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { duration: 1.5 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   const handleNewsletter = async (e) => {
     e.preventDefault();
@@ -80,6 +91,7 @@ export const AdvancedFooter = () => {
       data-testid="advanced-footer"
     >
       <div className="max-w-6xl mx-auto px-6 pt-16 pb-10">
+        <Reveal y={20} duration={0.5}>
         <div className="grid lg:grid-cols-12 gap-10 mb-14">
           <div className="lg:col-span-5">
             <h2
@@ -209,7 +221,9 @@ export const AdvancedFooter = () => {
             </div>
           </div>
         </div>
+        </Reveal>
 
+        <Reveal y={20} duration={0.5} delay={0.15}>
         <div className="max-w-6xl mx-auto py-10" style={{ borderTop: '1px solid var(--theme-border-subtle)' }}>
           <div className="grid md:grid-cols-12 gap-10">
             <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
@@ -282,14 +296,16 @@ export const AdvancedFooter = () => {
                   {[
                     { label: 'Home', to: '/', status: 'live' },
                     { label: 'Work', to: '/work', status: 'live' },
-                    { label: 'Tools', to: '/tools', status: 'live', badge: '4 tools' },
+                    { label: 'Tools', to: '/tools', status: 'live', badge: '5 tools' },
                     { label: 'Work With Me', to: '/work-with-me', status: 'live', badge: '4 tiers' },
-                  ].map((page) => (
+                  ].map((page) => {
+                    const isActive = page.to === '/' ? location.pathname === '/' : location.pathname.startsWith(page.to);
+                    return (
                     <Link
                       key={page.to}
                       to={page.to}
                       className="group flex items-center justify-between p-2 rounded-lg transition-all duration-200"
-                      style={{ background: 'transparent' }}
+                      style={{ background: isActive ? 'var(--theme-glow)' : 'transparent' }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = 'var(--theme-glow, rgba(0,240,255,0.05))';
                       }}
@@ -319,12 +335,14 @@ export const AdvancedFooter = () => {
                         </span>
                       )}
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </Reveal>
 
         <div
           className="pt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
@@ -395,17 +413,39 @@ export const AdvancedFooter = () => {
         </div>
       </div>
 
-      <div
-        className="absolute top-4 right-6 flex items-center gap-2"
-        style={{ opacity: 0.4 }}
-      >
-        <span
-          className="w-1.5 h-1.5 rounded-full animate-pulse"
-          style={{ background: 'var(--theme-accent, #00f0ff)' }}
-        />
-        <span className="text-[0.625rem]" style={{ color: 'var(--theme-text-subtle)' }}>
-          Live
-        </span>
+      <div className="absolute top-4 right-6 flex items-center gap-4">
+        <button
+          onClick={handleBackToTop}
+          className="flex items-center gap-1.5 text-[0.625rem] font-medium rounded-md px-2 py-1 transition-all duration-200"
+          style={{
+            color: 'var(--theme-text-subtle)',
+            background: 'var(--theme-surface)',
+            border: '1px solid var(--theme-border-subtle)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--theme-accent)';
+            e.currentTarget.style.borderColor = 'var(--theme-accent)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--theme-text-subtle)';
+            e.currentTarget.style.borderColor = 'var(--theme-border-subtle)';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+          aria-label="Back to top"
+        >
+          <ChevronUp size={10} />
+          Top
+        </button>
+        <div className="flex items-center gap-1.5" style={{ opacity: 0.5 }}>
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse"
+            style={{ background: 'var(--theme-accent, #00f0ff)' }}
+          />
+          <span className="text-[0.625rem]" style={{ color: 'var(--theme-text-subtle)' }}>
+            Live
+          </span>
+        </div>
       </div>
     </footer>
   );
