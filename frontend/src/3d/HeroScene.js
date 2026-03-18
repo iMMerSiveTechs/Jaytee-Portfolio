@@ -7,13 +7,13 @@ import * as THREE from 'three';
  * HeroScene - Immersive 3D particle field with floating geometric shapes
  * For the homepage hero section
  */
-export default function HeroScene({ mode, accent }) {
+export default function HeroScene({ mode, accent, intensity }) {
   const particlesRef = useRef();
   const sphereRef = useRef();
 
   // Create particle field
   const particles = useMemo(() => {
-    const count = 1000;
+    const count = intensity === 'subtle' ? 500 : 1000;
     const positions = new Float32Array(count * 3);
     
     for (let i = 0; i < count; i++) {

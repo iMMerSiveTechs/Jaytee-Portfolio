@@ -9,7 +9,17 @@ import { Breadcrumbs } from './Breadcrumbs';
 import { AdvancedFooter } from './AdvancedFooter';
 import { CustomCursor } from './CustomCursor';
 import { useTheme } from '../contexts/ThemeContext';
+import { ThreeDCanvas } from './ThreeDCanvas';
 import { hapticLight } from '../utils/haptics';
+
+// Map routes to 3D scenes
+function getSceneForPath(pathname) {
+  if (pathname === '/') return 'hero';
+  if (pathname === '/work' || pathname.startsWith('/work/')) return 'work';
+  if (pathname === '/tools') return 'tools';
+  if (pathname === '/contact') return 'contact';
+  return 'ambient';
+}
 
 // Freeze the outlet content so exit animations show the old page, not the new one
 function FrozenOutlet() {
@@ -66,6 +76,14 @@ export default function Layout() {
         Skip to main content
       </a>
       <CustomCursor />
+
+      {/* Global 3D layer — route-aware scene switching */}
+      <ThreeDCanvas
+        scene={getSceneForPath(location.pathname)}
+        className="fixed inset-0"
+        style={{ opacity: location.pathname === '/' ? 0.4 : 0.25 }}
+      />
+
       {/* Ambient blobs — more subtle in light mode */}
       <div
         className="ambient-blob"

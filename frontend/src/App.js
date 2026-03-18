@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ThreeDProvider } from './components/ThreeDCanvas';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { useSmoothScroll } from './utils/smoothScroll';
 import Layout from './components/Layout';
@@ -56,10 +57,12 @@ export default function App() {
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <ErrorBoundary>
-          <Toaster richColors position="top-right" />
-          <AppContent />
-        </ErrorBoundary>
+        <ThreeDProvider>
+          <ErrorBoundary>
+            <Toaster richColors position="top-right" />
+            <AppContent />
+          </ErrorBoundary>
+        </ThreeDProvider>
       </ThemeProvider>
     </HelmetProvider>
   );

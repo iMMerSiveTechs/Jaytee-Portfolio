@@ -6,7 +6,7 @@ import * as THREE from 'three';
  * AmbientScene - Subtle 3D ambient layer for all pages
  * Provides consistent depth and immersion without distraction
  */
-export default function AmbientScene({ mode, accent }) {
+export default function AmbientScene({ mode, accent, intensity }) {
   const meshRef = useRef();
   const particlesRef = useRef();
 

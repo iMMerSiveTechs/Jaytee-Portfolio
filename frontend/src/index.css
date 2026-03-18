@@ -227,14 +227,29 @@ a:focus-visible {
               border-color 300ms ease;
 }
 .interactive-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.02) translateY(-2px);
   box-shadow: 0 0 30px var(--theme-glow, rgba(0,240,255,0.1)),
-              0 0 60px var(--theme-glow, rgba(0,240,255,0.05));
+              0 0 60px var(--theme-glow, rgba(0,240,255,0.05)),
+              0 12px 40px rgba(0,0,0,0.2);
   border-color: var(--theme-accent, #00f0ff) !important;
 }
 
+/* 3D depth card — CSS perspective tilt */
+.depth-card {
+  transform-style: preserve-3d;
+  perspective: 800px;
+  transition: transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              box-shadow 400ms ease;
+}
+.depth-card:hover {
+  transform: rotateX(2deg) rotateY(-2deg) translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15),
+              0 0 30px var(--theme-glow, rgba(0,240,255,0.08));
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .interactive-card:hover {
+  .interactive-card:hover,
+  .depth-card:hover {
     transform: none;
   }
 }

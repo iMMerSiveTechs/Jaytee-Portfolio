@@ -4,7 +4,6 @@ import {
   ArrowRight, Sparkles, ShieldAlert, ArrowUpRight, Zap
 } from 'lucide-react';
 import { Reveal, RevealStagger } from '../components/Reveal';
-import { ThreeDCanvas } from '../components/ThreeDCanvas';
 import { SEO } from '../components/SEO';
 import { InteractiveSequence } from '../components/InteractiveSequence';
 
@@ -18,9 +17,6 @@ export default function Home() {
 
       {/* ─── HERO ─────────────────────────────────────────────────── */}
       <section className="relative pt-24 pb-24 overflow-hidden">
-        {/* 3D Background Layer */}
-        <ThreeDCanvas scene="hero" className="opacity-40" />
-        
         {/* Dot grid texture */}
         <div
           className="absolute inset-0 pointer-events-none"

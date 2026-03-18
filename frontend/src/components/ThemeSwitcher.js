@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { Palette } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useThreeD } from './ThreeDCanvas';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
+const INTENSITY_OPTIONS = [
+  { value: 'off', label: 'Off' },
+  { value: 'subtle', label: 'Subtle' },
+  { value: 'immersive', label: 'Immersive' },
+];
+
 export const ThemeSwitcher = () => {
   const { accents, accentKey, setAccent, setCustomAccent, customColor, mode } = useTheme();
+  const { intensity, set3DIntensity } = useThreeD();
   const [isOpen, setIsOpen] = useState(false);
   const [customInput, setCustomInput] = useState(customColor || '#00f0ff');
 
@@ -146,6 +154,32 @@ export const ThemeSwitcher = () => {
               >
                 Apply
               </Button>
+            </div>
+          </div>
+
+          {/* 3D Intensity */}
+          <div
+            className="pt-3"
+            style={{ borderTop: '1px solid var(--theme-border-subtle)' }}
+          >
+            <label className="text-xs font-medium block mb-2" style={{ color: 'var(--theme-text)' }}>
+              3D Effects
+            </label>
+            <div className="flex gap-1.5">
+              {INTENSITY_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => set3DIntensity(opt.value)}
+                  className="flex-1 px-2 py-1.5 text-xs font-medium rounded-md transition-all duration-200"
+                  style={{
+                    background: intensity === opt.value ? 'var(--theme-accent)' : 'var(--theme-surface)',
+                    color: intensity === opt.value ? (mode === 'light' ? 'white' : 'black') : 'var(--theme-text-muted)',
+                    border: `1px solid ${intensity === opt.value ? 'var(--theme-accent)' : 'var(--theme-border)'}`,
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
