@@ -21,7 +21,7 @@ export class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: '#08090a' }}>
+        <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: 'var(--theme-bg0)' }}>
           <div className="max-w-md text-center">
             <div
               className="w-12 h-12 mx-auto mb-6 flex items-center justify-center rounded-xl"
@@ -29,8 +29,8 @@ export class ErrorBoundary extends React.Component {
             >
               <span style={{ color: '#fb7185', fontSize: '1.25rem' }}>!</span>
             </div>
-            <h2 className="text-xl font-bold text-white mb-3">Something went wrong</h2>
-            <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.45)' }}>
+            <h2 className="text-xl font-bold mb-3" style={{ color: 'var(--theme-text)' }}>Something went wrong</h2>
+            <p className="text-sm mb-6" style={{ color: 'var(--theme-text-subtle)' }}>
               An unexpected error occurred. This has been logged. You can try refreshing the page.
             </p>
             <div className="flex items-center justify-center gap-3">
@@ -38,16 +38,20 @@ export class ErrorBoundary extends React.Component {
                 onClick={this.handleRetry}
                 className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-200"
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'white',
+                  background: 'var(--theme-surface-hover)',
+                  border: '1px solid var(--theme-border)',
+                  color: 'var(--theme-text)',
                 }}
               >
                 Try again
               </button>
               <button
                 onClick={() => window.location.reload()}
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-white text-black transition-colors duration-200"
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-200"
+                style={{
+                  background: 'var(--theme-text)',
+                  color: 'var(--theme-bg0)',
+                }}
               >
                 Reload page
               </button>

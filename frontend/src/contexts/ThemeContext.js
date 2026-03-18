@@ -131,24 +131,42 @@ const MODE_TOKENS = {
     bg1: '#0f1115',
     bg2: '#161920',
     surface: 'rgba(255,255,255,0.04)',
+    surfaceHover: 'rgba(255,255,255,0.06)',
     surfaceBorder: 'rgba(255,255,255,0.08)',
     text: 'rgba(255,255,255,0.95)',
+    textSecondary: 'rgba(255,255,255,0.72)',
     textMuted: 'rgba(255,255,255,0.55)',
     textSubtle: 'rgba(255,255,255,0.35)',
     border: 'rgba(255,255,255,0.10)',
+    borderMedium: 'rgba(255,255,255,0.12)',
     borderSubtle: 'rgba(255,255,255,0.06)',
+    shadow: '0 18px 55px rgba(0,0,0,0.55)',
+    shadowSoft: '0 10px 30px rgba(0,0,0,0.45)',
+    panel: 'rgba(255,255,255,0.04)',
+    panelBorder: 'rgba(255,255,255,0.08)',
+    navBg: 'rgba(8,9,10,0.92)',
+    navBgTranslucent: 'rgba(8,9,10,0.6)',
   },
   light: {
     bg0: '#ffffff',
     bg1: '#f8f9fa',
     bg2: '#e9ecef',
     surface: 'rgba(0,0,0,0.02)',
+    surfaceHover: 'rgba(0,0,0,0.04)',
     surfaceBorder: 'rgba(0,0,0,0.08)',
-    text: 'rgba(0,0,0,0.95)',
-    textMuted: 'rgba(0,0,0,0.65)',
-    textSubtle: 'rgba(0,0,0,0.45)',
+    text: 'rgba(0,0,0,0.92)',
+    textSecondary: 'rgba(0,0,0,0.72)',
+    textMuted: 'rgba(0,0,0,0.55)',
+    textSubtle: 'rgba(0,0,0,0.40)',
     border: 'rgba(0,0,0,0.10)',
+    borderMedium: 'rgba(0,0,0,0.12)',
     borderSubtle: 'rgba(0,0,0,0.06)',
+    shadow: '0 18px 55px rgba(0,0,0,0.08)',
+    shadowSoft: '0 10px 30px rgba(0,0,0,0.06)',
+    panel: 'rgba(0,0,0,0.02)',
+    panelBorder: 'rgba(0,0,0,0.08)',
+    navBg: 'rgba(255,255,255,0.92)',
+    navBgTranslucent: 'rgba(255,255,255,0.6)',
   },
 };
 
@@ -237,18 +255,31 @@ export const ThemeProvider = ({ children }) => {
     root.style.setProperty('--theme-bg1', modeTokens.bg1);
     root.style.setProperty('--theme-bg2', modeTokens.bg2);
     root.style.setProperty('--theme-surface', modeTokens.surface);
+    root.style.setProperty('--theme-surface-hover', modeTokens.surfaceHover);
     root.style.setProperty('--theme-surface-border', modeTokens.surfaceBorder);
     root.style.setProperty('--theme-text', modeTokens.text);
+    root.style.setProperty('--theme-text-secondary', modeTokens.textSecondary);
     root.style.setProperty('--theme-text-muted', modeTokens.textMuted);
     root.style.setProperty('--theme-text-subtle', modeTokens.textSubtle);
     root.style.setProperty('--theme-border', modeTokens.border);
+    root.style.setProperty('--theme-border-medium', modeTokens.borderMedium);
     root.style.setProperty('--theme-border-subtle', modeTokens.borderSubtle);
+    root.style.setProperty('--theme-shadow', modeTokens.shadow);
+    root.style.setProperty('--theme-shadow-soft', modeTokens.shadowSoft);
+    root.style.setProperty('--theme-panel', modeTokens.panel);
+    root.style.setProperty('--theme-panel-border', modeTokens.panelBorder);
+    root.style.setProperty('--theme-nav-bg', modeTokens.navBg);
+    root.style.setProperty('--theme-nav-bg-translucent', modeTokens.navBgTranslucent);
 
     // Set data attribute for CSS targeting
     root.setAttribute('data-theme-mode', mode);
-    
+
     // Update body background
     document.body.style.background = modeTokens.bg0;
+
+    // Update meta theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) metaThemeColor.setAttribute('content', modeTokens.bg0);
   }, [mode, accentKey, customColor]);
 
   const toggleMode = () => {

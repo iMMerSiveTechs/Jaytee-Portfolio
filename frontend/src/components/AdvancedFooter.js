@@ -74,8 +74,8 @@ export const AdvancedFooter = () => {
       id="footer"
       className="relative z-10"
       style={{
-        background: 'var(--theme-bg0, #08090a)',
-        borderTop: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))',
+        background: 'var(--theme-bg0)',
+        borderTop: '1px solid var(--theme-border-subtle)',
       }}
       data-testid="advanced-footer"
     >
@@ -91,7 +91,7 @@ export const AdvancedFooter = () => {
               }}
             >
               If something is overloaded or drifting off-core,
-              <span style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.42))' }}> that is the conversation.</span>
+              <span style={{ color: 'var(--theme-text-subtle)' }}> that is the conversation.</span>
             </h2>
             <Link
               to="/contact"
@@ -101,15 +101,15 @@ export const AdvancedFooter = () => {
               style={{
                 background: 'var(--theme-text, white)',
                 color: 'var(--theme-bg0, black)',
-                boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                boxShadow: '0 4px 20px var(--theme-surface-border)',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+                e.currentTarget.style.boxShadow = '0 8px 30px var(--theme-border)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px var(--theme-surface-border)';
               }}
             >
               Start the Conversation
@@ -119,7 +119,7 @@ export const AdvancedFooter = () => {
 
           <div className="lg:col-span-7 space-y-8">
             <div>
-              <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.4))', letterSpacing: '0.08em' }}>
+              <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em' }}>
                 QUICK ACCESS
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -132,8 +132,8 @@ export const AdvancedFooter = () => {
                       data-testid={`footer-tool-${tool.name.toLowerCase().replace(/\s+/g, '-')}`}
                       className="interactive-card group p-4 rounded-xl transition-all duration-200"
                       style={{
-                        background: 'var(--theme-surface, rgba(255,255,255,0.03))',
-                        border: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))',
+                        background: 'var(--theme-surface)',
+                        border: '1px solid var(--theme-border-subtle)',
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.borderColor = `${tool.color}30`;
@@ -141,8 +141,8 @@ export const AdvancedFooter = () => {
                         e.currentTarget.style.transform = 'translateY(-2px)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = 'var(--theme-border-subtle, rgba(255,255,255,0.06))';
-                        e.currentTarget.style.background = 'var(--theme-surface, rgba(255,255,255,0.03))';
+                        e.currentTarget.style.borderColor = 'var(--theme-border-subtle)';
+                        e.currentTarget.style.background = 'var(--theme-surface)';
                         e.currentTarget.style.transform = 'translateY(0)';
                       }}
                     >
@@ -155,10 +155,10 @@ export const AdvancedFooter = () => {
             </div>
 
             <div>
-              <p className="text-xs font-semibold mb-2" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.4))', letterSpacing: '0.08em' }}>
+              <p className="text-xs font-semibold mb-2" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em' }}>
                 STAY UPDATED
               </p>
-              <p className="text-sm mb-3" style={{ color: 'var(--theme-text-muted, rgba(255,255,255,0.5))' }}>
+              <p className="text-sm mb-3" style={{ color: 'var(--theme-text-muted)' }}>
                 Occasional insights on systems thinking, product strategy, and operator tools.
               </p>
               <form onSubmit={handleNewsletter} className="flex gap-2">
@@ -170,17 +170,17 @@ export const AdvancedFooter = () => {
                   data-testid="footer-newsletter-input"
                   className="flex-1 px-4 py-2 rounded-lg text-sm transition-all duration-200"
                   style={{
-                    background: 'var(--theme-surface, rgba(255,255,255,0.04))',
-                    border: '1px solid var(--theme-border, rgba(255,255,255,0.1))',
+                    background: 'var(--theme-surface)',
+                    border: '1px solid var(--theme-border)',
                     color: 'var(--theme-text, white)',
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor = 'var(--theme-accent, #00f0ff)';
-                    e.currentTarget.style.background = 'var(--theme-surface, rgba(255,255,255,0.06))';
+                    e.currentTarget.style.background = 'var(--theme-surface-hover)';
                   }}
                   onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--theme-border, rgba(255,255,255,0.1))';
-                    e.currentTarget.style.background = 'var(--theme-surface, rgba(255,255,255,0.04))';
+                    e.currentTarget.style.borderColor = 'var(--theme-border)';
+                    e.currentTarget.style.background = 'var(--theme-surface)';
                   }}
                 />
                 <button
@@ -210,12 +210,12 @@ export const AdvancedFooter = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto py-10" style={{ borderTop: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))' }}>
+        <div className="max-w-6xl mx-auto py-10" style={{ borderTop: '1px solid var(--theme-border-subtle)' }}>
           <div className="grid md:grid-cols-12 gap-10">
             <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
               {siteMap.map((section) => (
                 <div key={section.category}>
-                  <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.4))', letterSpacing: '0.08em' }}>
+                  <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em' }}>
                     {section.category.toUpperCase()}
                   </p>
                   <div className="space-y-2">
@@ -226,13 +226,13 @@ export const AdvancedFooter = () => {
                           key={link.to}
                           to={link.to}
                           className="group flex items-center gap-2 text-sm transition-all duration-200"
-                          style={{ color: 'var(--theme-text-muted, rgba(255,255,255,0.5))' }}
+                          style={{ color: 'var(--theme-text-muted)' }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.color = 'var(--theme-accent, #00f0ff)';
                             e.currentTarget.style.transform = 'translateX(2px)';
                           }}
                           onMouseLeave={(e) => {
-                            e.currentTarget.style.color = 'var(--theme-text-muted, rgba(255,255,255,0.5))';
+                            e.currentTarget.style.color = 'var(--theme-text-muted)';
                             e.currentTarget.style.transform = 'translateX(0)';
                           }}
                           data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
@@ -247,7 +247,7 @@ export const AdvancedFooter = () => {
               ))}
 
               <div>
-                <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.4))', letterSpacing: '0.08em' }}>
+                <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em' }}>
                   SERVICES
                 </p>
                 <div className="space-y-2">
@@ -256,9 +256,9 @@ export const AdvancedFooter = () => {
                       key={service}
                       to="/work-with-me"
                       className="block text-sm transition-colors duration-200"
-                      style={{ color: 'var(--theme-text-muted, rgba(255,255,255,0.5))' }}
+                      style={{ color: 'var(--theme-text-muted)' }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text, white)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted, rgba(255,255,255,0.5))'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}
                     >
                       {service}
                     </Link>
@@ -268,14 +268,14 @@ export const AdvancedFooter = () => {
             </div>
 
             <div className="md:col-span-4">
-              <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.4))', letterSpacing: '0.08em' }}>
+              <p className="text-xs font-semibold mb-3" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em' }}>
                 SITE MAP
               </p>
               <div
                 className="p-4 rounded-xl relative overflow-hidden"
                 style={{
-                  background: 'var(--theme-surface, rgba(255,255,255,0.02))',
-                  border: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))',
+                  background: 'var(--theme-surface)',
+                  border: '1px solid var(--theme-border-subtle)',
                 }}
               >
                 <div className="space-y-2">
@@ -328,7 +328,7 @@ export const AdvancedFooter = () => {
 
         <div
           className="pt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
-          style={{ borderTop: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))' }}
+          style={{ borderTop: '1px solid var(--theme-border-subtle)' }}
         >
           <div className="flex items-center gap-3">
             <div
@@ -345,7 +345,7 @@ export const AdvancedFooter = () => {
               <p className="text-sm font-semibold" style={{ color: 'var(--theme-text, white)' }}>
                 Jethro JayTee
               </p>
-              <p className="text-xs" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.35))' }}>
+              <p className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                 Operator and Builder
               </p>
             </div>
@@ -364,9 +364,9 @@ export const AdvancedFooter = () => {
                   data-testid={`footer-social-${social.label.toLowerCase()}`}
                   className="w-9 h-9 flex items-center justify-center rounded-lg transition-all duration-200"
                   style={{
-                    background: 'var(--theme-surface, rgba(255,255,255,0.03))',
-                    border: '1px solid var(--theme-border-subtle, rgba(255,255,255,0.06))',
-                    color: 'var(--theme-text-muted, rgba(255,255,255,0.4))',
+                    background: 'var(--theme-surface)',
+                    border: '1px solid var(--theme-border-subtle)',
+                    color: 'var(--theme-text-muted)',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = 'var(--theme-accent, #00f0ff)';
@@ -374,8 +374,8 @@ export const AdvancedFooter = () => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--theme-border-subtle, rgba(255,255,255,0.06))';
-                    e.currentTarget.style.color = 'var(--theme-text-muted, rgba(255,255,255,0.4))';
+                    e.currentTarget.style.borderColor = 'var(--theme-border-subtle)';
+                    e.currentTarget.style.color = 'var(--theme-text-muted)';
                     e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
@@ -385,11 +385,11 @@ export const AdvancedFooter = () => {
             })}
           </div>
 
-          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.25))' }}>
+          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
             <span>Nemurium</span>
-            <span style={{ color: 'var(--theme-border-subtle, rgba(255,255,255,0.1))' }}>/</span>
+            <span style={{ color: 'var(--theme-border-subtle)' }}>/</span>
             <span>VibeForge Studios</span>
-            <span style={{ color: 'var(--theme-border-subtle, rgba(255,255,255,0.1))' }}>/</span>
+            <span style={{ color: 'var(--theme-border-subtle)' }}>/</span>
             <span>&copy; 2025</span>
           </div>
         </div>
@@ -403,7 +403,7 @@ export const AdvancedFooter = () => {
           className="w-1.5 h-1.5 rounded-full animate-pulse"
           style={{ background: 'var(--theme-accent, #00f0ff)' }}
         />
-        <span className="text-[0.625rem]" style={{ color: 'var(--theme-text-subtle, rgba(255,255,255,0.3))' }}>
+        <span className="text-[0.625rem]" style={{ color: 'var(--theme-text-subtle)' }}>
           Live
         </span>
       </div>

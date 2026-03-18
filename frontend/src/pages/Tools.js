@@ -71,9 +71,9 @@ function OutputHeader({ accent, copied, onCopy }) {
         data-testid="tools-copy-output-button"
         onClick={onCopy}
         className="inline-flex items-center gap-1.5 text-xs transition-colors duration-200"
-        style={{ color: 'rgba(255,255,255,0.35)' }}
-        onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}
+        style={{ color: 'var(--theme-text-subtle)' }}
+        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
       >
         {copied ? <><Check size={11} /> Copied</> : <><Copy size={11} /> Copy</>}
       </button>
@@ -98,8 +98,8 @@ function ToolCTA({ accent, resultText }) {
   };
 
   return (
-    <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-      <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.25)' }}>
+    <div className="mt-6 pt-6" style={{ borderTop: '1px solid var(--theme-border-subtle)' }}>
+      <p className="text-xs mb-4" style={{ color: 'var(--theme-text-subtle)' }}>
         What to do with this
       </p>
       <div className="grid sm:grid-cols-2 gap-3">
@@ -107,32 +107,32 @@ function ToolCTA({ accent, resultText }) {
           to="/contact"
           state={{ service: 'Clarity Teardown' }}
           className="p-4 rounded-xl text-left transition-all duration-200"
-          style={{ background: `rgba(255,255,255,0.03)`, border: `1px solid rgba(255,255,255,0.08)` }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+          style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--theme-surface-hover)'; e.currentTarget.style.borderColor = 'var(--theme-border)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--theme-surface)'; e.currentTarget.style.borderColor = 'var(--theme-surface-border)'; }}
         >
-          <p className="text-sm font-semibold text-white mb-1">Turn this into a working plan</p>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Book a Clarity Teardown — starting at $1.5k.</p>
+          <p className="text-sm font-semibold mb-1">Turn this into a working plan</p>
+          <p className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>Book a Clarity Teardown — starting at $1.5k.</p>
         </Link>
         <Link
           to="/contact"
           state={{ toolOutput: resultText, service: 'General Inquiry' }}
           className="p-4 rounded-xl text-left transition-all duration-200"
-          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+          style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--theme-surface-hover)'; e.currentTarget.style.borderColor = 'var(--theme-border)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--theme-surface)'; e.currentTarget.style.borderColor = 'var(--theme-surface-border)'; }}
         >
-          <p className="text-sm font-semibold text-white mb-1">Send this with your inquiry</p>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Pre-fill your contact form with this result.</p>
+          <p className="text-sm font-semibold mb-1">Send this with your inquiry</p>
+          <p className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>Pre-fill your contact form with this result.</p>
         </Link>
       </div>
       <button
         onClick={handleExport}
         disabled={exporting}
         className="mt-3 w-full p-3 rounded-xl text-left text-xs transition-all duration-200 disabled:opacity-50"
-        style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.35)' }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.015)'; }}
+        style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)', color: 'var(--theme-text-subtle)' }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--theme-surface)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--theme-surface)'; }}
       >
         {exporting ? 'Exported ✓' : 'Export result as .txt'}
       </button>
@@ -150,9 +150,9 @@ function ToolInput({ value, onChange, placeholder, testid, focusColor, onExample
           type="button"
           onClick={onExample}
           className="text-xs transition-colors duration-200"
-          style={{ color: 'rgba(255,255,255,0.28)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.28)'; }}
+          style={{ color: 'var(--theme-text-subtle)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
         >
           Try an example
         </button>
@@ -165,20 +165,20 @@ function ToolInput({ value, onChange, placeholder, testid, focusColor, onExample
         rows={rows}
         maxLength={3000}
         placeholder={placeholder}
-        className="w-full resize-none rounded-xl text-sm text-white focus:outline-none"
+        className="w-full resize-none rounded-xl text-sm focus:outline-none"
         style={{
-          background: 'rgba(18,21,28,0.9)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          background: 'var(--theme-bg1)',
+          border: '1px solid var(--theme-surface-border)',
           padding: '14px 16px',
           lineHeight: '1.65',
           transition: 'border-color 200ms',
           fontFamily: 'inherit',
-          color: 'rgba(255,255,255,0.85)',
+          color: 'var(--theme-text-secondary)',
         }}
         onFocus={(e) => { e.target.style.borderColor = focusColor; }}
-        onBlur={(e) => { e.target.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+        onBlur={(e) => { e.target.style.borderColor = 'var(--theme-surface-border)'; }}
       />
-      <span className="text-xs mt-1 block" style={{ color: 'rgba(255,255,255,0.18)' }}>
+      <span className="text-xs mt-1 block" style={{ color: 'var(--theme-text-subtle)' }}>
         {value.length} / 3000
       </span>
     </div>
@@ -198,10 +198,10 @@ function SubmitButton({ loading, disabled, onClick, accent, loadingText, idleTex
         onClick={handleClick}
         disabled={loading || disabled}
         className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        style={{ background: '#ffffff', color: '#08090a' }}
+        style={{ background: 'var(--theme-text)', color: 'var(--theme-bg0)' }}
       >
         {loading
-          ? <><span className="w-3.5 h-3.5 rounded-full border-2 border-black/20 border-t-black/70 animate-spin" />{loadingText}</>
+          ? <><span className="w-3.5 h-3.5 rounded-full border-2 animate-spin" style={{ borderColor: 'var(--theme-bg-muted, rgba(0,0,0,0.2))', borderTopColor: 'var(--theme-bg0)' }} />{loadingText}</>
           : <><span>{idleText}</span>{Icon && <Icon size={13} />}</>}
       </button>
     </div>
@@ -212,20 +212,20 @@ function SubmitButton({ loading, disabled, onClick, accent, loadingText, idleTex
 
 function ChaosSkeletonLoader() {
   return (
-    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+    <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
       <div className="flex items-center gap-2 mb-5">
-        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-white/40 animate-spin" />
-        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Analyzing structure…</span>
+        <span className="w-3.5 h-3.5 rounded-full border-2 animate-spin" style={{ borderColor: 'var(--theme-border)', borderTopColor: 'var(--theme-text-subtle)' }} />
+        <span className="text-xs font-medium" style={{ color: 'var(--theme-text-subtle)' }}>Analyzing structure…</span>
       </div>
-      <Skeleton className="h-5 w-3/4 mb-3 bg-white/[0.06]" />
-      <Skeleton className="h-4 w-1/2 mb-6 bg-white/[0.04]" />
+      <Skeleton className="h-5 w-3/4 mb-3" style={{ background: 'var(--theme-surface-hover)' }} />
+      <Skeleton className="h-4 w-1/2 mb-6" style={{ background: 'var(--theme-surface)' }} />
       <div className="grid grid-cols-2 gap-3">
         {[1,2,3,4].map(i => (
-          <div key={i} className="p-4 rounded-xl" style={{ border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div key={i} className="p-4 rounded-xl" style={{ border: '1px solid var(--theme-border-subtle)' }}>
             <Skeleton className="h-3 w-8 mb-3 bg-cyan-400/10" />
-            <Skeleton className="h-4 w-3/4 mb-2 bg-white/[0.06]" />
-            <Skeleton className="h-3 w-full bg-white/[0.04]" />
-            <Skeleton className="h-3 w-2/3 mt-1 bg-white/[0.03]" />
+            <Skeleton className="h-4 w-3/4 mb-2" style={{ background: 'var(--theme-surface-hover)' }} />
+            <Skeleton className="h-3 w-full" style={{ background: 'var(--theme-surface)' }} />
+            <Skeleton className="h-3 w-2/3 mt-1" style={{ background: 'var(--theme-surface)' }} />
           </div>
         ))}
       </div>
@@ -235,10 +235,10 @@ function ChaosSkeletonLoader() {
 
 function BloatSkeletonLoader() {
   return (
-    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+    <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
       <div className="flex items-center gap-2 mb-5">
-        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-violet-400/60 animate-spin" />
-        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Scanning for feature sprawl…</span>
+        <span className="w-3.5 h-3.5 rounded-full border-2 animate-spin" style={{ borderColor: 'var(--theme-border)', borderTopColor: 'rgba(139,92,246,0.6)' }} />
+        <span className="text-xs font-medium" style={{ color: 'var(--theme-text-subtle)' }}>Scanning for feature sprawl…</span>
       </div>
       <div className="grid md:grid-cols-3 gap-3 mb-4">
         {[
@@ -246,18 +246,18 @@ function BloatSkeletonLoader() {
           { label: 'Drift', color: 'rgba(251,113,133,0.06)' },
           { label: 'Keep', color: 'rgba(139,92,246,0.06)' },
         ].map((col) => (
-          <div key={col.label} className="p-5 rounded-xl" style={{ background: col.color, border: '1px solid rgba(255,255,255,0.05)' }}>
-            <Skeleton className="h-2.5 w-16 mb-4 bg-white/[0.08]" />
-            <Skeleton className="h-4 w-full mb-2 bg-white/[0.05]" />
-            <Skeleton className="h-3 w-4/5 mb-2 bg-white/[0.04]" />
-            <Skeleton className="h-3 w-3/5 bg-white/[0.03]" />
+          <div key={col.label} className="p-5 rounded-xl" style={{ background: col.color, border: '1px solid var(--theme-border-subtle)' }}>
+            <Skeleton className="h-2.5 w-16 mb-4" style={{ background: 'var(--theme-surface-border)' }} />
+            <Skeleton className="h-4 w-full mb-2" style={{ background: 'var(--theme-surface-hover)' }} />
+            <Skeleton className="h-3 w-4/5 mb-2" style={{ background: 'var(--theme-surface)' }} />
+            <Skeleton className="h-3 w-3/5" style={{ background: 'var(--theme-surface)' }} />
           </div>
         ))}
       </div>
-      <div className="p-5 rounded-xl" style={{ border: '1px solid rgba(255,255,255,0.05)' }}>
-        <Skeleton className="h-2.5 w-24 mb-3 bg-white/[0.08]" />
-        <Skeleton className="h-4 w-full mb-2 bg-white/[0.05]" />
-        <Skeleton className="h-3 w-3/4 bg-white/[0.04]" />
+      <div className="p-5 rounded-xl" style={{ border: '1px solid var(--theme-border-subtle)' }}>
+        <Skeleton className="h-2.5 w-24 mb-3" style={{ background: 'var(--theme-surface-border)' }} />
+        <Skeleton className="h-4 w-full mb-2" style={{ background: 'var(--theme-surface-hover)' }} />
+        <Skeleton className="h-3 w-3/4" style={{ background: 'var(--theme-surface)' }} />
       </div>
     </div>
   );
@@ -265,29 +265,29 @@ function BloatSkeletonLoader() {
 
 function FrictionSkeletonLoader() {
   return (
-    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+    <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
       <div className="flex items-center gap-2 mb-5">
-        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-orange-400/60 animate-spin" />
+        <span className="w-3.5 h-3.5 rounded-full border-2 animate-spin" style={{ borderColor: 'var(--theme-border)', borderTopColor: 'rgba(249,115,22,0.6)' }} />
         <span className="text-xs font-medium" style={{ color: FRICTION_ACCENT, opacity: 0.6 }}>Auditing process flow…</span>
       </div>
       <div className="p-5 rounded-xl mb-4" style={{ background: 'rgba(249,115,22,0.04)', border: '1px solid rgba(249,115,22,0.1)' }}>
         <Skeleton className="h-2.5 w-2/5 mb-3 bg-orange-400/10" />
-        <Skeleton className="h-4 w-[90%] mb-2 bg-white/[0.06]" />
-        <Skeleton className="h-3.5 w-[70%] bg-white/[0.04]" />
+        <Skeleton className="h-4 w-[90%] mb-2" style={{ background: 'var(--theme-surface-hover)' }} />
+        <Skeleton className="h-3.5 w-[70%]" style={{ background: 'var(--theme-surface)' }} />
       </div>
       <div className="grid md:grid-cols-2 gap-4 mb-4">
         <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.08)' }}>
           <Skeleton className="h-2.5 w-1/2 mb-4 bg-rose-400/10" />
-          {[1,2,3].map(i => <Skeleton key={i} className="h-8 w-full mb-2 bg-white/[0.04]" />)}
+          {[1,2,3].map(i => <Skeleton key={i} className="h-8 w-full mb-2" style={{ background: 'var(--theme-surface)' }} />)}
         </div>
-        <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.05)' }}>
-          <Skeleton className="h-2.5 w-[55%] mb-4 bg-white/[0.08]" />
-          {[1,2,3,4].map(i => <Skeleton key={i} className="h-7 w-full mb-2 bg-white/[0.04]" />)}
+        <div className="p-5 rounded-xl" style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}>
+          <Skeleton className="h-2.5 w-[55%] mb-4" style={{ background: 'var(--theme-surface-border)' }} />
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-7 w-full mb-2" style={{ background: 'var(--theme-surface)' }} />)}
         </div>
       </div>
       <div className="p-4 rounded-xl" style={{ background: 'rgba(249,115,22,0.03)', border: '1px solid rgba(249,115,22,0.08)' }}>
         <Skeleton className="h-2.5 w-[30%] mb-3 bg-orange-400/8" />
-        <Skeleton className="h-4 w-[85%] bg-white/[0.05]" />
+        <Skeleton className="h-4 w-[85%]" style={{ background: 'var(--theme-surface-hover)' }} />
       </div>
     </div>
   );
@@ -295,37 +295,37 @@ function FrictionSkeletonLoader() {
 
 function ScopeSkeletonLoader() {
   return (
-    <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+    <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
       <div className="flex items-center gap-2 mb-5">
-        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/10 border-t-emerald-400/60 animate-spin" />
-        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Slicing scope…</span>
+        <span className="w-3.5 h-3.5 rounded-full border-2 animate-spin" style={{ borderColor: 'var(--theme-border)', borderTopColor: 'rgba(16,185,129,0.6)' }} />
+        <span className="text-xs font-medium" style={{ color: 'var(--theme-text-subtle)' }}>Slicing scope…</span>
       </div>
       {/* Core Bet */}
       <div className="p-5 rounded-xl mb-4" style={{ background: 'rgba(16,185,129,0.04)', border: '1px solid rgba(16,185,129,0.12)' }}>
         <Skeleton className="h-2.5 w-20 mb-3 bg-emerald-400/10" />
-        <Skeleton className="h-4 w-[90%] mb-2 bg-white/[0.06]" />
-        <Skeleton className="h-3 w-[60%] bg-white/[0.04]" />
+        <Skeleton className="h-4 w-[90%] mb-2" style={{ background: 'var(--theme-surface-hover)' }} />
+        <Skeleton className="h-3 w-[60%]" style={{ background: 'var(--theme-surface)' }} />
       </div>
       {/* MVP + Deferred */}
       <div className="grid md:grid-cols-2 gap-4 mb-4">
         <div className="p-5 rounded-xl" style={{ background: 'rgba(16,185,129,0.03)', border: '1px solid rgba(16,185,129,0.08)' }}>
           <Skeleton className="h-2.5 w-24 mb-4 bg-emerald-400/8" />
-          {[1,2,3].map(i => <Skeleton key={i} className="h-10 w-full mb-2 bg-white/[0.04]" />)}
+          {[1,2,3].map(i => <Skeleton key={i} className="h-10 w-full mb-2" style={{ background: 'var(--theme-surface)' }} />)}
         </div>
-        <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.05)' }}>
-          <Skeleton className="h-2.5 w-28 mb-4 bg-white/[0.08]" />
-          {[1,2,3,4].map(i => <Skeleton key={i} className="h-8 w-full mb-2 bg-white/[0.04]" />)}
+        <div className="p-5 rounded-xl" style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}>
+          <Skeleton className="h-2.5 w-28 mb-4" style={{ background: 'var(--theme-surface-border)' }} />
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-8 w-full mb-2" style={{ background: 'var(--theme-surface)' }} />)}
         </div>
       </div>
       {/* Cut + Signal */}
       <div className="grid md:grid-cols-2 gap-4">
         <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.08)' }}>
           <Skeleton className="h-2.5 w-24 mb-4 bg-rose-400/8" />
-          {[1,2].map(i => <Skeleton key={i} className="h-6 w-full mb-2 bg-white/[0.04]" />)}
+          {[1,2].map(i => <Skeleton key={i} className="h-6 w-full mb-2" style={{ background: 'var(--theme-surface)' }} />)}
         </div>
         <div className="p-4 rounded-xl" style={{ background: 'rgba(16,185,129,0.03)', border: '1px solid rgba(16,185,129,0.08)' }}>
           <Skeleton className="h-2.5 w-28 mb-3 bg-emerald-400/8" />
-          <Skeleton className="h-4 w-[85%] bg-white/[0.05]" />
+          <Skeleton className="h-4 w-[85%]" style={{ background: 'var(--theme-surface-hover)' }} />
         </div>
       </div>
     </div>
@@ -348,7 +348,7 @@ function ChaosTranslator() {
     <div
       data-testid="tools-tab-chaos-translator"
       className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
-      style={{ background: '#0c0e12', border: '1px solid rgba(0,240,255,0.1)' }}
+      style={{ background: 'var(--theme-bg1)', border: '1px solid rgba(0,240,255,0.1)' }}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(to right, transparent, rgba(0,240,255,0.3), transparent)' }} />
       <div className="relative z-10">
@@ -357,8 +357,8 @@ function ChaosTranslator() {
             <Sparkles size={16} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white mb-1">The Chaos Translator</h2>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Paste overloaded thinking. Get structure, direction, and a clear first step.</p>
+            <h2 className="text-lg font-bold mb-1">The Chaos Translator</h2>
+            <p className="text-sm" style={{ color: 'var(--theme-text-subtle)' }}>Paste overloaded thinking. Get structure, direction, and a clear first step.</p>
           </div>
         </div>
 
@@ -374,20 +374,20 @@ function ChaosTranslator() {
         {loading && <ChaosSkeletonLoader />}
 
         {result && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+          <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
             <OutputHeader accent="var(--theme-accent, #00f0ff)" copied={copied} onCopy={copy} />
             <div className="p-5 rounded-xl mb-5" style={{ background: 'rgba(0,240,255,0.035)', border: '1px solid rgba(0,240,255,0.12)' }}>
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)', fontStyle: 'italic' }}>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)', fontStyle: 'italic' }}>
                 "{result.summary}"
               </p>
             </div>
             <div className="space-y-3">
               {result.steps.map((step) => (
-                <div key={step.stepNumber} className="flex gap-5 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div key={step.stepNumber} className="flex gap-5 p-4 rounded-xl" style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}>
                   <span className="font-extrabold shrink-0" style={{ color: 'var(--theme-accent, #00f0ff)', opacity: 0.5, fontSize: '0.75rem', paddingTop: '2px', letterSpacing: '-0.02em' }}>{step.stepNumber}</span>
                   <div>
-                    <h4 className="text-white font-semibold text-sm mb-1">{step.title}</h4>
-                    <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.48)' }}>{step.content}</p>
+                    <h4 className="font-semibold text-sm mb-1">{step.title}</h4>
+                    <p className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-muted)' }}>{step.content}</p>
                   </div>
                 </div>
               ))}
@@ -419,7 +419,7 @@ function BloatDetector() {
     <div
       data-testid="tools-tab-bloat-detector"
       className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
-      style={{ background: '#0c0e12', border: '1px solid rgba(139,92,246,0.12)' }}
+      style={{ background: 'var(--theme-bg1)', border: '1px solid rgba(139,92,246,0.12)' }}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(to right, transparent, rgba(139,92,246,0.35), transparent)' }} />
       <div className="relative z-10">
@@ -428,8 +428,8 @@ function BloatDetector() {
             <ShieldAlert size={16} style={{ color: '#8b5cf6' }} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white mb-1">The Bloat Detector</h2>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Paste a feature list, pitch, or roadmap. Find the core, identify the drift, and get a cut recommendation.</p>
+            <h2 className="text-lg font-bold mb-1">The Bloat Detector</h2>
+            <p className="text-sm" style={{ color: 'var(--theme-text-subtle)' }}>Paste a feature list, pitch, or roadmap. Find the core, identify the drift, and get a cut recommendation.</p>
           </div>
         </div>
 
@@ -445,12 +445,12 @@ function BloatDetector() {
         {loading && <BloatSkeletonLoader />}
 
         {result && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+          <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
             <OutputHeader accent="#8b5cf6" copied={copied} onCopy={copy} />
             <div className="grid md:grid-cols-3 gap-3 mb-4">
               <div className="p-5 rounded-xl" style={{ background: 'rgba(0,240,255,0.03)', border: '1px solid rgba(0,240,255,0.12)' }}>
                 <p className="section-label mb-3" style={{ color: 'var(--theme-accent, #00f0ff)' }}>The True Core</p>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>{result.core_value}</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>{result.core_value}</p>
               </div>
               <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.15)' }}>
                 <p className="section-label mb-3" style={{ color: '#fb7185' }}>Off-Core Drift</p>
@@ -458,7 +458,7 @@ function BloatDetector() {
                   {result.bloat_items.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span style={{ color: '#fb7185', flexShrink: 0, marginTop: '2px', fontSize: '0.7rem' }}>—</span>
-                      <span className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{item}</span>
+                      <span className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-muted)' }}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -469,15 +469,15 @@ function BloatDetector() {
                   {result.keep_items.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span style={{ color: '#8b5cf6', flexShrink: 0, marginTop: '2px', fontSize: '0.7rem' }}>—</span>
-                      <span className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{item}</span>
+                      <span className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-muted)' }}>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="p-5 rounded-xl" style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}>
               <p className="section-label mb-3">Recommendation</p>
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.62)' }}>{result.recommendation}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>{result.recommendation}</p>
             </div>
             <ToolCTA
               accent="#8b5cf6"
@@ -513,7 +513,7 @@ function FrictionAuditor() {
     <div
       data-testid="tools-tab-friction-auditor"
       className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
-      style={{ background: '#0c0e12', border: `1px solid rgba(249,115,22,0.14)` }}
+      style={{ background: 'var(--theme-bg1)', border: `1px solid rgba(249,115,22,0.14)` }}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(to right, transparent, rgba(249,115,22,0.4), transparent)` }} />
       <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '220px', height: '220px', background: 'radial-gradient(circle, rgba(249,115,22,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
@@ -524,8 +524,8 @@ function FrictionAuditor() {
             <Zap size={16} style={{ color: FRICTION_ACCENT }} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white mb-1">The Friction Auditor</h2>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <h2 className="text-lg font-bold mb-1">The Friction Auditor</h2>
+            <p className="text-sm" style={{ color: 'var(--theme-text-subtle)' }}>
               Paste a clunky business process. Get the bottleneck diagnosed, dead steps identified, and a leaner architecture designed.
             </p>
           </div>
@@ -548,7 +548,7 @@ function FrictionAuditor() {
         {loading && <FrictionSkeletonLoader />}
 
         {result && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+          <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
             <OutputHeader accent={FRICTION_ACCENT} copied={copied} onCopy={copy} />
 
             {/* Primary Bottleneck */}
@@ -560,7 +560,7 @@ function FrictionAuditor() {
                 </div>
                 <div>
                   <p className="section-label mb-2" style={{ color: FRICTION_ACCENT }}>Primary Bottleneck</p>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.78)' }}>{result.bottleneck}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>{result.bottleneck}</p>
                 </div>
               </div>
             </div>
@@ -577,26 +577,26 @@ function FrictionAuditor() {
                     <li key={i} className="flex flex-col gap-0.5">
                       <div className="flex items-start gap-2">
                         <span className="text-xs font-semibold shrink-0" style={{ color: '#fb7185', opacity: 0.6, marginTop: '1px' }}>—</span>
-                        <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'line-through', textDecorationColor: 'rgba(251,113,133,0.35)', textDecorationThickness: '1px' }}>{item.step}</span>
+                        <span className="text-sm font-medium" style={{ color: 'var(--theme-text-secondary)', textDecoration: 'line-through', textDecorationColor: 'rgba(251,113,133,0.35)', textDecorationThickness: '1px' }}>{item.step}</span>
                       </div>
-                      <p className="text-xs leading-relaxed pl-4" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.reason}</p>
+                      <p className="text-xs leading-relaxed pl-4" style={{ color: 'var(--theme-text-subtle)' }}>{item.reason}</p>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="p-5 rounded-xl" style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}>
                 <div className="flex items-center gap-2 mb-4">
-                  <ChevronRight size={12} style={{ color: 'rgba(255,255,255,0.5)' }} />
+                  <ChevronRight size={12} style={{ color: 'var(--theme-text-muted)' }} />
                   <p className="section-label">Streamlined Architecture</p>
                 </div>
                 <ol className="space-y-0">
                   {result.streamlined_architecture.map((phase, i) => (
-                    <li key={i} className="flex gap-4 py-3" style={{ borderBottom: i < result.streamlined_architecture.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                    <li key={i} className="flex gap-4 py-3" style={{ borderBottom: '1px solid var(--theme-border-subtle)' }}>
                       <span className="font-extrabold shrink-0" style={{ fontSize: '0.75rem', color: FRICTION_ACCENT, opacity: 0.45, letterSpacing: '-0.02em', paddingTop: '2px', minWidth: '20px' }}>{phase.phase}</span>
                       <div>
-                        <p className="text-sm font-semibold text-white mb-0.5">{phase.name}</p>
-                        <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{phase.description}</p>
+                        <p className="text-sm font-semibold mb-0.5">{phase.name}</p>
+                        <p className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-subtle)' }}>{phase.description}</p>
                       </div>
                     </li>
                   ))}
@@ -611,7 +611,7 @@ function FrictionAuditor() {
               </div>
               <div>
                 <p className="section-label mb-1.5" style={{ color: FRICTION_ACCENT, opacity: 0.7 }}>Efficiency Signal</p>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.efficiency_signal}"</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)', fontStyle: 'italic' }}>"{result.efficiency_signal}"</p>
               </div>
             </div>
             <ToolCTA
@@ -649,7 +649,7 @@ function ScopeSlicer() {
     <div
       data-testid="tools-tab-scope-slicer"
       className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
-      style={{ background: '#0c0e12', border: `1px solid rgba(16,185,129,0.14)` }}
+      style={{ background: 'var(--theme-bg1)', border: `1px solid rgba(16,185,129,0.14)` }}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(to right, transparent, rgba(16,185,129,0.4), transparent)` }} />
       <div style={{ position: 'absolute', top: '-30px', left: '-30px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(16,185,129,0.04) 0%, transparent 70%)', pointerEvents: 'none' }} />
@@ -660,7 +660,7 @@ function ScopeSlicer() {
             <Scissors size={16} style={{ color: SCOPE_ACCENT }} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white mb-1">
+            <h2 className="text-lg font-bold mb-1">
               The Scope Slicer
               <span
                 className="ml-2 text-xs font-semibold px-2 py-0.5 rounded align-middle"
@@ -675,7 +675,7 @@ function ScopeSlicer() {
                 NEW
               </span>
             </h2>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="text-sm" style={{ color: 'var(--theme-text-subtle)' }}>
               Paste an ambitious project scope. Get it ruthlessly sliced to a high-leverage MVP — what to build first, what to defer, and what to cut.
             </p>
           </div>
@@ -698,7 +698,7 @@ function ScopeSlicer() {
         {loading && <ScopeSkeletonLoader />}
 
         {result && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+          <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
             <OutputHeader accent={SCOPE_ACCENT} copied={copied} onCopy={copy} />
 
             {/* Core Bet */}
@@ -710,7 +710,7 @@ function ScopeSlicer() {
                 </div>
                 <div>
                   <p className="section-label mb-2" style={{ color: SCOPE_ACCENT }}>The Core Bet</p>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)', fontStyle: 'italic' }}>"{result.core_bet}"</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)', fontStyle: 'italic' }}>"{result.core_bet}"</p>
                 </div>
               </div>
             </div>
@@ -728,28 +728,28 @@ function ScopeSlicer() {
                     <li key={i} className="flex flex-col gap-0.5">
                       <div className="flex items-start gap-2">
                         <span className="text-xs font-bold shrink-0 mt-0.5" style={{ color: SCOPE_ACCENT, opacity: 0.7 }}>→</span>
-                        <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.82)' }}>{item.feature}</span>
+                        <span className="text-sm font-semibold" style={{ color: 'var(--theme-text-secondary)' }}>{item.feature}</span>
                       </div>
-                      <p className="text-xs leading-relaxed pl-4" style={{ color: 'rgba(255,255,255,0.4)' }}>{item.reason}</p>
+                      <p className="text-xs leading-relaxed pl-4" style={{ color: 'var(--theme-text-subtle)' }}>{item.reason}</p>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Deferred */}
-              <div className="p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="p-5 rounded-xl" style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}>
                 <div className="flex items-center gap-2 mb-4">
-                  <ChevronRight size={12} style={{ color: 'rgba(255,255,255,0.5)' }} />
+                  <ChevronRight size={12} style={{ color: 'var(--theme-text-muted)' }} />
                   <p className="section-label">Defer to Later</p>
                 </div>
                 <ul className="space-y-3">
                   {result.deferred.map((item, i) => (
                     <li key={i} className="flex flex-col gap-0.5">
                       <div className="flex items-start gap-2">
-                        <span className="text-xs font-semibold px-1.5 py-0.5 rounded shrink-0" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.45)', fontSize: '0.6rem' }}>{item.version}</span>
-                        <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{item.feature}</span>
+                        <span className="text-xs font-semibold px-1.5 py-0.5 rounded shrink-0" style={{ background: 'var(--theme-surface-hover)', color: 'var(--theme-text-muted)', fontSize: '0.6rem' }}>{item.version}</span>
+                        <span className="text-sm font-medium" style={{ color: 'var(--theme-text-secondary)' }}>{item.feature}</span>
                       </div>
-                      <p className="text-xs leading-relaxed pl-10" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.reason}</p>
+                      <p className="text-xs leading-relaxed pl-10" style={{ color: 'var(--theme-text-subtle)' }}>{item.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -768,7 +768,7 @@ function ScopeSlicer() {
                   {result.cut_entirely.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span style={{ color: '#fb7185', flexShrink: 0, marginTop: '2px', fontSize: '0.7rem' }}>✕</span>
-                      <span className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through', textDecorationColor: 'rgba(251,113,133,0.3)' }}>{item}</span>
+                      <span className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-muted)', textDecoration: 'line-through', textDecorationColor: 'rgba(251,113,133,0.3)' }}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -781,7 +781,7 @@ function ScopeSlicer() {
                 </div>
                 <div>
                   <p className="section-label mb-1.5" style={{ color: SCOPE_ACCENT, opacity: 0.7 }}>Launch Signal</p>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)', fontStyle: 'italic' }}>"{result.launch_signal}"</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)', fontStyle: 'italic' }}>"{result.launch_signal}"</p>
                 </div>
               </div>
             </div>
@@ -818,7 +818,7 @@ function EntropyAudit() {
     <div
       data-testid="tools-tab-entropy-audit"
       className="p-7 md:p-10 rounded-2xl relative overflow-hidden"
-      style={{ background: '#0c0e12', border: `1px solid ${ENTROPY_ACCENT}18` }}
+      style={{ background: 'var(--theme-bg1)', border: `1px solid ${ENTROPY_ACCENT}18` }}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(to right, transparent, ${ENTROPY_ACCENT}50, transparent)` }} />
       <div className="relative z-10">
@@ -827,8 +827,8 @@ function EntropyAudit() {
             <Flame size={16} style={{ color: ENTROPY_ACCENT }} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white mb-1">The Entropy Audit</h2>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Dump your current chaos. The system will isolate the signal from the noise.</p>
+            <h2 className="text-lg font-bold mb-1">The Entropy Audit</h2>
+            <p className="text-sm" style={{ color: 'var(--theme-text-subtle)' }}>Dump your current chaos. The system will isolate the signal from the noise.</p>
           </div>
         </div>
 
@@ -843,7 +843,7 @@ function EntropyAudit() {
         {/* Domain toggle */}
         <div className="flex items-center gap-4 mt-4 mb-2">
           {['operations', 'strategy'].map((d) => (
-            <label key={d} className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: domain === d ? ENTROPY_ACCENT : 'rgba(255,255,255,0.4)' }}>
+            <label key={d} className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: domain === d ? ENTROPY_ACCENT : 'var(--theme-text-subtle)' }}>
               <input
                 type="radio"
                 name="entropy-domain"
@@ -872,7 +872,7 @@ function EntropyAudit() {
         )}
 
         {result && (
-          <div className="mt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.75rem' }}>
+          <div className="mt-8" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '1.75rem' }}>
             <OutputHeader accent={ENTROPY_ACCENT} copied={copied} onCopy={copy} />
 
             {/* 3-column output grid */}
@@ -881,13 +881,13 @@ function EntropyAudit() {
               <div
                 className="p-6 rounded-xl"
                 style={{
-                  background: 'rgba(255,255,255,0.02)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: 'var(--theme-surface)',
+                  border: '1px solid var(--theme-border-subtle)',
                   opacity: 0.6,
                 }}
               >
-                <p className="text-xs font-bold mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Noise (Ignore)</p>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{result.noise}</p>
+                <p className="text-xs font-bold mb-3" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Noise (Ignore)</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-muted)' }}>{result.noise}</p>
               </div>
 
               {/* The Signal */}
@@ -899,20 +899,20 @@ function EntropyAudit() {
                 }}
               >
                 <p className="text-xs font-bold mb-3" style={{ color: '#f59e0b', letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Signal (Fix)</p>
-                <p className="text-sm font-semibold leading-relaxed text-white">{result.signal}</p>
+                <p className="text-sm font-semibold leading-relaxed">{result.signal}</p>
               </div>
 
               {/* The Leverage */}
               <div
                 className="p-6 rounded-xl"
                 style={{
-                  background: 'rgba(15,17,21,0.95)',
+                  background: 'var(--theme-bg1)',
                   border: `1px solid ${ENTROPY_ACCENT}25`,
                 }}
               >
                 <p className="text-xs font-bold mb-3" style={{ color: ENTROPY_ACCENT, letterSpacing: '0.08em', textTransform: 'uppercase' }}>The Leverage (Execute)</p>
-                <p className="text-xl font-bold text-white mb-2">{result.leverage}</p>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>{result.leverage_detail}</p>
+                <p className="text-xl font-bold mb-2">{result.leverage}</p>
+                <p className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>{result.leverage_detail}</p>
               </div>
             </div>
 
@@ -945,19 +945,19 @@ export default function Tools() {
       <SEO title="Clarity Lab" description="AI-powered operator tools — translate chaos, detect bloat, audit friction, slice scope, and run entropy audits." path="/tools" />
       <header
         className="pt-24 pb-14 max-w-4xl mx-auto px-6"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        style={{ borderBottom: '1px solid var(--theme-border-subtle)' }}
       >
         <div className="grid md:grid-cols-2 gap-8 items-end">
           <div>
             <p className="section-label mb-4" style={{ color: 'var(--theme-accent, #00f0ff)' }}>Clarity Lab</p>
             <h1
-              className="font-extrabold tracking-tight text-white"
+              className="font-extrabold tracking-tight"
               style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.06 }}
             >
               Operator tools.<br />
               <span
                 style={{
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(170,176,188,0.82) 100%)',
+                  background: 'linear-gradient(180deg, var(--theme-text) 0%, var(--theme-text-secondary) 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -968,7 +968,7 @@ export default function Tools() {
             </h1>
           </div>
           <div>
-            <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}>
               Five working instruments built from the same clarity-first framework.
               Run them against real problems for real output.
             </p>
@@ -984,8 +984,8 @@ export default function Tools() {
           aria-label="Clarity Lab tools"
           className="flex gap-1 mb-8 p-1 rounded-xl overflow-x-auto"
           style={{
-            background: 'rgba(18,21,28,0.95)',
-            border: '1px solid rgba(255,255,255,0.07)',
+            background: 'var(--theme-bg1)',
+            border: '1px solid var(--theme-surface-border)',
             scrollbarWidth: 'none',
             WebkitOverflowScrolling: 'touch',
           }}
@@ -1003,8 +1003,8 @@ export default function Tools() {
                 onClick={() => setActiveTab(tab.key)}
                 className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
                 style={{
-                  background: isActive ? '#ffffff' : 'transparent',
-                  color: isActive ? '#08090a' : 'rgba(255,255,255,0.45)',
+                  background: isActive ? 'var(--theme-text)' : 'transparent',
+                  color: isActive ? 'var(--theme-bg0)' : 'var(--theme-text-subtle)',
                   flexShrink: 0,
                 }}
               >
@@ -1012,7 +1012,7 @@ export default function Tools() {
                   <span
                     className="inline-block w-1.5 h-1.5 rounded-full"
                     style={{
-                      background: isActive ? '#08090a' : tab.accent,
+                      background: isActive ? 'var(--theme-bg0)' : tab.accent,
                       opacity: isActive ? 0.4 : 0.7,
                     }}
                   />
@@ -1041,7 +1041,7 @@ export default function Tools() {
 
         <p
           className="mt-8 text-xs text-center"
-          style={{ color: 'rgba(255,255,255,0.2)' }}
+          style={{ color: 'var(--theme-text-subtle)' }}
         >
           Powered by AI. Output is directional, not prescriptive. Part of the Nemurium operator toolkit.
         </p>

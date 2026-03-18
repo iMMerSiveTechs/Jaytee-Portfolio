@@ -66,7 +66,7 @@ export default function Home() {
                   <span
                     style={{
                       display: 'block',
-                      background: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(180,185,195,0.4) 100%)',
+                      background: 'linear-gradient(180deg, var(--theme-text-muted) 0%, var(--theme-text-subtle) 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
@@ -74,7 +74,7 @@ export default function Home() {
                   >
                     Turns ambiguity into
                   </span>
-                  <span style={{ display: 'block', color: '#ffffff' }}>
+                  <span style={{ display: 'block', color: 'var(--theme-text)' }}>
                     structure, direction,
                   </span>
                   <span
@@ -93,7 +93,7 @@ export default function Home() {
               <Reveal delay={0.3}>
                 <p
                   className="text-lg md:text-xl leading-relaxed mb-10 max-w-lg"
-                  style={{ color: 'rgba(255,255,255,0.52)', fontWeight: 300 }}
+                  style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}
                 >
                   Founder, systems strategist, and product builder working across life, business, and immersive technology ecosystems.
                 </p>
@@ -105,15 +105,15 @@ export default function Home() {
                     data-testid="hero-cta-primary"
                     className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold transition-all duration-200 relative overflow-hidden"
                     style={{
-                      boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                      boxShadow: '0 4px 20px var(--theme-border)',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+                      e.currentTarget.style.boxShadow = '0 8px 30px var(--theme-border)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+                      e.currentTarget.style.boxShadow = '0 4px 20px var(--theme-border)';
                     }}
                   >
                     <span className="relative z-10">Selected Work</span>
@@ -122,7 +122,7 @@ export default function Home() {
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                       style={{
-                        background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                        background: 'linear-gradient(135deg, transparent 0%, var(--theme-border) 50%, transparent 100%)',
                         backgroundSize: '200% 100%',
                         animation: 'shimmer 2s ease-in-out infinite',
                       }}
@@ -133,19 +133,19 @@ export default function Home() {
                     data-testid="hero-cta-secondary"
                     className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200"
                     style={{
-                      border: '1px solid rgba(255,255,255,0.10)',
-                      background: 'rgba(255,255,255,0.025)',
-                      color: 'rgba(255,255,255,0.72)',
+                      border: '1px solid var(--theme-border)',
+                      background: 'var(--theme-surface)',
+                      color: 'var(--theme-text-secondary)',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = 'var(--theme-accent, #00f0ff)';
                       e.currentTarget.style.borderColor = 'var(--theme-accent, #00f0ff)';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                      e.currentTarget.style.background = 'var(--theme-surface-hover)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.72)';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.025)';
+                      e.currentTarget.style.color = 'var(--theme-text-secondary)';
+                      e.currentTarget.style.borderColor = 'var(--theme-border)';
+                      e.currentTarget.style.background = 'var(--theme-surface)';
                     }}
                   >
                     How I Engage <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -160,19 +160,19 @@ export default function Home() {
                 <div
                   className="rounded-2xl overflow-hidden"
                   style={{
-                    background: 'rgba(15,17,21,0.85)',
-                    border: '1px solid rgba(255,255,255,0.07)',
+                    background: 'var(--theme-bg1)',
+                    border: '1px solid var(--theme-surface-border)',
                   }}
                 >
                   {/* Panel header */}
                   <div
                     className="px-6 py-4 flex items-center justify-between"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                    style={{ borderBottom: '1px solid var(--theme-border-subtle)' }}
                   >
                     <span className="section-label">Operator signal</span>
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
-                      <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'var(--theme-text-subtle)' }} />
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'var(--theme-text-subtle)' }} />
                       <span className="w-2 h-2 rounded-full" style={{ background: 'var(--theme-accent, #00f0ff)', opacity: 0.7 }} />
                     </div>
                   </div>
@@ -180,13 +180,13 @@ export default function Home() {
                   <div className="px-6 py-5 space-y-4">
                   <p
                     className="text-sm leading-relaxed"
-                    style={{ color: 'rgba(255,255,255,0.62)', fontWeight: 300 }}
+                    style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}
                   >
                     I work where things are overloaded, fragmented, or drifting off-core—and turn them into usable systems.
                   </p>
                   <div
                     className="space-y-3 pt-4"
-                    style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
+                    style={{ borderTop: '1px solid var(--theme-border-subtle)' }}
                   >
                     {[
                       { k: 'Focus', v: 'Systems · Strategy · Product' },
@@ -195,10 +195,10 @@ export default function Home() {
                       { k: 'Current status', v: 'Taking selective work' },
                     ].map(({ k, v }) => (
                       <div key={k} className="flex items-center justify-between text-xs">
-                        <span style={{ color: 'rgba(255,255,255,0.35)' }}>{k}</span>
+                        <span style={{ color: 'var(--theme-text-subtle)' }}>{k}</span>
                         <span
                           className="font-medium"
-                          style={{ color: 'rgba(255,255,255,0.72)' }}
+                          style={{ color: 'var(--theme-text-secondary)' }}
                         >
                           {v}
                         </span>
@@ -218,19 +218,19 @@ export default function Home() {
         <div
           data-testid="ecosystem-signal-strip"
           style={{
-            borderTop: '1px solid rgba(255,255,255,0.05)',
-          borderBottom: '1px solid rgba(255,255,255,0.05)',
-          background: 'rgba(255,255,255,0.015)',
+            borderTop: '1px solid var(--theme-border-subtle)',
+          borderBottom: '1px solid var(--theme-border-subtle)',
+          background: 'var(--theme-surface)',
         }}
       >
         <div className="max-w-6xl mx-auto px-6 py-3.5">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <span className="section-label" style={{ color: 'rgba(255,255,255,0.28)', flexShrink: 0 }}>
+            <span className="section-label" style={{ color: 'var(--theme-text-subtle)', flexShrink: 0 }}>
               The Ecosystem
             </span>
             <div
               className="hidden md:block"
-              style={{ width: '1px', height: '14px', background: 'rgba(255,255,255,0.1)' }}
+              style={{ width: '1px', height: '14px', background: 'var(--theme-border)' }}
             />
             {[
               { label: 'Nemurium', sub: 'Immersive Ecosystem', testid: 'ecosystem-signal-nemurium', color: 'rgba(139,92,246,0.85)' },
@@ -241,7 +241,7 @@ export default function Home() {
                 {i > 0 && (
                   <span
                     className="hidden md:inline"
-                    style={{ color: 'rgba(255,255,255,0.1)', fontSize: '0.75rem' }}
+                    style={{ color: 'var(--theme-border)', fontSize: '0.75rem' }}
                   >
                     /
                   </span>
@@ -258,7 +258,7 @@ export default function Home() {
                   </span>
                   <span
                     className="text-xs hidden sm:inline"
-                    style={{ color: 'rgba(255,255,255,0.28)' }}
+                    style={{ color: 'var(--theme-text-subtle)' }}
                   >
                     {item.sub}
                   </span>
@@ -272,7 +272,7 @@ export default function Home() {
 
       {/* ─── PROOF OF WORK ──────────────────────────────────────── */}
       <Reveal delay={0.3}>
-        <section className="py-12 md:py-14" style={{ background: 'rgba(15,17,21,0.25)' }}>
+        <section className="py-12 md:py-14" style={{ background: 'var(--theme-bg1)' }}>
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -285,17 +285,17 @@ export default function Home() {
                   key={card.label}
                   className="rounded-xl p-5"
                   style={{
-                    background: 'rgba(255,255,255,0.02)',
-                    border: '1px solid rgba(255,255,255,0.06)',
+                    background: 'var(--theme-surface)',
+                    border: '1px solid var(--theme-border-subtle)',
                   }}
                 >
                   <div className="text-2xl font-extrabold mb-1" style={{ color: 'var(--theme-accent, #00f0ff)' }}>
                     {card.value}
                   </div>
-                  <div className="text-xs font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                  <div className="text-xs font-semibold mb-1" style={{ color: 'var(--theme-text-muted)' }}>
                     {card.label}
                   </div>
-                  <div className="text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>
+                  <div className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                     {card.sub}
                   </div>
                 </div>
@@ -309,7 +309,7 @@ export default function Home() {
       <section
         data-testid="operating-sequence"
         className="py-24 md:py-28"
-        style={{ background: 'rgba(15,17,21,0.35)' }}
+        style={{ background: 'var(--theme-bg1)' }}
       >
         <div className="max-w-6xl mx-auto px-6">
           <Reveal delay={0.2}>
@@ -318,7 +318,7 @@ export default function Home() {
               <p className="section-label mb-3">Signature Process</p>
               <h2
                 className="font-extrabold tracking-tight"
-                style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', color: '#ffffff' }}
+                style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', color: 'var(--theme-text)' }}
               >
                 The Operating Sequence
               </h2>
@@ -355,8 +355,8 @@ export default function Home() {
               <div className="lg:col-span-7">
                 <p className="section-label mb-4">Selected Systems</p>
                 <h2
-                  className="font-extrabold tracking-tight text-white mb-5"
-                  style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.08 }}
+                  className="font-extrabold tracking-tight mb-5"
+                  style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.08, color: 'var(--theme-text)' }}
               >
                 Where the method becomes something usable.
               </h2>
@@ -364,7 +364,7 @@ export default function Home() {
             <div className="lg:col-span-5 lg:pt-10">
               <p
                 className="text-base leading-relaxed"
-                style={{ color: 'rgba(255,255,255,0.42)', fontWeight: 300 }}
+                style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
               >
                 These projects reflect how I apply the same thinking across different problem spaces: operational friction, consumer clarity, and systems people need to rely on in real life.
               </p>
@@ -381,7 +381,7 @@ export default function Home() {
               data-testid="selected-system-job-forge"
               className="lg:col-span-7 rounded-2xl relative overflow-hidden"
               style={{
-                background: '#0f1115',
+                background: 'var(--theme-bg1)',
                 border: '1px solid rgba(0,240,255,0.18)',
                 minHeight: '380px',
               }}
@@ -417,7 +417,7 @@ export default function Home() {
                     </span>
                     <span
                       className="text-xs"
-                      style={{ color: 'rgba(255,255,255,0.2)' }}
+                      style={{ color: 'var(--theme-text-subtle)' }}
                     >
                       VibeForge Studios
                     </span>
@@ -434,21 +434,21 @@ export default function Home() {
                     </span>
                   </div>
                   <h3
-                    className="font-extrabold tracking-tight text-white mb-4"
-                    style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', lineHeight: 1.08 }}
+                    className="font-extrabold tracking-tight mb-4"
+                    style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', lineHeight: 1.08, color: 'var(--theme-text)' }}
                   >
                     Job Forge
                   </h3>
                   <p
                     className="text-base leading-relaxed mb-8"
-                    style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 300, maxWidth: '36rem' }}
+                    style={{ color: 'var(--theme-text-muted)', fontWeight: 300, maxWidth: '36rem' }}
                   >
                     A field-first system designed to reduce friction between the work itself and the operational layers around it. Structure the mess, protect the core, and make the system easier to use under real conditions.
                   </p>
                 </div>
                 <div
                   className="pt-5 flex items-center justify-between"
-                  style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+                  style={{ borderTop: '1px solid var(--theme-surface-border)' }}
                 >
                   <span
                     className="text-sm font-medium"
@@ -459,9 +459,9 @@ export default function Home() {
                   <Link
                     to="/work"
                     className="inline-flex items-center gap-1 text-xs transition-colors duration-200"
-                    style={{ color: 'rgba(255,255,255,0.3)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; }}
+                    style={{ color: 'var(--theme-text-subtle)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
                   >
                     View <ArrowRight size={11} />
                   </Link>
@@ -474,13 +474,13 @@ export default function Home() {
               data-testid="selected-system-churnwise"
               className="lg:col-span-5 rounded-2xl relative overflow-hidden"
               style={{
-                background: '#0f1115',
-                border: '1px solid rgba(255,255,255,0.07)',
+                background: 'var(--theme-bg1)',
+                border: '1px solid var(--theme-surface-border)',
                 minHeight: '380px',
                 transition: 'border-color 220ms',
               }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.22)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--theme-surface-border)'; }}
             >
               <div style={{
                 position: 'absolute', inset: 0,
@@ -510,13 +510,14 @@ export default function Home() {
                     </span>
                   </div>
                   <h3
-                    className="text-2xl font-extrabold text-white tracking-tight mb-4"
+                    className="text-2xl font-extrabold tracking-tight mb-4"
+                    style={{ color: 'var(--theme-text)' }}
                   >
                     ChurnWise
                   </h3>
                   <p
                     className="text-sm leading-relaxed mb-6"
-                    style={{ color: 'rgba(255,255,255,0.48)', fontWeight: 300 }}
+                    style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
                   >
                     A cleaner, more focused way to understand and manage subscription drag. Turning a common frustration into something more visible, usable, and controlled.
                   </p>
@@ -534,7 +535,7 @@ export default function Home() {
                         />
                         <span
                           className="text-xs whitespace-nowrap"
-                          style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.6rem' }}
+                          style={{ color: 'var(--theme-text-subtle)', fontSize: '0.6rem' }}
                         >
                           {sig}
                         </span>
@@ -544,7 +545,7 @@ export default function Home() {
                 </div>
                 <div
                   className="pt-5"
-                  style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+                  style={{ borderTop: '1px solid var(--theme-border-subtle)' }}
                 >
                   <span className="text-sm font-medium" style={{ color: '#3b82f6' }}>
                     Clear product thinking applied to everyday software.
@@ -559,8 +560,8 @@ export default function Home() {
             data-testid="selected-system-transplant-tracker"
             className="rounded-2xl"
             style={{
-              background: 'rgba(15,17,21,0.45)',
-              border: '1px solid rgba(255,255,255,0.055)',
+              background: 'var(--theme-bg1)',
+              border: '1px solid var(--theme-border-subtle)',
             }}
           >
             <div className="p-7 md:p-8 flex flex-col md:flex-row gap-6 md:gap-12 items-start">
@@ -570,9 +571,9 @@ export default function Home() {
                   <span
                     className="text-xs px-2 py-0.5 rounded"
                     style={{
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.07)',
-                      color: 'rgba(255,255,255,0.35)',
+                      background: 'var(--theme-surface)',
+                      border: '1px solid var(--theme-surface-border)',
+                      color: 'var(--theme-text-subtle)',
                     }}
                   >
                     Working title
@@ -590,10 +591,10 @@ export default function Home() {
                     Active Build
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-white tracking-tight mb-3">Transplant Tracker</h3>
+                <h3 className="text-xl font-bold tracking-tight mb-3" style={{ color: 'var(--theme-text)' }}>Transplant Tracker</h3>
                 <p
                   className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.42)', fontWeight: 300, maxWidth: '34rem' }}
+                  style={{ color: 'var(--theme-text-subtle)', fontWeight: 300, maxWidth: '34rem' }}
                 >
                   A more personal and medically relevant system built around continuity, consistency, and everyday management after a major health event. The clarity-first process applies just as much to human-support systems as it does to products and operations.
                 </p>
@@ -602,7 +603,7 @@ export default function Home() {
                 className="md:w-56 shrink-0"
                 style={{
                   paddingLeft: '2rem',
-                  borderLeft: '1px solid rgba(255,255,255,0.06)',
+                  borderLeft: '1px solid var(--theme-border-subtle)',
                 }}
               >
                 <p
@@ -618,16 +619,16 @@ export default function Home() {
           <div className="mt-10 flex items-center justify-between">
             <div
               className="text-xs"
-              style={{ color: 'rgba(255,255,255,0.2)' }}
+              style={{ color: 'var(--theme-text-subtle)' }}
             >
               Across the Nemurium ecosystem.
             </div>
             <Link
               to="/work"
               className="inline-flex items-center gap-2 text-sm transition-colors duration-200"
-              style={{ color: 'rgba(255,255,255,0.38)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.72)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.38)'; }}
+              style={{ color: 'var(--theme-text-subtle)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
             >
               Full portfolio and context <ArrowRight size={13} />
             </Link>
@@ -640,8 +641,8 @@ export default function Home() {
       <section
         className="py-20 md:py-24"
         style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(15,17,21,0.45)',
+          borderTop: '1px solid var(--theme-border-subtle)',
+          background: 'var(--theme-bg1)',
           backgroundImage: DOT_GRID,
         }}
       >
@@ -651,14 +652,14 @@ export default function Home() {
               <div>
                 <p className="section-label mb-3" style={{ color: 'var(--theme-accent, #00f0ff)' }}>Clarity Lab</p>
                 <h2
-                  className="font-extrabold text-white tracking-tight mb-5"
-                  style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
+                  className="font-extrabold tracking-tight mb-5"
+                  style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', color: 'var(--theme-text)' }}
                 >
                   Tools built from the method.
                 </h2>
                 <p
                   className="text-base leading-relaxed mb-8"
-                  style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, maxWidth: '32rem' }}
+                  style={{ color: 'var(--theme-text-subtle)', fontWeight: 300, maxWidth: '32rem' }}
                 >
                   I build operator tools to accelerate the clarity process. Not demos—instruments. Designed to structure chaos and surface product drift in real time.
                 </p>
@@ -667,15 +668,15 @@ export default function Home() {
                   data-testid="tools-preview-cta"
                   className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold transition-all duration-200"
                   style={{
-                    boxShadow: '0 4px 20px rgba(255,255,255,0.08)',
+                    boxShadow: '0 4px 20px var(--theme-surface-border)',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.12)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px var(--theme-border)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.08)';
+                    e.currentTarget.style.boxShadow = '0 4px 20px var(--theme-surface-border)';
                   }}
                 >
                   Enter the Lab <ArrowUpRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -689,7 +690,7 @@ export default function Home() {
               <div
                 className="p-5 rounded-xl flex items-start gap-4"
                 style={{
-                  background: 'rgba(22,25,32,0.85)',
+                  background: 'var(--theme-bg2)',
                   border: '1px solid rgba(0,240,255,0.12)',
                 }}
               >
@@ -700,8 +701,8 @@ export default function Home() {
                   <Sparkles size={15} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm mb-1">The Chaos Translator</h4>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
+                  <h4 className="font-bold text-sm mb-1" style={{ color: 'var(--theme-text)' }}>The Chaos Translator</h4>
+                  <p className="text-xs" style={{ color: 'var(--theme-text-subtle)', lineHeight: '1.5' }}>
                     Paste messy thinking. Get structured clarity—summary, steps, and a diagnosis of the actual problem.
                   </p>
                 </div>
@@ -709,7 +710,7 @@ export default function Home() {
               <div
                 className="p-5 rounded-xl flex items-start gap-4"
                 style={{
-                  background: 'rgba(22,25,32,0.85)',
+                  background: 'var(--theme-bg2)',
                   border: '1px solid rgba(139,92,246,0.12)',
                 }}
               >
@@ -720,8 +721,8 @@ export default function Home() {
                   <ShieldAlert size={15} style={{ color: '#8b5cf6' }} />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm mb-1">The Bloat Detector</h4>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
+                  <h4 className="font-bold text-sm mb-1" style={{ color: 'var(--theme-text)' }}>The Bloat Detector</h4>
+                  <p className="text-xs" style={{ color: 'var(--theme-text-subtle)', lineHeight: '1.5' }}>
                     Paste a feature list or pitch. Identify what's core, what's off-core, and what to cut first.
                   </p>
                 </div>
@@ -729,7 +730,7 @@ export default function Home() {
               <div
                 className="p-5 rounded-xl flex items-start gap-4"
                 style={{
-                  background: 'rgba(22,25,32,0.85)',
+                  background: 'var(--theme-bg2)',
                   border: '1px solid rgba(249,115,22,0.12)',
                 }}
               >
@@ -740,7 +741,7 @@ export default function Home() {
                   <Zap size={15} style={{ color: '#f97316' }} />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm mb-1 flex items-center gap-2">
+                  <h4 className="font-bold text-sm mb-1 flex items-center gap-2" style={{ color: 'var(--theme-text)' }}>
                     The Friction Auditor
                     <span
                       className="text-[0.5rem] font-semibold px-1.5 py-0.5 rounded"
@@ -754,7 +755,7 @@ export default function Home() {
                       NEW
                     </span>
                   </h4>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
+                  <p className="text-xs" style={{ color: 'var(--theme-text-subtle)', lineHeight: '1.5' }}>
                     Paste a clunky business process. Get the bottleneck diagnosed, dead steps identified, and a leaner architecture designed.
                   </p>
                 </div>
@@ -762,7 +763,7 @@ export default function Home() {
               <div
                 className="p-5 rounded-xl flex items-start gap-4"
                 style={{
-                  background: 'rgba(22,25,32,0.85)',
+                  background: 'var(--theme-bg2)',
                   border: '1px solid rgba(37,99,235,0.12)',
                 }}
               >
@@ -773,7 +774,7 @@ export default function Home() {
                   <Zap size={15} style={{ color: '#2563eb' }} />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm mb-1 flex items-center gap-2">
+                  <h4 className="font-bold text-sm mb-1 flex items-center gap-2" style={{ color: 'var(--theme-text)' }}>
                     The Entropy Audit
                     <span
                       className="text-[0.5rem] font-semibold px-1.5 py-0.5 rounded"
@@ -787,7 +788,7 @@ export default function Home() {
                       NEW
                     </span>
                   </h4>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)', lineHeight: '1.5' }}>
+                  <p className="text-xs" style={{ color: 'var(--theme-text-subtle)', lineHeight: '1.5' }}>
                     Dump your current chaos. Isolate the noise, find the signal, and get one high-leverage action.
                   </p>
                 </div>
@@ -801,7 +802,7 @@ export default function Home() {
       {/* ─── WORK WITH ME PREVIEW ────────────────────────────────── */}
       <section
         className="py-20 md:py-28"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        style={{ borderTop: '1px solid var(--theme-border-subtle)' }}
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-8 items-start">
@@ -809,14 +810,14 @@ export default function Home() {
               <div className="lg:col-span-4">
                 <p className="section-label mb-3">Work With Me</p>
                 <h2
-                  className="font-extrabold text-white tracking-tight mb-5"
-                  style={{ fontSize: 'clamp(1.75rem, 2.5vw, 2.25rem)' }}
+                  className="font-extrabold tracking-tight mb-5"
+                  style={{ fontSize: 'clamp(1.75rem, 2.5vw, 2.25rem)', color: 'var(--theme-text)' }}
                 >
                   Four ways to engage.
                 </h2>
                 <p
                   className="text-sm leading-relaxed mb-8"
-                  style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}
+                  style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
                 >
                   I take on a small number of engagements at a time. Each is direct, outcomes-focused, and scoped for the actual problem.
                 </p>
@@ -850,16 +851,16 @@ export default function Home() {
                     <div
                       className="p-5 rounded-xl relative"
                       style={{
-                        background: svc.flagship ? 'rgba(15,17,21,0.9)' : '#0f1115',
+                        background: svc.flagship ? 'var(--theme-bg1)' : 'var(--theme-bg1)',
                         border: svc.flagship
                           ? '1px solid rgba(0,240,255,0.18)'
-                          : '1px solid rgba(255,255,255,0.07)',
+                          : '1px solid var(--theme-surface-border)',
                       }}
                     >
                       <div className="section-label mb-2" style={{ color: svc.accent, fontSize: '0.55rem' }}>{svc.num}</div>
-                      <h3 className="text-sm font-bold text-white mb-2">{svc.title}</h3>
-                      <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{svc.sub}</p>
-                      {svc.pricing && <p className="text-xs mt-1.5 font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>{svc.pricing}</p>}
+                      <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--theme-text)' }}>{svc.title}</h3>
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}>{svc.sub}</p>
+                      {svc.pricing && <p className="text-xs mt-1.5 font-medium" style={{ color: 'var(--theme-text-muted)' }}>{svc.pricing}</p>}
                     </div>
                   </Reveal>
                 ))}
@@ -873,8 +874,8 @@ export default function Home() {
       <section
         className="py-24 md:py-32 relative overflow-hidden"
         style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(12,13,16,0.8)',
+          borderTop: '1px solid var(--theme-border-subtle)',
+          background: 'var(--theme-bg0)',
         }}
       >
         <div
@@ -887,15 +888,15 @@ export default function Home() {
           <div className="max-w-2xl">
             <p className="section-label mb-4">Let's talk</p>
             <h2
-              className="font-extrabold text-white tracking-tight mb-5"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', lineHeight: 1.08 }}
+              className="font-extrabold tracking-tight mb-5"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', lineHeight: 1.08, color: 'var(--theme-text)' }}
             >
               If something is overloaded, fragmented, or drifting—
-              <span style={{ color: 'rgba(255,255,255,0.45)' }}> that's the conversation.</span>
+              <span style={{ color: 'var(--theme-text-subtle)' }}> that's the conversation.</span>
             </h2>
             <p
               className="text-base leading-relaxed mb-10"
-              style={{ color: 'rgba(255,255,255,0.42)', fontWeight: 300 }}
+              style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
             >
               Whether you're forming an early-stage product, navigating business friction, or need clarity under pressure—reach out directly.
             </p>
@@ -910,11 +911,11 @@ export default function Home() {
                 to="/work-with-me"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-medium transition-colors duration-200"
                 style={{
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  color: 'rgba(255,255,255,0.55)',
+                  border: '1px solid var(--theme-border)',
+                  color: 'var(--theme-text-muted)',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'; }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; e.currentTarget.style.borderColor = 'var(--theme-border)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; e.currentTarget.style.borderColor = 'var(--theme-border)'; }}
               >
                 View Engagements <ArrowRight size={14} />
               </Link>

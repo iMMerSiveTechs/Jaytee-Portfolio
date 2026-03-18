@@ -152,8 +152,8 @@ export default function CaseStudy() {
   if (!study) {
     return (
       <div className="pt-28 max-w-2xl mx-auto px-6 text-center">
-        <p className="text-white/40 mb-6">Case study not found.</p>
-        <button onClick={() => navigate('/work')} className="text-sm text-white/50 hover:text-white transition-colors duration-200">
+        <p className="mb-6" style={{ color: 'var(--theme-text-subtle)' }}>Case study not found.</p>
+        <button onClick={() => navigate('/work')} className="text-sm transition-colors duration-200" style={{ color: 'var(--theme-text-muted)' }}>
           Back to Work
         </button>
       </div>
@@ -179,9 +179,9 @@ export default function CaseStudy() {
           <Link
             to="/work"
             className="group inline-flex items-center gap-2 text-sm mb-12 transition-colors duration-200"
-            style={{ color: 'rgba(255,255,255,0.4)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+            style={{ color: 'var(--theme-text-subtle)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
           >
             <ArrowLeft size={14} className="transition-transform duration-200 group-hover:-translate-x-1" />
             Back to Work
@@ -196,17 +196,17 @@ export default function CaseStudy() {
               <span
                 className="text-xs px-2 py-0.5 rounded"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  color: 'rgba(255,255,255,0.35)',
+                  background: 'var(--theme-surface)',
+                  border: '1px solid var(--theme-surface-border)',
+                  color: 'var(--theme-text-subtle)',
                 }}
               >
                 {study.tag}
               </span>
             </div>
             <h1
-              className="font-extrabold text-white tracking-tight mb-4"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1.07 }}
+              className="font-extrabold tracking-tight mb-4"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1.07, color: 'var(--theme-text)' }}
             >
               {study.title}
             </h1>
@@ -222,55 +222,55 @@ export default function CaseStudy() {
             {/* Status */}
             <div
               className="rounded-xl p-4"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-hover)' }}
             >
               <div className="flex items-center gap-2 mb-2">
                 <span
                   className="w-2 h-2 rounded-full"
-                  style={{ background: STATUS_COLORS[study.status] || 'rgba(255,255,255,0.3)' }}
+                  style={{ background: STATUS_COLORS[study.status] || 'var(--theme-text-subtle)' }}
                 />
-                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Status</span>
+                <span className="text-xs font-semibold" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Status</span>
               </div>
-              <p className="text-sm font-semibold" style={{ color: STATUS_COLORS[study.status] || 'rgba(255,255,255,0.5)' }}>
+              <p className="text-sm font-semibold" style={{ color: STATUS_COLORS[study.status] || 'var(--theme-text-muted)' }}>
                 {study.statusLabel}
               </p>
             </div>
             {/* Audience */}
             <div
               className="rounded-xl p-4"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-hover)' }}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Users size={12} style={{ color: 'rgba(255,255,255,0.3)' }} />
-                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Built For</span>
+                <Users size={12} style={{ color: 'var(--theme-text-subtle)' }} />
+                <span className="text-xs font-semibold" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Built For</span>
               </div>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+              <p className="text-sm" style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}>
                 {study.audience}
               </p>
             </div>
             {/* Friction */}
             <div
               className="rounded-xl p-4"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-hover)' }}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Zap size={12} style={{ color: 'rgba(255,255,255,0.3)' }} />
-                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Core Friction</span>
+                <Zap size={12} style={{ color: 'var(--theme-text-subtle)' }} />
+                <span className="text-xs font-semibold" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Core Friction</span>
               </div>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+              <p className="text-sm" style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}>
                 {study.friction}
               </p>
             </div>
             {/* Strategic Value */}
             <div
               className="rounded-xl p-4"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-hover)' }}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Target size={12} style={{ color: 'rgba(255,255,255,0.3)' }} />
-                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Why It Matters</span>
+                <Target size={12} style={{ color: 'var(--theme-text-subtle)' }} />
+                <span className="text-xs font-semibold" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Why It Matters</span>
               </div>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
+              <p className="text-sm" style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}>
                 {study.strategic}
               </p>
             </div>
@@ -287,11 +287,11 @@ export default function CaseStudy() {
               >
                 <span className="text-xs font-bold" style={{ color: study.accent }}>01</span>
               </div>
-              <h2 className="text-xl font-bold text-white">{study.ambiguity.heading}</h2>
+              <h2 className="text-xl font-bold" style={{ color: 'var(--theme-text)' }}>{study.ambiguity.heading}</h2>
             </div>
             <p
               className="text-base leading-[1.85]"
-              style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, maxWidth: '42rem' }}
+              style={{ color: 'var(--theme-text-muted)', fontWeight: 300, maxWidth: '42rem' }}
             >
               {study.ambiguity.content}
             </p>
@@ -308,7 +308,7 @@ export default function CaseStudy() {
               >
                 <span className="text-xs font-bold" style={{ color: study.accent }}>02</span>
               </div>
-              <h2 className="text-xl font-bold text-white">{study.architecture.heading}</h2>
+              <h2 className="text-xl font-bold" style={{ color: 'var(--theme-text)' }}>{study.architecture.heading}</h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
               {study.architecture.phases.map((phase, i) => {
@@ -318,15 +318,15 @@ export default function CaseStudy() {
                     key={i}
                     className="rounded-xl p-5"
                     style={{
-                      background: 'rgba(255,255,255,0.02)',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      background: 'var(--theme-surface)',
+                      border: '1px solid var(--theme-surface-hover)',
                     }}
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <Icon size={16} style={{ color: study.accent }} />
-                      <h3 className="text-sm font-bold text-white">{phase.title}</h3>
+                      <h3 className="text-sm font-bold" style={{ color: 'var(--theme-text)' }}>{phase.title}</h3>
                     </div>
-                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300 }}>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}>
                       {phase.desc}
                     </p>
                   </div>
@@ -346,11 +346,11 @@ export default function CaseStudy() {
               >
                 <span className="text-xs font-bold" style={{ color: study.accent }}>03</span>
               </div>
-              <h2 className="text-xl font-bold text-white">{study.leverage.heading}</h2>
+              <h2 className="text-xl font-bold" style={{ color: 'var(--theme-text)' }}>{study.leverage.heading}</h2>
             </div>
             <p
               className="text-base leading-[1.85] mb-8"
-              style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, maxWidth: '42rem' }}
+              style={{ color: 'var(--theme-text-muted)', fontWeight: 300, maxWidth: '42rem' }}
             >
               {study.leverage.content}
             </p>
@@ -360,11 +360,11 @@ export default function CaseStudy() {
               <div className="grid sm:grid-cols-2 gap-4 mb-8">
                 <div className="p-5 rounded-xl" style={{ background: 'rgba(251,113,133,0.03)', border: '1px solid rgba(251,113,133,0.12)' }}>
                   <p className="text-xs font-semibold mb-2" style={{ color: '#fb7185', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>Before</p>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 300 }}>{study.leverage.before}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}>{study.leverage.before}</p>
                 </div>
                 <div className="p-5 rounded-xl" style={{ background: 'rgba(52,211,153,0.03)', border: '1px solid rgba(52,211,153,0.12)' }}>
                   <p className="text-xs font-semibold mb-2" style={{ color: '#34d399', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.6rem' }}>After</p>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 300 }}>{study.leverage.after}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}>{study.leverage.after}</p>
                 </div>
               </div>
             )}
@@ -382,14 +382,14 @@ export default function CaseStudy() {
                   <div className="text-2xl font-extrabold mb-1" style={{ color: study.accent }}>
                     {metric.value}
                   </div>
-                  <div className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  <div className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                     {metric.label}
                   </div>
                 </div>
               ))}
             </div>
             {study.leverage.metricsSource && (
-              <p className="text-xs mt-3 text-right" style={{ color: 'rgba(255,255,255,0.2)', fontStyle: 'italic' }}>
+              <p className="text-xs mt-3 text-right" style={{ color: 'var(--theme-text-subtle)', fontStyle: 'italic' }}>
                 Source: {study.leverage.metricsSource}
               </p>
             )}
@@ -407,13 +407,13 @@ export default function CaseStudy() {
                 >
                   <span className="text-xs font-bold" style={{ color: study.accent }}>04</span>
                 </div>
-                <h2 className="text-xl font-bold text-white">The Progress</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'var(--theme-text)' }}>The Progress</h2>
               </div>
               <div className="relative pl-6">
                 {/* Vertical line */}
                 <div
                   className="absolute left-[7px] top-2 bottom-2 w-px"
-                  style={{ background: 'rgba(255,255,255,0.08)' }}
+                  style={{ background: 'var(--theme-surface-border)' }}
                 />
                 <div className="space-y-6">
                   {study.timeline.map((item, i) => (
@@ -423,19 +423,19 @@ export default function CaseStudy() {
                         {item.complete ? (
                           <CheckCircle size={14} style={{ color: study.accent }} />
                         ) : (
-                          <Circle size={14} style={{ color: 'rgba(255,255,255,0.15)' }} />
+                          <Circle size={14} style={{ color: 'var(--theme-text-subtle)' }} />
                         )}
                       </div>
                       <div>
                         <span
                           className="text-xs font-semibold block mb-0.5"
-                          style={{ color: item.complete ? study.accent : 'rgba(255,255,255,0.25)', letterSpacing: '0.06em' }}
+                          style={{ color: item.complete ? study.accent : 'var(--theme-text-subtle)', letterSpacing: '0.06em' }}
                         >
                           {item.date}
                         </span>
                         <span
                           className="text-sm"
-                          style={{ color: item.complete ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.3)', fontWeight: 300 }}
+                          style={{ color: item.complete ? 'var(--theme-text-muted)' : 'var(--theme-text-subtle)', fontWeight: 300 }}
                         >
                           {item.milestone}
                         </span>
@@ -459,7 +459,7 @@ export default function CaseStudy() {
                 >
                   <span className="text-xs font-bold" style={{ color: study.accent }}>05</span>
                 </div>
-                <h2 className="text-xl font-bold text-white">Artifacts</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'var(--theme-text)' }}>Artifacts</h2>
               </div>
               <div className="grid sm:grid-cols-3 gap-4">
                 {study.artifacts.map((artifact, i) => (
@@ -467,8 +467,8 @@ export default function CaseStudy() {
                     key={i}
                     className="rounded-xl p-5 flex flex-col items-center justify-center text-center"
                     style={{
-                      background: 'rgba(255,255,255,0.02)',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      background: 'var(--theme-surface)',
+                      border: '1px solid var(--theme-surface-hover)',
                       minHeight: '120px',
                     }}
                   >
@@ -478,8 +478,8 @@ export default function CaseStudy() {
                     >
                       <Box size={16} style={{ color: study.accent, opacity: 0.6 }} />
                     </div>
-                    <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.55)' }}>{artifact}</p>
-                    <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Coming soon</p>
+                    <p className="text-sm font-medium" style={{ color: 'var(--theme-text-muted)' }}>{artifact}</p>
+                    <p className="text-xs mt-1" style={{ color: 'var(--theme-text-subtle)' }}>Coming soon</p>
                   </div>
                 ))}
               </div>
@@ -492,12 +492,12 @@ export default function CaseStudy() {
           <section
             className="rounded-2xl p-8 md:p-10 mb-16"
             style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: 'var(--theme-surface)',
+              border: '1px solid var(--theme-surface-hover)',
             }}
           >
-            <h2 className="text-lg font-bold text-white mb-2">Discuss This System</h2>
-            <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <h2 className="text-lg font-bold mb-2" style={{ color: 'var(--theme-text)' }}>Discuss This System</h2>
+            <p className="text-sm mb-6" style={{ color: 'var(--theme-text-subtle)' }}>
               If this kind of thinking applies to your situation, let's talk about it.
             </p>
             <Link
@@ -506,15 +506,15 @@ export default function CaseStudy() {
               style={{
                 background: 'white',
                 color: 'black',
-                boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                boxShadow: '0 4px 20px var(--theme-shadow-color, rgba(255,255,255,0.1))',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+                e.currentTarget.style.boxShadow = '0 8px 30px var(--theme-shadow-color, rgba(255,255,255,0.15))';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px var(--theme-shadow-color, rgba(255,255,255,0.1))';
               }}
             >
               Start the conversation <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -528,24 +528,24 @@ export default function CaseStudy() {
             to={`/work/${nextSlug}`}
             className="group flex items-center justify-between rounded-xl p-6 transition-all duration-300"
             style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: 'var(--theme-surface)',
+              border: '1px solid var(--theme-surface-hover)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = `${nextStudy.accent}30`;
-              e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+              e.currentTarget.style.background = 'var(--theme-surface-hover)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
-              e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
+              e.currentTarget.style.borderColor = 'var(--theme-surface-hover)';
+              e.currentTarget.style.background = 'var(--theme-surface)';
             }}
           >
             <div>
-              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>Next Case Study</span>
-              <h3 className="text-lg font-bold text-white mt-1">{nextStudy.title}</h3>
+              <span className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>Next Case Study</span>
+              <h3 className="text-lg font-bold mt-1" style={{ color: 'var(--theme-text)' }}>{nextStudy.title}</h3>
               <p className="text-sm" style={{ color: nextStudy.accent }}>{nextStudy.tagline}</p>
             </div>
-            <ArrowRight size={18} style={{ color: 'rgba(255,255,255,0.3)' }} className="transition-transform duration-200 group-hover:translate-x-1" />
+            <ArrowRight size={18} style={{ color: 'var(--theme-text-subtle)' }} className="transition-transform duration-200 group-hover:translate-x-1" />
           </Link>
         </Reveal>
       </div>

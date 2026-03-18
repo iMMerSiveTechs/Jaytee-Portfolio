@@ -82,7 +82,7 @@ export function EcosystemGraph() {
               y1={from.y}
               x2={to.x}
               y2={to.y}
-              stroke={isHighlighted ? to.color : 'rgba(255,255,255,0.08)'}
+              stroke={isHighlighted ? to.color : 'var(--theme-surface-border)'}
               strokeWidth={isHighlighted ? 0.4 : 0.2}
               strokeDasharray="2 2"
               initial={{ pathLength: 0 }}
@@ -122,15 +122,15 @@ export function EcosystemGraph() {
             <div
               className="flex items-center gap-2 px-3 py-2 rounded-xl cursor-default transition-all duration-300"
               style={{
-                background: isActive ? `${node.color}15` : 'rgba(255,255,255,0.03)',
-                border: `1px solid ${isActive ? `${node.color}40` : 'rgba(255,255,255,0.08)'}`,
+                background: isActive ? `${node.color}15` : 'var(--theme-surface)',
+                border: `1px solid ${isActive ? `${node.color}40` : 'var(--theme-surface-border)'}`,
                 boxShadow: isActive ? `0 0 20px ${node.color}15` : 'none',
               }}
             >
               <Icon size={14} style={{ color: node.color }} />
               <span
                 className="text-xs font-semibold whitespace-nowrap"
-                style={{ color: isActive ? node.color : 'rgba(255,255,255,0.7)' }}
+                style={{ color: isActive ? node.color : 'var(--theme-text-secondary)' }}
               >
                 {node.label}
               </span>
@@ -153,9 +153,9 @@ export function EcosystemGraph() {
                 animate={{ opacity: 1, y: 0 }}
                 className="absolute top-full mt-2 px-3 py-2 rounded-lg text-xs max-w-[180px] text-center"
                 style={{
-                  background: 'rgba(15,17,21,0.95)',
+                  background: 'var(--theme-bg1)',
                   border: `1px solid ${node.color}25`,
-                  color: 'rgba(255,255,255,0.6)',
+                  color: 'var(--theme-text-muted)',
                   backdropFilter: 'blur(12px)',
                 }}
               >

@@ -20,9 +20,9 @@ function ShareButton({ href, onClick, label, icon: SvgIcon, color }) {
       title={label}
       className="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200"
       style={{
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        color: 'rgba(255,255,255,0.4)',
+        background: 'var(--theme-surface)',
+        border: '1px solid var(--theme-surface-border)',
+        color: 'var(--theme-text-subtle)',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = `${color}40`;
@@ -30,9 +30,9 @@ function ShareButton({ href, onClick, label, icon: SvgIcon, color }) {
         e.currentTarget.style.background = `${color}10`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-        e.currentTarget.style.color = 'rgba(255,255,255,0.4)';
-        e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+        e.currentTarget.style.borderColor = 'var(--theme-surface-border)';
+        e.currentTarget.style.color = 'var(--theme-text-subtle)';
+        e.currentTarget.style.background = 'var(--theme-surface)';
       }}
     >
       <SvgIcon size={14} />
@@ -98,7 +98,7 @@ export function SocialShare({ title, url, excerpt }) {
 
   return (
     <div className="flex items-center gap-1.5">
-      <span className="text-xs mr-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Share</span>
+      <span className="text-xs mr-1" style={{ color: 'var(--theme-text-subtle)' }}>Share</span>
       <ShareButton
         href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
         label="X (Twitter)"

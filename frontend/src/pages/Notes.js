@@ -25,10 +25,10 @@ export default function Notes() {
       <header className="pt-24 pb-16 max-w-3xl mx-auto px-6">
         <Reveal delay={0.1}>
           <p className="section-label mb-4">Notes</p>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-5">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-5" style={{ color: 'var(--theme-text)' }}>
             Thinking out loud.
           </h1>
-          <p className="text-lg text-white/50 max-w-xl" style={{ fontWeight: 300 }}>
+          <p className="text-lg max-w-xl" style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}>
             Observations, frameworks, and distilled thinking from working at the intersection of systems, product, and operations.
           </p>
         </Reveal>
@@ -38,22 +38,22 @@ export default function Notes() {
         {loading ? (
           <div className="space-y-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="animate-pulse py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <div className="h-5 rounded mb-3" style={{ background: 'rgba(255,255,255,0.08)', width: '70%' }} />
-                <div className="h-3.5 rounded mb-2" style={{ background: 'rgba(255,255,255,0.05)', width: '50%' }} />
-                <div className="h-3.5 rounded" style={{ background: 'rgba(255,255,255,0.04)', width: '80%' }} />
+              <div key={i} className="animate-pulse py-8" style={{ borderBottom: '1px solid var(--theme-surface-hover)' }}>
+                <div className="h-5 rounded mb-3" style={{ background: 'var(--theme-surface-border)', width: '70%' }} />
+                <div className="h-3.5 rounded mb-2" style={{ background: 'var(--theme-surface)', width: '50%' }} />
+                <div className="h-3.5 rounded" style={{ background: 'var(--theme-surface)', width: '80%' }} />
               </div>
             ))}
           </div>
         ) : notes.length === 0 ? (
-          <p className="text-white/35 text-sm">No notes published yet.</p>
+          <p className="text-sm" style={{ color: 'var(--theme-text-subtle)' }}>No notes published yet.</p>
         ) : (
           <div>
             {notes.map((note, idx) => (
               <Reveal key={note.id} delay={0.2 + (idx * 0.08)} y={15}>
                 <div
                   className="py-8"
-                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                  style={{ borderBottom: '1px solid var(--theme-surface-hover)' }}
                 >
                   <Link
                     to={`/notes/${note.slug}`}
@@ -65,23 +65,26 @@ export default function Notes() {
                         <span
                           key={tag}
                           className="px-2 py-0.5 rounded text-xs"
-                          style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}
+                          style={{ background: 'var(--theme-surface)', color: 'var(--theme-text-subtle)', border: '1px solid var(--theme-surface-border)' }}
                         >
                           {tag}
                         </span>
                       ))}
                       {note.reading_time && (
-                        <span className="flex items-center gap-1 text-xs text-white/25">
+                        <span className="flex items-center gap-1 text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                           <Clock size={10} /> {note.reading_time} min read
                         </span>
                       )}
                     </div>
-                    <h2 className="text-lg font-bold text-white/85 mb-2 group-hover:text-white transition-colors duration-200 tracking-tight">
+                    <h2 className="text-lg font-bold mb-2 transition-colors duration-200 tracking-tight" style={{ color: 'var(--theme-text-secondary)' }}>
                       {note.title}
                     </h2>
-                    <p className="text-sm text-white/40 leading-relaxed mb-3">{note.excerpt}</p>
+                    <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--theme-text-subtle)' }}>{note.excerpt}</p>
                     <span
-                      className="inline-flex items-center gap-1 text-xs font-medium text-white/35 group-hover:text-white/60 transition-colors duration-200"
+                      className="inline-flex items-center gap-1 text-xs font-medium transition-colors duration-200"
+                      style={{ color: 'var(--theme-text-subtle)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
                     >
                       Read more <ArrowRight size={11} />
                     </span>

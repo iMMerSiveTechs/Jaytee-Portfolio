@@ -147,7 +147,7 @@ export function CustomCursor() {
           borderRadius: '50%',
           border: hovering
             ? '1.5px solid var(--theme-accent, #00f0ff)'
-            : '1.5px solid rgba(255,255,255,0.35)',
+            : '1.5px solid var(--theme-text-subtle, rgba(255,255,255,0.35))',
           pointerEvents: 'none',
           zIndex: 99998,
           opacity: opacity * (hovering ? 0.9 : 0.5),

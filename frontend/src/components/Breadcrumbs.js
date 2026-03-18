@@ -29,9 +29,9 @@ export const Breadcrumbs = ({ noteTitle }) => {
               <Link
                 to="/"
                 className="flex items-center gap-1 transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.4)' }}
+                style={{ color: 'var(--theme-text-subtle)' }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-accent, #00f0ff)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
               >
                 <Home size={14} />
               </Link>
@@ -48,7 +48,7 @@ export const Breadcrumbs = ({ noteTitle }) => {
             return (
               <React.Fragment key={to}>
                 <BreadcrumbSeparator>
-                  <ChevronRight size={14} style={{ color: 'rgba(255,255,255,0.2)' }} />
+                  <ChevronRight size={14} style={{ color: 'var(--theme-text-subtle)' }} />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
                   {isLast ? (
@@ -63,9 +63,9 @@ export const Breadcrumbs = ({ noteTitle }) => {
                       <Link
                         to={to}
                         className="transition-colors duration-200"
-                        style={{ color: 'rgba(255,255,255,0.4)' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+                        style={{ color: 'var(--theme-text-subtle)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
                       >
                         {label}
                       </Link>

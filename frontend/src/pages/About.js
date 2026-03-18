@@ -72,13 +72,13 @@ export default function About() {
             style={{ fontSize: 'clamp(2.75rem, 6vw, 5rem)', lineHeight: 1.04 }}
           >
             <span className="metallic-text">Architect.</span>{' '}
-            <span className="text-white">Operator.</span>{' '}
+            <span style={{ color: 'var(--theme-text)' }}>Operator.</span>{' '}
             <span className="neon-text-cyan">Builder.</span>
           </h1>
         </Reveal>
         <Reveal delay={0.35}>
           <div className="grid lg:grid-cols-12 gap-8">
-            <p className="lg:col-span-7 text-xl text-white/55 leading-relaxed" style={{ fontWeight: 300 }}>
+            <p className="lg:col-span-7 text-xl leading-relaxed" style={{ fontWeight: 300, color: 'var(--theme-text-muted)' }}>
               I work at the intersection of systems thinking, product shaping, and practical business strategy.
               My approach is diagnostic, not decorative — I find the structure inside the mess, protect what matters,
               and remove everything that doesn&apos;t serve the core.
@@ -87,7 +87,7 @@ export default function About() {
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: 'var(--theme-accent, #00f0ff)' }} />
-                  <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>Currently taking selective work</span>
+                  <span className="text-xs font-medium" style={{ color: 'var(--theme-text-subtle)' }}>Currently taking selective work</span>
                 </div>
               </div>
               <Link
@@ -108,7 +108,7 @@ export default function About() {
 
         {/* ─── Philosophy ─────────────────────────────────────────── */}
         <Reveal delay={0.2}>
-          <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+          <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
             <p className="section-label mb-6">How I Think</p>
             <div className="grid lg:grid-cols-12 gap-10">
               <div className="lg:col-span-7 space-y-5 text-lg leading-relaxed prose-dark">
@@ -129,9 +129,9 @@ export default function About() {
               <div className="lg:col-span-5">
                 <div
                   className="p-6 rounded-2xl"
-                  style={{ background: 'rgba(15,17,21,0.6)', border: '1px solid rgba(255,255,255,0.06)' }}
+                  style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}
                 >
-                  <p className="section-label mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Quick facts</p>
+                  <p className="section-label mb-4" style={{ color: 'var(--theme-text-subtle)' }}>Quick facts</p>
                   <div className="space-y-3">
                     {[
                       { k: 'Focus', v: 'Systems · Strategy · Product' },
@@ -140,9 +140,9 @@ export default function About() {
                       { k: 'XR Layer', v: 'iMMerSiveTechs' },
                       { k: 'Method', v: 'Structure → Connect → Leverage → Refine' },
                     ].map(({ k, v }) => (
-                      <div key={k} className="flex items-center justify-between text-xs" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: '8px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.3)' }}>{k}</span>
-                        <span className="font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{v}</span>
+                      <div key={k} className="flex items-center justify-between text-xs" style={{ borderBottom: '1px solid var(--theme-border-subtle)', paddingBottom: '8px' }}>
+                        <span style={{ color: 'var(--theme-text-subtle)' }}>{k}</span>
+                        <span className="font-medium" style={{ color: 'var(--theme-text-secondary)' }}>{v}</span>
                       </div>
                     ))}
                   </div>
@@ -154,7 +154,7 @@ export default function About() {
 
         {/* ─── Why This Work ─────────────────────────────────────── */}
         <Reveal delay={0.2}>
-          <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+          <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
             <p className="section-label mb-6">Why This Work</p>
             <div className="lg:max-w-3xl space-y-5 text-lg leading-relaxed prose-dark">
               <p>
@@ -179,16 +179,16 @@ export default function About() {
         </Reveal>
 
         {/* ─── Operating Method (The Sequence) ────────────────────── */}
-        <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+        <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
           <Reveal delay={0.1}>
             <p className="section-label mb-3">The Operating Method</p>
             <h2
-              className="font-extrabold tracking-tight text-white mb-4"
-              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+              className="font-extrabold tracking-tight mb-4"
+              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: 'var(--theme-text)' }}
             >
               Four phases. One architecture.
             </h2>
-            <p className="text-sm mb-12" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300, maxWidth: '36rem' }}>
+            <p className="text-sm mb-12" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300, maxWidth: '36rem' }}>
               Every engagement follows the same diagnostic sequence. The method applies regardless of whether the problem is a product, a business, or a workflow.
             </p>
           </Reveal>
@@ -201,8 +201,8 @@ export default function About() {
                   <div
                     className="interactive-card flex flex-col md:flex-row gap-6 md:gap-10 py-8 rounded-xl px-5 -mx-5"
                     style={{
-                      borderTop: '1px solid rgba(255,255,255,0.06)',
-                      borderBottom: i === operatingMethod.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                      borderTop: '1px solid var(--theme-border-subtle)',
+                      borderBottom: i === operatingMethod.length - 1 ? '1px solid var(--theme-border-subtle)' : 'none',
                     }}
                   >
                     <div className="md:w-20 shrink-0 flex items-start gap-4">
@@ -216,9 +216,9 @@ export default function About() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <Icon size={15} style={{ color: step.accent, opacity: 0.7 }} />
-                        <h3 className="font-bold text-lg tracking-tight text-white">{step.title}</h3>
+                        <h3 className="font-bold text-lg tracking-tight" style={{ color: 'var(--theme-text)' }}>{step.title}</h3>
                       </div>
-                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, maxWidth: '38rem' }}>{step.desc}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300, maxWidth: '38rem' }}>{step.desc}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -228,12 +228,12 @@ export default function About() {
         </section>
 
         {/* ─── Capabilities ───────────────────────────────────────── */}
-        <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+        <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
           <Reveal delay={0.1}>
             <p className="section-label mb-3">What I Do</p>
             <h2
-              className="font-extrabold tracking-tight text-white mb-10"
-              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+              className="font-extrabold tracking-tight mb-10"
+              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: 'var(--theme-text)' }}
             >
               Areas of depth
             </h2>
@@ -245,7 +245,7 @@ export default function About() {
                 <Reveal key={cap.title} delay={0.2 + (idx * 0.08)} y={20}>
                   <div
                     className="interactive-card p-6 rounded-xl flex items-start gap-5"
-                    style={{ background: 'rgba(22,25,32,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}
                   >
                     <div
                       className="p-2.5 rounded-lg shrink-0"
@@ -254,8 +254,8 @@ export default function About() {
                       <Icon size={16} style={{ color: 'var(--theme-accent, #00f0ff)', opacity: 0.7 }} />
                     </div>
                     <div>
-                      <h3 className="text-white font-bold text-sm mb-2">{cap.title}</h3>
-                      <p className="text-xs text-white/42 leading-relaxed">{cap.desc}</p>
+                      <h3 className="font-bold text-sm mb-2" style={{ color: 'var(--theme-text)' }}>{cap.title}</h3>
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-subtle)' }}>{cap.desc}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -265,10 +265,10 @@ export default function About() {
         </section>
 
         {/* ─── Brand Architecture ─────────────────────────────────── */}
-        <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+        <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
           <Reveal delay={0.1}>
             <p className="section-label mb-3">The Brand Architecture</p>
-            <p className="text-white/50 mb-10 text-base" style={{ fontWeight: 300 }}>At the top is the operator. Around that sits a broader ecosystem taking shape.</p>
+            <p className="mb-10 text-base" style={{ fontWeight: 300, color: 'var(--theme-text-muted)' }}>At the top is the operator. Around that sits a broader ecosystem taking shape.</p>
           </Reveal>
 
           {/* Interactive Ecosystem Graph */}
@@ -276,8 +276,8 @@ export default function About() {
             <div
               className="rounded-2xl p-6 mb-10"
               style={{
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: 'var(--theme-surface)',
+                border: '1px solid var(--theme-border-subtle)',
               }}
             >
               <EcosystemGraph />
@@ -288,19 +288,19 @@ export default function About() {
             <Reveal delay={0.2} y={25}>
               <div
                 className="interactive-card p-7 rounded-2xl flex items-start gap-6"
-                style={{ background: '#0f1115', border: '1px solid rgba(139,92,246,0.18)' }}
+                style={{ background: 'var(--theme-bg1)', border: '1px solid rgba(139,92,246,0.18)' }}
               >
                 <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)' }}>
                   <Globe size={18} style={{ color: '#8b5cf6' }} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-bold text-white">Nemurium</h3>
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--theme-text)' }}>Nemurium</h3>
                     <span className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5" style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399' }}>
                       <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#34d399' }} />Live
                     </span>
                   </div>
-                  <p className="text-white/50 text-sm leading-relaxed mb-3">
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--theme-text-muted)' }}>
                     The larger immersive ecosystem framing the products, systems, and tools being built across utility, workflow, and digital experience. Nemurium is the umbrella — the territory where this work lives and compounds.
                   </p>
                   <p className="text-xs flex items-center gap-2" style={{ color: 'rgba(139,92,246,0.7)' }}>
@@ -314,20 +314,20 @@ export default function About() {
             <Reveal delay={0.3} y={25}>
               <div
                 className="interactive-card ml-6 p-7 rounded-2xl flex items-start gap-6"
-                style={{ background: 'rgba(15,17,21,0.7)', border: '1px solid var(--theme-glow, rgba(0,240,255,0.12))' }}
+                style={{ background: 'var(--theme-bg1)', border: '1px solid var(--theme-glow, rgba(0,240,255,0.12))' }}
               >
                 <div className="p-3 rounded-xl shrink-0" style={{ background: 'var(--theme-glow, rgba(0,240,255,0.08))', border: '1px solid rgba(0,240,255,0.15)' }}>
                   <Layers size={18} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-lg font-bold text-white">iMMerSiveTechs</h3>
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--theme-text)' }}>iMMerSiveTechs</h3>
                     <span className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', color: '#f59e0b' }}>
                       <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#f59e0b' }} />In Progress
                     </span>
                   </div>
                   <div className="section-label mb-2" style={{ color: 'var(--theme-accent, #00f0ff)', fontSize: '0.6rem' }}>Within Nemurium</div>
-                  <p className="text-white/50 text-sm leading-relaxed mb-3">
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--theme-text-muted)' }}>
                     The dedicated immersive technology layer and spatial/XR tooling direction. This is where the work goes deeper into technology infrastructure for immersive experiences.
                   </p>
                   <p className="text-xs flex items-center gap-2" style={{ color: 'rgba(0,240,255,0.6)' }}>
@@ -341,20 +341,20 @@ export default function About() {
             <Reveal delay={0.4} y={25}>
               <div
                 className="interactive-card ml-6 p-7 rounded-2xl flex items-start gap-6"
-                style={{ background: 'rgba(15,17,21,0.7)', border: '1px solid rgba(59,130,246,0.12)' }}
+                style={{ background: 'var(--theme-bg1)', border: '1px solid rgba(59,130,246,0.12)' }}
               >
                 <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.15)' }}>
                   <Hammer size={18} style={{ color: '#3b82f6' }} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-lg font-bold text-white">VibeForge Studios</h3>
+                    <h3 className="text-lg font-bold" style={{ color: 'var(--theme-text)' }}>VibeForge Studios</h3>
                     <span className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5" style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399' }}>
                       <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#34d399' }} />Live
                     </span>
                   </div>
                   <div className="section-label mb-2" style={{ color: '#3b82f6', fontSize: '0.6rem' }}>Builder Engine</div>
-                  <p className="text-white/50 text-sm leading-relaxed mb-3">
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: 'var(--theme-text-muted)' }}>
                     The studio layer and engine room where these products, tools, and system experiences are shaped, coded, and forged into usable form. VibeForge is where strategy becomes product.
                   </p>
                   <p className="text-xs flex items-center gap-2" style={{ color: 'rgba(59,130,246,0.7)' }}>
@@ -368,12 +368,12 @@ export default function About() {
         </section>
 
         {/* ─── Timeline ──────────────────────────────────────────── */}
-        <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+        <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
           <Reveal delay={0.1}>
             <p className="section-label mb-3">The Arc</p>
             <h2
-              className="font-extrabold tracking-tight text-white mb-10"
-              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+              className="font-extrabold tracking-tight mb-10"
+              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: 'var(--theme-text)' }}
             >
               How this evolved
             </h2>
@@ -383,27 +383,27 @@ export default function About() {
             {/* Vertical line */}
             <div
               className="absolute left-[18px] top-2 bottom-2 w-px hidden md:block"
-              style={{ background: 'linear-gradient(to bottom, rgba(0,240,255,0.2), rgba(139,92,246,0.15), rgba(255,255,255,0.05))' }}
+              style={{ background: 'linear-gradient(to bottom, rgba(0,240,255,0.2), rgba(139,92,246,0.15), var(--theme-border-subtle))' }}
             />
             <div className="space-y-0">
               {timeline.map((item, i) => (
                 <Reveal key={item.year} delay={0.15 + (i * 0.06)} y={12}>
-                  <div className="flex gap-6 md:gap-8 py-5" style={{ borderBottom: i < timeline.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                  <div className="flex gap-6 md:gap-8 py-5" style={{ borderBottom: i < timeline.length - 1 ? '1px solid var(--theme-border-subtle)' : 'none' }}>
                     <div className="relative shrink-0 w-9 flex justify-center">
                       <div
                         className="w-2.5 h-2.5 rounded-full mt-1.5"
                         style={{
-                          background: i === timeline.length - 1 ? 'var(--theme-accent, #00f0ff)' : 'rgba(255,255,255,0.15)',
+                          background: i === timeline.length - 1 ? 'var(--theme-accent, #00f0ff)' : 'var(--theme-text-subtle)',
                           boxShadow: i === timeline.length - 1 ? '0 0 10px var(--theme-glow, rgba(0,240,255,0.3))' : 'none',
                         }}
                       />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-baseline gap-3 mb-1">
-                        <span className="text-xs font-bold" style={{ color: i === timeline.length - 1 ? 'var(--theme-accent, #00f0ff)' : 'rgba(255,255,255,0.3)' }}>{item.year}</span>
-                        <span className="text-sm font-semibold text-white">{item.label}</span>
+                        <span className="text-xs font-bold" style={{ color: i === timeline.length - 1 ? 'var(--theme-accent, #00f0ff)' : 'var(--theme-text-subtle)' }}>{item.year}</span>
+                        <span className="text-sm font-semibold" style={{ color: 'var(--theme-text)' }}>{item.label}</span>
                       </div>
-                      <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{item.desc}</p>
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-subtle)' }}>{item.desc}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -413,12 +413,12 @@ export default function About() {
         </section>
 
         {/* ─── Core Principles ────────────────────────────────────── */}
-        <section className="mb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '3rem' }}>
+        <section className="mb-24" style={{ borderTop: '1px solid var(--theme-surface-border)', paddingTop: '3rem' }}>
           <Reveal delay={0.1}>
             <p className="section-label mb-3">Core Principles</p>
             <h2
-              className="font-extrabold tracking-tight text-white mb-10"
-              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+              className="font-extrabold tracking-tight mb-10"
+              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: 'var(--theme-text)' }}
             >
               What I believe about systems
             </h2>
@@ -430,14 +430,14 @@ export default function About() {
                 <Reveal key={p.num} delay={0.15 + (idx * 0.06)} y={20}>
                   <div
                     className="interactive-card p-6 rounded-xl h-full"
-                    style={{ background: 'rgba(22,25,32,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <Icon size={14} style={{ color: 'var(--theme-accent, #00f0ff)', opacity: 0.5 }} />
-                      <div className="section-label" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem' }}>{p.num}</div>
+                      <div className="section-label" style={{ color: 'var(--theme-text-subtle)', fontSize: '0.6rem' }}>{p.num}</div>
                     </div>
-                    <h3 className="text-white font-bold text-sm mb-2">{p.title}</h3>
-                    <p className="text-xs text-white/42 leading-relaxed">{p.desc}</p>
+                    <h3 className="font-bold text-sm mb-2" style={{ color: 'var(--theme-text)' }}>{p.title}</h3>
+                    <p className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-subtle)' }}>{p.desc}</p>
                   </div>
                 </Reveal>
               );
@@ -449,21 +449,22 @@ export default function About() {
         <Reveal delay={0.2}>
           <div
             className="p-8 md:p-10 rounded-2xl"
-            style={{ background: 'rgba(15,17,21,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-border-subtle)' }}
           >
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-8">
-                <h2 className="text-xl font-extrabold text-white mb-3 tracking-tight">
+                <h2 className="text-xl font-extrabold mb-3 tracking-tight" style={{ color: 'var(--theme-text)' }}>
                   If this resonates, let&apos;s talk about what you&apos;re building.
                 </h2>
-                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>
+                <p className="text-sm" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}>
                   Every engagement begins with a direct, honest conversation about the actual problem. No templates, no filler.
                 </p>
               </div>
               <div className="md:col-span-4 flex md:justify-end">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-colors duration-200"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-colors duration-200"
+                  style={{ background: 'var(--theme-text)', color: 'var(--theme-bg0)' }}
                 >
                   Start the Conversation <ArrowRight size={14} />
                 </Link>

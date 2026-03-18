@@ -28,10 +28,10 @@ export default function NoteDetail() {
   if (loading) {
     return (
       <div className="pt-28 max-w-2xl mx-auto px-6 animate-pulse">
-        <div className="h-6 rounded mb-8" style={{ background: 'rgba(255,255,255,0.07)', width: '50%' }} />
-        <div className="h-8 rounded mb-4" style={{ background: 'rgba(255,255,255,0.08)', width: '80%' }} />
+        <div className="h-6 rounded mb-8" style={{ background: 'var(--theme-surface-hover)', width: '50%' }} />
+        <div className="h-8 rounded mb-4" style={{ background: 'var(--theme-surface-border)', width: '80%' }} />
         <div className="space-y-3">
-          {[1, 2, 3].map((i) => <div key={i} className="h-4 rounded" style={{ background: 'rgba(255,255,255,0.05)' }} />)}
+          {[1, 2, 3].map((i) => <div key={i} className="h-4 rounded" style={{ background: 'var(--theme-surface)' }} />)}
         </div>
       </div>
     );
@@ -40,8 +40,8 @@ export default function NoteDetail() {
   if (notFound || !note) {
     return (
       <div className="pt-28 max-w-2xl mx-auto px-6 text-center">
-        <p className="text-white/40 mb-6">Note not found.</p>
-        <button onClick={() => navigate(-1)} className="text-sm text-white/50 hover:text-white transition-colors duration-200">
+        <p className="text-sm mb-6" style={{ color: 'var(--theme-text-subtle)' }}>Note not found.</p>
+        <button onClick={() => navigate(-1)} className="text-sm transition-colors duration-200" style={{ color: 'var(--theme-text-muted)' }} onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text)'; }} onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}>
           Go back
         </button>
       </div>
@@ -76,7 +76,7 @@ export default function NoteDetail() {
       // Bold
       const boldMatch = remaining.match(/^\*\*([^*]+)\*\*/);
       if (boldMatch) {
-        tokens.push(<strong key={key++} className="text-white/85 font-semibold">{boldMatch[1]}</strong>);
+        tokens.push(<strong key={key++} className="font-semibold" style={{ color: 'var(--theme-text-secondary)' }}>{boldMatch[1]}</strong>);
         remaining = remaining.slice(boldMatch[0].length);
         continue;
       }
@@ -181,7 +181,7 @@ export default function NoteDetail() {
       // Bold-only line (legacy support)
       if (line.startsWith('**') && line.endsWith('**') && line.indexOf('**', 2) === line.length - 2) {
         const text = line.slice(2, -2);
-        elements.push(<p key={i} className="font-bold text-white/90 mt-6 mb-2">{text}</p>);
+        elements.push(<p key={i} className="font-bold mt-6 mb-2" style={{ color: 'var(--theme-text-secondary)' }}>{text}</p>);
         i++;
         continue;
       }
@@ -205,7 +205,10 @@ export default function NoteDetail() {
         {/* Breadcrumb */}
         <Link
           to="/notes"
-          className="inline-flex items-center gap-2 text-sm text-white/35 hover:text-white/65 transition-colors duration-200 mb-10"
+          className="inline-flex items-center gap-2 text-sm transition-colors duration-200 mb-10"
+          style={{ color: 'var(--theme-text-subtle)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
         >
           <ArrowLeft size={13} /> All Notes
         </Link>
@@ -217,30 +220,30 @@ export default function NoteDetail() {
               <span
                 key={tag}
                 className="px-2 py-0.5 rounded text-xs"
-                style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}
+                style={{ background: 'var(--theme-surface)', color: 'var(--theme-text-subtle)', border: '1px solid var(--theme-surface-border)' }}
               >
                 {tag}
               </span>
             ))}
             {note.reading_time && (
-              <span className="flex items-center gap-1 text-xs text-white/25">
+              <span className="flex items-center gap-1 text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                 <Clock size={10} /> {note.reading_time} min read
               </span>
             )}
-            {date && <span className="text-xs text-white/25">{date}</span>}
+            {date && <span className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>{date}</span>}
           </div>
           <SocialShare title={note.title} excerpt={note.excerpt} />
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-5">
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-5" style={{ color: 'var(--theme-text)' }}>
           {note.title}
         </h1>
 
         {/* Excerpt */}
         <p
-          className="text-lg text-white/55 mb-10 pb-10 leading-relaxed"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', fontWeight: 300 }}
+          className="text-lg mb-10 pb-10 leading-relaxed"
+          style={{ color: 'var(--theme-text-muted)', borderBottom: '1px solid var(--theme-surface-hover)', fontWeight: 300 }}
         >
           {note.excerpt}
         </p>
@@ -253,11 +256,14 @@ export default function NoteDetail() {
         {/* Bottom share bar */}
         <div
           className="mt-12 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+          style={{ borderTop: '1px solid var(--theme-surface-hover)' }}
         >
           <Link
             to="/notes"
-            className="inline-flex items-center gap-2 text-sm text-white/35 hover:text-white/65 transition-colors duration-200"
+            className="inline-flex items-center gap-2 text-sm transition-colors duration-200"
+            style={{ color: 'var(--theme-text-subtle)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-subtle)'; }}
           >
             <ArrowLeft size={13} /> Back to all notes
           </Link>

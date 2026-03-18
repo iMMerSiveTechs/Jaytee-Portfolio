@@ -25,9 +25,9 @@ function PageLoader() {
       <div className="flex flex-col items-center gap-4">
         <div
           className="w-8 h-8 rounded-full border-2 animate-spin"
-          style={{ borderColor: 'rgba(255,255,255,0.08)', borderTopColor: 'var(--theme-accent, #00f0ff)' }}
+          style={{ borderColor: 'var(--theme-surface-border)', borderTopColor: 'var(--theme-accent, #00f0ff)' }}
         />
-        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Loading…</span>
+        <span className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>Loading…</span>
       </div>
     </div>
   );

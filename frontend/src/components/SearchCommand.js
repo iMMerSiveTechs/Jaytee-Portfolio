@@ -77,17 +77,17 @@ export const SearchCommand = () => {
         onClick={() => setOpen(true)}
         className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors duration-200"
         style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          color: 'rgba(255,255,255,0.5)',
+          background: 'var(--theme-surface)',
+          border: '1px solid var(--theme-border)',
+          color: 'var(--theme-text-muted)',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-          e.currentTarget.style.color = 'rgba(255,255,255,0.7)';
+          e.currentTarget.style.background = 'var(--theme-surface-hover)';
+          e.currentTarget.style.color = 'var(--theme-text-secondary)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-          e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+          e.currentTarget.style.background = 'var(--theme-surface)';
+          e.currentTarget.style.color = 'var(--theme-text-muted)';
         }}
         data-testid="search-trigger"
       >
@@ -96,8 +96,8 @@ export const SearchCommand = () => {
         <kbd
           className="ml-1 px-1.5 py-0.5 text-xs rounded"
           style={{
-            background: 'rgba(255,255,255,0.08)',
-            color: 'rgba(255,255,255,0.4)',
+            background: 'var(--theme-surface-border)',
+            color: 'var(--theme-text-subtle)',
             fontFamily: 'monospace',
           }}
         >
@@ -108,27 +108,27 @@ export const SearchCommand = () => {
       <CommandDialog open={open} onOpenChange={setOpen}>
         <div
           style={{
-            background: 'rgba(15, 17, 21, 0.98)',
+            background: 'var(--theme-bg1)',
             backdropFilter: 'blur(24px)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            border: '1px solid var(--theme-border)',
           }}
         >
           <Command data-testid="search-command">
             <CommandInput
               placeholder="Search pages, tools, services, notes..."
               style={{
-                color: 'white',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
+                color: 'var(--theme-text)',
+                borderBottom: '1px solid var(--theme-surface-border)',
               }}
             />
             <CommandList style={{ maxHeight: '400px' }}>
               <CommandEmpty>
-                <div className="py-6 text-center text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                <div className="py-6 text-center text-sm" style={{ color: 'var(--theme-text-subtle)' }}>
                   {loading ? 'Loading...' : 'No results found.'}
                 </div>
               </CommandEmpty>
 
-              <CommandGroup heading="Pages" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <CommandGroup heading="Pages" style={{ color: 'var(--theme-text-muted)' }}>
                 {allContent.filter(item => item.type === 'page').map((item) => {
                   const Icon = item.icon;
                   return (
@@ -137,7 +137,7 @@ export const SearchCommand = () => {
                       onSelect={() => handleSelect(item.url)}
                       className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                       style={{
-                        color: 'rgba(255,255,255,0.85)',
+                        color: 'var(--theme-text-secondary)',
                         transition: 'background-color 150ms',
                       }}
                       data-testid={`search-result-${item.id}`}
@@ -145,7 +145,7 @@ export const SearchCommand = () => {
                       <Icon size={16} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                       <div className="flex-1">
                         <div className="font-medium text-sm">{item.title}</div>
-                        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                        <div className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                           {item.description}
                         </div>
                       </div>
@@ -154,7 +154,7 @@ export const SearchCommand = () => {
                 })}
               </CommandGroup>
 
-              <CommandGroup heading="Tools" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <CommandGroup heading="Tools" style={{ color: 'var(--theme-text-muted)' }}>
                 {allContent.filter(item => item.type === 'tool').map((item) => {
                   const Icon = item.icon;
                   return (
@@ -163,14 +163,14 @@ export const SearchCommand = () => {
                       onSelect={() => handleSelect(item.url)}
                       className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                       style={{
-                        color: 'rgba(255,255,255,0.85)',
+                        color: 'var(--theme-text-secondary)',
                         transition: 'background-color 150ms',
                       }}
                     >
                       <Icon size={16} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                       <div className="flex-1">
                         <div className="font-medium text-sm">{item.title}</div>
-                        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                        <div className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                           {item.description}
                         </div>
                       </div>
@@ -179,7 +179,7 @@ export const SearchCommand = () => {
                 })}
               </CommandGroup>
 
-              <CommandGroup heading="Services" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <CommandGroup heading="Services" style={{ color: 'var(--theme-text-muted)' }}>
                 {allContent.filter(item => item.type === 'service').map((item) => {
                   const Icon = item.icon;
                   return (
@@ -188,14 +188,14 @@ export const SearchCommand = () => {
                       onSelect={() => handleSelect(item.url)}
                       className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                       style={{
-                        color: 'rgba(255,255,255,0.85)',
+                        color: 'var(--theme-text-secondary)',
                         transition: 'background-color 150ms',
                       }}
                     >
                       <Icon size={16} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                       <div className="flex-1">
                         <div className="font-medium text-sm">{item.title}</div>
-                        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                        <div className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                           {item.description}
                         </div>
                       </div>
@@ -205,7 +205,7 @@ export const SearchCommand = () => {
               </CommandGroup>
 
               {notes.length > 0 && (
-                <CommandGroup heading="Notes" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <CommandGroup heading="Notes" style={{ color: 'var(--theme-text-muted)' }}>
                   {notes.map((item) => {
                     const Icon = item.icon;
                     return (
@@ -214,14 +214,14 @@ export const SearchCommand = () => {
                         onSelect={() => handleSelect(item.url)}
                         className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                         style={{
-                          color: 'rgba(255,255,255,0.85)',
+                          color: 'var(--theme-text-secondary)',
                           transition: 'background-color 150ms',
                         }}
                       >
                         <Icon size={16} style={{ color: 'var(--theme-accent, #00f0ff)' }} />
                         <div className="flex-1">
                           <div className="font-medium text-sm">{item.title}</div>
-                          <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                          <div className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                             {item.description}
                           </div>
                         </div>

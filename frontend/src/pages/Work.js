@@ -33,7 +33,7 @@ function JobForgeVisual() {
             <span
               style={{
                 fontSize: '0.6rem',
-                color: 'rgba(255,255,255,0.25)',
+                color: 'var(--theme-text-subtle)',
                 whiteSpace: 'nowrap',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
@@ -83,7 +83,7 @@ function ChurnWiseVisual() {
       <div
         className="text-xs mb-3"
         style={{
-          color: 'rgba(255,255,255,0.25)',
+          color: 'var(--theme-text-subtle)',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
           fontSize: '0.55rem',
@@ -105,7 +105,7 @@ function ChurnWiseVisual() {
             />
             <div
               className="flex-1 rounded-sm"
-              style={{ height: '4px', background: 'rgba(255,255,255,0.05)' }}
+              style={{ height: '4px', background: 'var(--theme-surface)' }}
             >
               <div
                 className="rounded-sm"
@@ -116,7 +116,7 @@ function ChurnWiseVisual() {
                 }}
               />
             </div>
-            <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.2)', width: '28px', textAlign: 'right' }}>
+            <span style={{ fontSize: '0.6rem', color: 'var(--theme-text-subtle)', width: '28px', textAlign: 'right' }}>
               {sub.pct}%
             </span>
           </div>
@@ -141,7 +141,7 @@ function TransplantVisual() {
       <div
         className="text-xs mb-4"
         style={{
-          color: 'rgba(255,255,255,0.2)',
+          color: 'var(--theme-text-subtle)',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
           fontSize: '0.55rem',
@@ -219,19 +219,19 @@ export default function Work() {
       <SEO title="Work" description="Selected systems and projects — case studies in turning ambiguity into structure and leverage." path="/work" />
       <header
         className="pt-24 pb-16 max-w-6xl mx-auto px-6"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        style={{ borderBottom: '1px solid var(--theme-surface-hover)' }}
       >
         <div className="grid lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-7">
             <p className="section-label mb-4">Curated Portfolio</p>
             <h1
-              className="font-extrabold tracking-tight text-white mb-0"
-              style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)', lineHeight: 1.06 }}
+              className="font-extrabold tracking-tight mb-0"
+              style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)', lineHeight: 1.06, color: 'var(--theme-text)' }}
             >
               Selected systems,<br />
               <span
                 style={{
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(170,176,188,0.88) 100%)',
+                  background: 'linear-gradient(180deg, var(--theme-text) 0%, var(--theme-text-secondary) 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -244,7 +244,7 @@ export default function Work() {
           <div className="lg:col-span-5">
             <p
               className="text-base leading-relaxed"
-              style={{ color: 'rgba(255,255,255,0.42)', fontWeight: 300 }}
+              style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
             >
               The same method across different problem spaces. Each project reflects a specific class of friction and a specific kind of clarity.
             </p>
@@ -261,7 +261,7 @@ export default function Work() {
                 data-testid={`work-project-${system.id}`}
                 className="py-12 md:py-16"
                 style={{
-                  borderBottom: idx < systems.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                  borderBottom: idx < systems.length - 1 ? '1px solid var(--theme-surface-hover)' : 'none',
                 }}
               >
                 <div
@@ -281,9 +281,9 @@ export default function Work() {
                     <span
                       className="text-xs px-2 py-0.5 rounded"
                       style={{
-                        background: 'rgba(255,255,255,0.04)',
-                        border: '1px solid rgba(255,255,255,0.07)',
-                        color: 'rgba(255,255,255,0.35)',
+                        background: 'var(--theme-surface)',
+                        border: '1px solid var(--theme-surface-border)',
+                        color: 'var(--theme-text-subtle)',
                       }}
                     >
                       {system.tag}
@@ -292,9 +292,9 @@ export default function Work() {
                       <span
                         className="text-xs px-2 py-0.5 rounded flex items-center gap-1.5"
                         style={{
-                          background: `${STATUS_COLORS[system.status] || 'rgba(255,255,255,0.3)'}12`,
-                          border: `1px solid ${STATUS_COLORS[system.status] || 'rgba(255,255,255,0.3)'}30`,
-                          color: STATUS_COLORS[system.status] || 'rgba(255,255,255,0.3)',
+                          background: `${STATUS_COLORS[system.status] || 'var(--theme-text-subtle)'}12`,
+                          border: `1px solid ${STATUS_COLORS[system.status] || 'var(--theme-text-subtle)'}30`,
+                          color: STATUS_COLORS[system.status] || 'var(--theme-text-subtle)',
                         }}
                       >
                         <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'currentColor' }} />
@@ -303,20 +303,20 @@ export default function Work() {
                     )}
                   </div>
                   <h2
-                    className="font-extrabold text-white tracking-tight mb-5"
-                    style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)', lineHeight: 1.08 }}
+                    className="font-extrabold tracking-tight mb-5"
+                    style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)', lineHeight: 1.08, color: 'var(--theme-text)' }}
                   >
                     {system.title}
                   </h2>
                   <p
                     className="text-base leading-relaxed mb-4"
-                    style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, maxWidth: '38rem' }}
+                    style={{ color: 'var(--theme-text-muted)', fontWeight: 300, maxWidth: '38rem' }}
                   >
                     {system.description}
                   </p>
                   <p
                     className="text-sm leading-relaxed mb-8"
-                    style={{ color: 'rgba(255,255,255,0.35)', fontWeight: 300, maxWidth: '36rem' }}
+                    style={{ color: 'var(--theme-text-subtle)', fontWeight: 300, maxWidth: '36rem' }}
                   >
                     {system.detail}
                   </p>
@@ -366,20 +366,21 @@ export default function Work() {
         <div
           className="py-16"
           style={{
-            borderTop: '1px solid rgba(255,255,255,0.06)',
-            background: 'rgba(15,17,21,0.4)',
+            borderTop: '1px solid var(--theme-surface-hover)',
+            background: 'var(--theme-bg1)',
           }}
         >
           <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
             <div>
               <p
-                className="text-base font-bold text-white mb-1"
+                className="text-base font-bold mb-1"
+                style={{ color: 'var(--theme-text)' }}
               >
                 See how this thinking applies to your situation.
               </p>
               <p
                 className="text-sm"
-                style={{ color: 'rgba(255,255,255,0.4)' }}
+                style={{ color: 'var(--theme-text-subtle)' }}
               >
                 Every engagement starts with a direct conversation about the actual problem.
               </p>
@@ -391,15 +392,15 @@ export default function Work() {
               style={{
                 background: 'white',
                 color: 'black',
-                boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                boxShadow: '0 4px 20px var(--theme-shadow-color, rgba(255,255,255,0.1))',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+                e.currentTarget.style.boxShadow = '0 8px 30px var(--theme-shadow-color, rgba(255,255,255,0.15))';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px var(--theme-shadow-color, rgba(255,255,255,0.1))';
               }}
             >
               Start the conversation <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />

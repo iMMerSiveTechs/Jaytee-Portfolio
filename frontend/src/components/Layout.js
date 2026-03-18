@@ -38,7 +38,7 @@ export default function Layout() {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#08090a' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--theme-bg0)' }}>
       {/* Skip to content — a11y */}
       <a
         href="#main-content"
@@ -47,7 +47,7 @@ export default function Layout() {
         Skip to main content
       </a>
       <CustomCursor />
-      {/* Ambient blobs */}
+      {/* Ambient blobs — more subtle in light mode */}
       <div
         className="ambient-blob"
         style={{
@@ -55,7 +55,9 @@ export default function Layout() {
           height: '600px',
           top: '-10%',
           left: '-5%',
-          background: 'radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)',
+          background: mode === 'light'
+            ? 'radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)',
         }}
       />
       <div
@@ -65,22 +67,23 @@ export default function Layout() {
           height: '500px',
           bottom: '10%',
           right: '-5%',
-          background: 'radial-gradient(circle, rgba(0,240,255,0.05) 0%, transparent 70%)',
+          background: mode === 'light'
+            ? 'radial-gradient(circle, rgba(0,240,255,0.03) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(0,240,255,0.05) 0%, transparent 70%)',
         }}
       />
 
       {/* Navigation */}
       <nav
         data-testid="top-nav"
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-          scrolled ? 'border-b border-white/10' : ''
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
         style={{
           background: scrolled
-            ? 'rgba(8,9,10,0.92)'
-            : 'rgba(8,9,10,0.6)',
+            ? 'var(--theme-nav-bg)'
+            : 'var(--theme-nav-bg-translucent)',
           backdropFilter: scrolled ? 'blur(24px)' : 'blur(12px)',
           WebkitBackdropFilter: scrolled ? 'blur(24px)' : 'blur(12px)',
+          borderBottom: scrolled ? '1px solid var(--theme-border)' : 'none',
         }}
       >
         <div className="max-w-6xl mx-auto px-6">
@@ -91,17 +94,18 @@ export default function Layout() {
               className="flex items-center gap-3 group"
             >
               <div
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-white font-extrabold text-sm"
+                className="w-8 h-8 flex items-center justify-center rounded-lg font-extrabold text-sm"
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.12)',
+                  background: 'var(--theme-surface-hover)',
+                  border: '1px solid var(--theme-border-medium)',
+                  color: 'var(--theme-text)',
                   transition: 'border-color 200ms',
                 }}
               >
                 JT
               </div>
-              <span className="font-extrabold text-white tracking-tight">
-                Jethro <span className="text-white/60 font-light">&ldquo;JayTee&rdquo;</span>
+              <span className="font-extrabold tracking-tight" style={{ color: 'var(--theme-text)' }}>
+                Jethro <span className="font-light" style={{ color: 'var(--theme-text-muted)' }}>&ldquo;JayTee&rdquo;</span>
               </span>
             </Link>
 
@@ -115,13 +119,7 @@ export default function Layout() {
                   end={link.exact}
                   data-testid={link.testid}
                   onClick={hapticLight}
-                  className={({ isActive }) =>
-                    `relative px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
-                      isActive
-                        ? 'text-white'
-                        : 'text-white/55 hover:text-white/85 hover:bg-white/[0.03]'
-                    }`
-                  }
+                  className="relative px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200"
                   style={{ color: 'var(--theme-text-muted)' }}
                 >
                   {({ isActive }) => (
@@ -155,7 +153,8 @@ export default function Layout() {
             {/* Mobile Menu Toggle */}
             <button
               data-testid="top-nav-mobile-menu-button"
-              className="md:hidden p-2 text-white/70 hover:text-white transition-colors duration-200"
+              className="md:hidden p-2 transition-colors duration-200"
+              style={{ color: 'var(--theme-text-muted)' }}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -169,9 +168,9 @@ export default function Layout() {
           <div
             className="md:hidden border-t"
             style={{
-              background: 'rgba(8,9,10,0.98)',
+              background: mode === 'light' ? 'rgba(255,255,255,0.98)' : 'rgba(8,9,10,0.98)',
               backdropFilter: 'blur(24px)',
-              borderColor: 'rgba(255,255,255,0.08)',
+              borderColor: 'var(--theme-border)',
             }}
           >
             <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
@@ -181,17 +180,27 @@ export default function Layout() {
                   to={link.to}
                   end={link.exact}
                   className={({ isActive }) =>
-                    `px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 ${
-                      isActive ? 'text-white bg-white/[0.06]' : 'text-white/55 hover:text-white hover:bg-white/[0.03]'
-                    }`
+                    `px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200`
                   }
+                  style={({ isActive }) => ({
+                    color: isActive ? 'var(--theme-text)' : 'var(--theme-text-muted)',
+                    background: isActive ? 'var(--theme-surface-hover)' : 'transparent',
+                  })}
                 >
                   {link.label}
                 </NavLink>
               ))}
+              <div className="flex items-center gap-2 mt-2 px-3">
+                <LightDarkToggle />
+                <ThemeSwitcher />
+              </div>
               <Link
                 to="/contact"
-                className="mt-2 px-3 py-2.5 text-sm font-semibold rounded-lg bg-white text-black text-center transition-colors duration-200 hover:bg-white/90"
+                className="mt-2 px-3 py-2.5 text-sm font-semibold rounded-lg text-center transition-colors duration-200"
+                style={{
+                  background: mode === 'light' ? 'black' : 'white',
+                  color: mode === 'light' ? 'white' : 'black',
+                }}
               >
                 Let&apos;s Talk
               </Link>

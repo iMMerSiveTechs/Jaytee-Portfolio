@@ -35,11 +35,11 @@ const timelines = [
 ];
 
 const fieldStyle = {
-  background: 'rgba(18,21,28,0.9)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'var(--theme-surface)',
+  border: '1px solid var(--theme-surface-border)',
   borderRadius: '10px',
   padding: '11px 14px',
-  color: 'rgba(255,255,255,0.88)',
+  color: 'var(--theme-text)',
   fontSize: '14px',
   width: '100%',
   transition: 'border-color 200ms',
@@ -48,7 +48,7 @@ const fieldStyle = {
 };
 
 const focus = (e) => { e.target.style.borderColor = 'var(--theme-accent, #00f0ff)'; };
-const blur = (e) => { e.target.style.borderColor = 'rgba(255,255,255,0.08)'; };
+const blur = (e) => { e.target.style.borderColor = 'var(--theme-surface-border)'; };
 
 const stepVariants = {
   enter: (dir) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
@@ -143,19 +143,19 @@ export default function Contact() {
     <div data-testid="contact-page" className="pt-16">
       <SEO title="Contact" description="Get in touch — describe your situation and I'll respond with real thoughts within 48 hours." path="/contact" />
       <div className="max-w-6xl mx-auto px-6">
-        <div className="grid lg:grid-cols-12 gap-8 pt-24 pb-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="grid lg:grid-cols-12 gap-8 pt-24 pb-8" style={{ borderBottom: '1px solid var(--theme-surface-border)' }}>
           {/* Left column: intent */}
           <div className="lg:col-span-5">
             <Reveal delay={0.1}>
               <p className="section-label mb-4">Get In Touch</p>
             <h1
-              className="font-extrabold tracking-tight text-white mb-5"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.07 }}
+              className="font-extrabold tracking-tight mb-5"
+              style={{ color: 'var(--theme-text)', fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1.07 }}
             >
               If something is overloaded,<br />
               <span
                 style={{
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(160,166,178,0.8) 100%)',
+                  background: 'linear-gradient(180deg, var(--theme-text) 0%, var(--theme-text-secondary) 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -166,7 +166,7 @@ export default function Contact() {
             </h1>
             <p
               className="text-base leading-relaxed mb-8"
-              style={{ color: 'rgba(255,255,255,0.42)', fontWeight: 300 }}
+              style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
             >
               I read every submission personally. If it's a real problem with real context, I'll respond with real thoughts—not a sales sequence.
             </p>
@@ -177,8 +177,8 @@ export default function Contact() {
                 { label: 'What happens next', value: 'A short back-and-forth, or a call' },
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-center justify-between text-sm">
-                  <span style={{ color: 'rgba(255,255,255,0.32)' }}>{label}</span>
-                  <span style={{ color: 'rgba(255,255,255,0.65)', fontWeight: 500 }}>{value}</span>
+                  <span style={{ color: 'var(--theme-text-subtle)' }}>{label}</span>
+                  <span style={{ color: 'var(--theme-text-secondary)', fontWeight: 500 }}>{value}</span>
                 </div>
               ))}
             </div>
@@ -193,15 +193,15 @@ export default function Contact() {
                 data-testid="contact-submit-status"
                 className="py-16 text-center rounded-2xl h-full flex flex-col items-center justify-center"
                 style={{
-                  background: 'rgba(15,17,21,0.8)',
-                  border: '1px solid rgba(255,255,255,0.07)',
+                  background: 'var(--theme-bg1)',
+                  border: '1px solid var(--theme-surface-border)',
                 }}
               >
                 <CheckCircle size={36} style={{ color: '#34d399', marginBottom: '1rem' }} />
-                <h2 className="text-xl font-extrabold text-white mb-3 tracking-tight">Received.</h2>
+                <h2 className="text-xl font-extrabold mb-3 tracking-tight" style={{ color: 'var(--theme-text)' }}>Received.</h2>
                 <p
                   className="text-sm max-w-sm mx-auto leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.45)' }}
+                  style={{ color: 'var(--theme-text-subtle)' }}
                 >
                   I review every submission personally. You'll hear back within 48 hours—if the timing or fit isn't right, I'll tell you that clearly too.
                 </p>
@@ -225,14 +225,14 @@ export default function Contact() {
                 {/* Progress bar */}
                 <div className="mb-6">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                    <span className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                       Step {step + 1} of 4
                     </span>
-                    <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                    <span className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                       {['What\'s the friction?', 'Diagnostic depth', 'Context', 'Let\'s connect'][step]}
                     </span>
                   </div>
-                  <div className="h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <div className="h-1 rounded-full" style={{ background: 'var(--theme-surface-hover)' }}>
                     <div
                       className="h-1 rounded-full transition-all duration-500 ease-out"
                       style={{
@@ -267,9 +267,9 @@ export default function Contact() {
                             onBlur={blur}
                             aria-required="true"
                           >
-                            <option value="" style={{ background: '#0f1115' }}>Select a service type</option>
+                            <option value="" style={{ background: 'var(--theme-bg1)' }}>Select a service type</option>
                             {services.map((s) => (
-                              <option key={s} value={s} style={{ background: '#0f1115' }}>{s}</option>
+                              <option key={s} value={s} style={{ background: 'var(--theme-bg1)' }}>{s}</option>
                             ))}
                           </select>
                         </div>
@@ -290,7 +290,7 @@ export default function Contact() {
                             onFocus={focus}
                             onBlur={blur}
                           />
-                          <p className="text-xs mt-1.5" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                          <p className="text-xs mt-1.5" style={{ color: 'var(--theme-text-subtle)' }}>
                             {form.message.length} characters
                           </p>
                         </div>
@@ -349,7 +349,7 @@ export default function Contact() {
                             onBlur={blur}
                           />
                         </div>
-                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                        <p className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                           All fields optional — but the more context, the better the first response.
                         </p>
                       </motion.div>
@@ -389,9 +389,9 @@ export default function Contact() {
                               onFocus={focus}
                               onBlur={blur}
                             >
-                              <option value="" style={{ background: '#0f1115' }}>Select if known</option>
+                              <option value="" style={{ background: 'var(--theme-bg1)' }}>Select if known</option>
                               {budgets.map((b) => (
-                                <option key={b} value={b} style={{ background: '#0f1115' }}>{b}</option>
+                                <option key={b} value={b} style={{ background: 'var(--theme-bg1)' }}>{b}</option>
                               ))}
                             </select>
                           </div>
@@ -405,9 +405,9 @@ export default function Contact() {
                               onFocus={focus}
                               onBlur={blur}
                             >
-                              <option value="" style={{ background: '#0f1115' }}>Select if known</option>
+                              <option value="" style={{ background: 'var(--theme-bg1)' }}>Select if known</option>
                               {timelines.map((t) => (
-                                <option key={t} value={t} style={{ background: '#0f1115' }}>{t}</option>
+                                <option key={t} value={t} style={{ background: 'var(--theme-bg1)' }}>{t}</option>
                               ))}
                             </select>
                           </div>
@@ -463,42 +463,42 @@ export default function Contact() {
                         </div>
                         <div
                           className="rounded-xl p-4"
-                          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+                          style={{ background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}
                         >
-                          <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Summary</p>
+                          <p className="text-xs mb-2" style={{ color: 'var(--theme-text-subtle)' }}>Summary</p>
                           <div className="space-y-1 text-sm">
                             <div className="flex justify-between">
-                              <span style={{ color: 'rgba(255,255,255,0.35)' }}>Service</span>
-                              <span style={{ color: 'rgba(255,255,255,0.7)' }}>{form.service || '—'}</span>
+                              <span style={{ color: 'var(--theme-text-subtle)' }}>Service</span>
+                              <span style={{ color: 'var(--theme-text-secondary)' }}>{form.service || '—'}</span>
                             </div>
                             {form.company && (
                               <div className="flex justify-between">
-                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Company</span>
-                                <span style={{ color: 'rgba(255,255,255,0.7)' }}>{form.company}</span>
+                                <span style={{ color: 'var(--theme-text-subtle)' }}>Company</span>
+                                <span style={{ color: 'var(--theme-text-secondary)' }}>{form.company}</span>
                               </div>
                             )}
                             {form.budget && (
                               <div className="flex justify-between">
-                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Budget</span>
-                                <span style={{ color: 'rgba(255,255,255,0.7)' }}>{form.budget}</span>
+                                <span style={{ color: 'var(--theme-text-subtle)' }}>Budget</span>
+                                <span style={{ color: 'var(--theme-text-secondary)' }}>{form.budget}</span>
                               </div>
                             )}
                             {form.timeline && (
                               <div className="flex justify-between">
-                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Timeline</span>
-                                <span style={{ color: 'rgba(255,255,255,0.7)' }}>{form.timeline}</span>
+                                <span style={{ color: 'var(--theme-text-subtle)' }}>Timeline</span>
+                                <span style={{ color: 'var(--theme-text-secondary)' }}>{form.timeline}</span>
                               </div>
                             )}
                             {form.triedAlready && (
                               <div className="flex justify-between">
-                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Tried</span>
-                                <span className="text-right max-w-[200px] truncate" style={{ color: 'rgba(255,255,255,0.7)' }}>{form.triedAlready}</span>
+                                <span style={{ color: 'var(--theme-text-subtle)' }}>Tried</span>
+                                <span className="text-right max-w-[200px] truncate" style={{ color: 'var(--theme-text-secondary)' }}>{form.triedAlready}</span>
                               </div>
                             )}
                             {form.breakingMost && (
                               <div className="flex justify-between">
-                                <span style={{ color: 'rgba(255,255,255,0.35)' }}>Breaking</span>
-                                <span className="text-right max-w-[200px] truncate" style={{ color: 'rgba(255,255,255,0.7)' }}>{form.breakingMost}</span>
+                                <span style={{ color: 'var(--theme-text-subtle)' }}>Breaking</span>
+                                <span className="text-right max-w-[200px] truncate" style={{ color: 'var(--theme-text-secondary)' }}>{form.breakingMost}</span>
                               </div>
                             )}
                           </div>
@@ -516,15 +516,15 @@ export default function Contact() {
                         type="button"
                         onClick={goBack}
                         className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
-                        style={{ color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                        style={{ color: 'var(--theme-text-muted)', background: 'var(--theme-surface)', border: '1px solid var(--theme-surface-border)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--theme-surface-hover)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--theme-surface)'; }}
                       >
                         <ArrowLeft size={13} /> Back
                       </button>
                     )}
                     {step === 0 && (
-                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>
+                      <p className="text-xs" style={{ color: 'var(--theme-text-subtle)' }}>
                         Every submission read personally.
                       </p>
                     )}
@@ -559,17 +559,17 @@ export default function Contact() {
                       style={{
                         background: 'white',
                         color: 'black',
-                        boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                        boxShadow: '0 4px 20px var(--theme-shadow-color, rgba(255,255,255,0.1))',
                       }}
                       onMouseEnter={(e) => {
                         if (!submitting) {
                           e.currentTarget.style.transform = 'translateY(-2px)';
-                          e.currentTarget.style.boxShadow = '0 8px 30px rgba(255,255,255,0.15)';
+                          e.currentTarget.style.boxShadow = '0 8px 30px var(--theme-shadow-color, rgba(255,255,255,0.15))';
                         }
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,255,255,0.1)';
+                        e.currentTarget.style.boxShadow = '0 4px 20px var(--theme-shadow-color, rgba(255,255,255,0.1))';
                       }}
                     >
                       {submitting

@@ -76,9 +76,9 @@ function SequenceVisualization({ progress }) {
           if (faded) opacity = 0.08;
           if (highlighted) opacity = 1;
 
-          let bg = 'rgba(255,255,255,0.15)';
+          let bg = 'var(--theme-border)';
           if (highlighted) bg = 'var(--theme-accent, #00f0ff)';
-          if (faded) bg = 'rgba(255,255,255,0.04)';
+          if (faded) bg = 'var(--theme-surface)';
 
           return (
             <div
@@ -90,7 +90,7 @@ function SequenceVisualization({ progress }) {
                 background: bg,
                 opacity,
                 boxShadow: highlighted ? `0 0 8px var(--theme-accent, rgba(0,240,255,0.3))` : 'none',
-                border: connected ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
+                border: connected ? '1px solid var(--theme-surface-hover)' : '1px solid transparent',
                 transitionDuration: '600ms',
               }}
             />
@@ -114,7 +114,7 @@ export function InteractiveSequence() {
   return (
     <div ref={ref} className="relative">
       {/* Scroll progress bar */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'rgba(255,255,255,0.06)' }}>
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'var(--theme-surface-hover)' }}>
         <motion.div
           className="h-px"
           style={{ width: progressBar, background: 'var(--theme-accent, #00f0ff)' }}
@@ -143,12 +143,12 @@ export function InteractiveSequence() {
           <div
             className="rounded-2xl p-8"
             style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: 'var(--theme-surface)',
+              border: '1px solid var(--theme-surface-hover)',
               minHeight: '300px',
             }}
           >
-            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p className="text-xs mb-4" style={{ color: 'var(--theme-text-subtle)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               System State
             </p>
             <SequenceVisualizationMotion scrollYProgress={scrollYProgress} />
@@ -182,8 +182,8 @@ function StepItem({ step, Icon, index, scrollProgress }) {
       data-testid={`operating-sequence-step-${step.title.toLowerCase()}`}
       className="flex flex-col md:flex-row gap-6 md:gap-10 py-8 rounded-xl px-4 -mx-4"
       style={{
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        borderBottom: index === steps.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+        borderTop: '1px solid var(--theme-surface-hover)',
+        borderBottom: index === steps.length - 1 ? '1px solid var(--theme-surface-hover)' : 'none',
         opacity,
         scale,
       }}
@@ -205,13 +205,13 @@ function StepItem({ step, Icon, index, scrollProgress }) {
       <div className="flex-1 pt-1">
         <h3
           className="font-bold text-xl tracking-tight mb-2"
-          style={{ color: 'rgba(255,255,255,0.90)' }}
+          style={{ color: 'var(--theme-text)' }}
         >
           {step.title}
         </h3>
         <p
           className="text-base leading-relaxed"
-          style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 300, maxWidth: '38rem' }}
+          style={{ color: 'var(--theme-text-subtle)', fontWeight: 300, maxWidth: '38rem' }}
         >
           {step.desc}
         </p>

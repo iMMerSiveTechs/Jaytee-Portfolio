@@ -60,8 +60,8 @@ html {
 }
 
 body {
-  background-color: var(--bg0);
-  color: rgba(255,255,255,0.92);
+  background-color: var(--theme-bg0, var(--bg0));
+  color: var(--theme-text, rgba(255,255,255,0.92));
   font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -72,20 +72,31 @@ body {
   background-size: 200px 200px;
 }
 
+/* Light mode noise is barely visible — reduce further */
+[data-theme-mode="light"] body {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+}
+
 ::selection {
-  background: rgba(0,240,255,0.25);
-  color: #ffffff;
+  background: var(--theme-ring, rgba(0,240,255,0.25));
+  color: var(--theme-bg0, #ffffff);
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg0); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-track { background: var(--theme-bg0, var(--bg0)); }
+::-webkit-scrollbar-thumb { background: var(--theme-border-medium, rgba(255,255,255,0.12)); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--theme-text-subtle, rgba(255,255,255,0.2)); }
 
 /* Metallic gradient text utility */
 .metallic-text {
   background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(210,215,224,0.92) 50%, rgba(160,166,178,0.86) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme-mode="light"] .metallic-text {
+  background: linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(30,35,50,0.88) 50%, rgba(60,65,80,0.82) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -100,10 +111,10 @@ body {
 
 /* Glass panel utility */
 .glass-panel {
-  background: rgba(255,255,255,0.04);
+  background: var(--theme-surface, rgba(255,255,255,0.04));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--theme-surface-border, rgba(255,255,255,0.08));
 }
 
 /* Glow border utility */
@@ -118,12 +129,12 @@ body {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: var(--theme-text-subtle, rgba(255,255,255,0.45));
 }
 
 /* Hairline separator */
 .hairline {
-  border-color: rgba(255,255,255,0.08);
+  border-color: var(--theme-surface-border, rgba(255,255,255,0.08));
 }
 
 /* Page transition */
@@ -158,18 +169,18 @@ a:focus-visible {
 
 /* Prose-like reading */
 .prose-dark p {
-  color: rgba(255,255,255,0.72);
+  color: var(--theme-text-secondary, rgba(255,255,255,0.72));
   line-height: 1.75;
   margin-bottom: 1.25rem;
 }
 .prose-dark h2 {
-  color: rgba(255,255,255,0.92);
+  color: var(--theme-text, rgba(255,255,255,0.92));
   font-weight: 700;
   margin-bottom: 0.75rem;
   margin-top: 2rem;
 }
 .prose-dark strong {
-  color: rgba(255,255,255,0.9);
+  color: var(--theme-text, rgba(255,255,255,0.9));
   font-weight: 600;
 }
 
@@ -250,7 +261,7 @@ a:focus-visible {
 /* Enhanced prose for markdown notes */
 .prose-dark h2 { font-size: 1.375rem; }
 .prose-dark h3 {
-  color: rgba(255,255,255,0.88);
+  color: var(--theme-text, rgba(255,255,255,0.88));
   font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
@@ -260,11 +271,11 @@ a:focus-visible {
   border-left: 3px solid var(--theme-accent, #00f0ff);
   padding-left: 1rem;
   margin: 1.25rem 0;
-  color: rgba(255,255,255,0.55);
+  color: var(--theme-text-muted, rgba(255,255,255,0.55));
   font-style: italic;
 }
 .prose-dark code {
-  background: rgba(255,255,255,0.06);
+  background: var(--theme-surface-hover, rgba(255,255,255,0.06));
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.85em;
@@ -274,7 +285,7 @@ a:focus-visible {
 .prose-dark ul, .prose-dark ol {
   margin: 0.75rem 0;
   padding-left: 1.5rem;
-  color: rgba(255,255,255,0.65);
+  color: var(--theme-text-muted, rgba(255,255,255,0.65));
 }
 .prose-dark li {
   margin-bottom: 0.35rem;
@@ -282,16 +293,63 @@ a:focus-visible {
 }
 .prose-dark hr {
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--theme-surface-border, rgba(255,255,255,0.08));
   margin: 2rem 0;
 }
 .prose-dark a {
   color: var(--theme-accent, #00f0ff);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(0,240,255,0.3);
+  text-decoration-color: var(--theme-glow, rgba(0,240,255,0.3));
   transition: text-decoration-color 200ms;
 }
 .prose-dark a:hover {
   text-decoration-color: var(--theme-accent, #00f0ff);
+}
+
+/* ========================================
+   Light Mode — shadcn/ui variable overrides
+   ======================================== */
+[data-theme-mode="light"] {
+  --background: 0 0% 100%;
+  --foreground: 222 23% 10%;
+  --card: 0 0% 98%;
+  --card-foreground: 222 23% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 23% 10%;
+  --muted: 220 14% 94%;
+  --muted-foreground: 220 8% 40%;
+  --border: 0 0% 0% / 0.10;
+  --input: 0 0% 0% / 0.10;
+  --ring: 186 100% 40% / 0.35;
+  --primary: 222 23% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 220 14% 94%;
+  --secondary-foreground: 222 23% 10%;
+  --accent: 220 14% 94%;
+  --accent-foreground: 222 23% 10%;
+  --destructive: 350 90% 55%;
+  --destructive-foreground: 0 0% 100%;
+  --panel: rgba(0,0,0,0.02);
+  --panel-border: rgba(0,0,0,0.08);
+  --hairline: rgba(0,0,0,0.08);
+  --gridline: rgba(0,0,0,0.06);
+  --shadow-elev: 0 18px 55px rgba(0,0,0,0.08);
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.06);
+  --focus: var(--theme-ring, rgba(0,240,255,0.35));
+}
+
+/* Light mode noise overlay — reduce intensity */
+[data-theme-mode="light"] #root::before {
+  opacity: 0.012;
+  mix-blend-mode: multiply;
+}
+
+/* Light mode focus outlines */
+[data-theme-mode="light"] button:focus-visible,
+[data-theme-mode="light"] input:focus-visible,
+[data-theme-mode="light"] textarea:focus-visible,
+[data-theme-mode="light"] select:focus-visible,
+[data-theme-mode="light"] a:focus-visible {
+  outline-color: var(--theme-accent, #0891b2);
 }

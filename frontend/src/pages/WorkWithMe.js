@@ -70,7 +70,7 @@ export default function WorkWithMe() {
       <SEO title="Work With Me" description="Service tiers and engagement options — from one-session diagnosis to full system delivery." path="/work-with-me" />
       <header
         className="pt-24 pb-16 max-w-5xl mx-auto px-6"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        style={{ borderBottom: '1px solid var(--theme-surface-hover)' }}
       >
         <div className="grid lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-7">
@@ -79,10 +79,10 @@ export default function WorkWithMe() {
               className="font-extrabold tracking-tight mb-0"
               style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)', lineHeight: 1.05 }}
             >
-              <span className="text-white">How I engage.</span><br />
+              <span style={{ color: 'var(--theme-text)' }}>How I engage.</span><br />
               <span
                 style={{
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(160,166,178,0.85) 100%)',
+                  background: 'linear-gradient(180deg, var(--theme-text) 0%, var(--theme-text-secondary) 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -95,16 +95,16 @@ export default function WorkWithMe() {
           <div className="lg:col-span-5">
             <p
               className="text-base leading-relaxed mb-6"
-              style={{ color: 'rgba(255,255,255,0.42)', fontWeight: 300 }}
+              style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}
             >
               I take on a small number of engagements at any given time. Every engagement is direct—you work with me, not a team. Every output is scoped to the actual problem.
             </p>
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
-              style={{ color: 'rgba(255,255,255,0.5)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
+              style={{ color: 'var(--theme-text-muted)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--theme-text-secondary)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--theme-text-muted)'; }}
             >
               Have a specific situation? Reach out directly. <ArrowRight size={13} />
             </Link>
@@ -123,7 +123,7 @@ export default function WorkWithMe() {
                 data-testid={tier.testid}
                 className="interactive-card rounded-2xl relative overflow-hidden"
                 style={{
-                  background: '#0f1115',
+                  background: 'var(--theme-bg1)',
                   border: `1px solid ${tier.accentBorder}`,
                   boxShadow: tier.flagship ? '0 0 40px rgba(0,240,255,0.04)' : 'none',
                 }}
@@ -170,8 +170,8 @@ export default function WorkWithMe() {
                         </span>
                       )}
                       <h3
-                        className="font-extrabold text-white tracking-tight"
-                        style={{ fontSize: '1.1rem', lineHeight: 1.2 }}
+                        className="font-extrabold tracking-tight"
+                        style={{ color: 'var(--theme-text)', fontSize: '1.1rem', lineHeight: 1.2 }}
                       >
                         {tier.title}
                       </h3>
@@ -184,7 +184,7 @@ export default function WorkWithMe() {
                       {tier.pricing && (
                         <p
                           className="text-xs mt-1.5 font-medium"
-                          style={{ color: 'rgba(255,255,255,0.5)' }}
+                          style={{ color: 'var(--theme-text-muted)' }}
                         >
                           {tier.pricing}
                         </p>
@@ -198,7 +198,7 @@ export default function WorkWithMe() {
                   <p
                     className="text-xs mb-4 leading-relaxed"
                     style={{
-                      color: 'rgba(255,255,255,0.38)',
+                      color: 'var(--theme-text-subtle)',
                       fontStyle: 'italic',
                       borderLeft: `2px solid ${tier.accentColor}22`,
                       paddingLeft: '10px',
@@ -208,7 +208,7 @@ export default function WorkWithMe() {
                   </p>
                   <p
                     className="text-sm leading-relaxed mb-6"
-                    style={{ color: 'rgba(255,255,255,0.58)', fontWeight: 300 }}
+                    style={{ color: 'var(--theme-text-muted)', fontWeight: 300 }}
                   >
                     {tier.what}
                   </p>
@@ -243,8 +243,8 @@ export default function WorkWithMe() {
         <div
           className="p-8 md:p-10 rounded-2xl"
           style={{
-            background: 'rgba(15,17,21,0.5)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: 'var(--theme-bg1)',
+            border: '1px solid var(--theme-surface-hover)',
           }}
         >
           <p className="section-label mb-7">What working with me looks like</p>
@@ -264,18 +264,21 @@ export default function WorkWithMe() {
               },
             ].map((item) => (
               <div key={item.title}>
-                <h4 className="text-white font-semibold text-sm mb-2">{item.title}</h4>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)', fontWeight: 300 }}>{item.desc}</p>
+                <h4 className="font-semibold text-sm mb-2" style={{ color: 'var(--theme-text)' }}>{item.title}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-subtle)', fontWeight: 300 }}>{item.desc}</p>
               </div>
             ))}
           </div>
           <div
             className="mt-10 pt-7"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ borderTop: '1px solid var(--theme-surface-hover)' }}
           >
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/92 transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-colors duration-200"
+              style={{ background: 'var(--theme-text)', color: 'var(--theme-bg0)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.92'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
             >
               Start the Conversation <ArrowUpRight size={14} />
             </Link>
