@@ -86,15 +86,15 @@ function AppContent() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Suspense fallback={<PageLoader />}><Home /></Suspense>} />
-        <Route path="about" element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
-        <Route path="work" element={<Suspense fallback={<PageLoader />}><Work /></Suspense>} />
-        <Route path="work/:slug" element={<Suspense fallback={<PageLoader />}><CaseStudy /></Suspense>} />
-        <Route path="tools" element={<Suspense fallback={<PageLoader />}><Tools /></Suspense>} />
-        <Route path="work-with-me" element={<Suspense fallback={<PageLoader />}><WorkWithMe /></Suspense>} />
-        <Route path="notes" element={<Suspense fallback={<PageLoader />}><Notes /></Suspense>} />
-        <Route path="notes/:slug" element={<Suspense fallback={<PageLoader />}><NoteDetail /></Suspense>} />
-        <Route path="contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
+        <Route index element={<ErrorBoundary><Suspense fallback={<PageLoader />}><Home /></Suspense></ErrorBoundary>} />
+        <Route path="about" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><About /></Suspense></ErrorBoundary>} />
+        <Route path="work" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><Work /></Suspense></ErrorBoundary>} />
+        <Route path="work/:slug" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><CaseStudy /></Suspense></ErrorBoundary>} />
+        <Route path="tools" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><Tools /></Suspense></ErrorBoundary>} />
+        <Route path="work-with-me" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><WorkWithMe /></Suspense></ErrorBoundary>} />
+        <Route path="notes" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><Notes /></Suspense></ErrorBoundary>} />
+        <Route path="notes/:slug" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><NoteDetail /></Suspense></ErrorBoundary>} />
+        <Route path="contact" element={<ErrorBoundary><Suspense fallback={<PageLoader />}><Contact /></Suspense></ErrorBoundary>} />
       </Route>
     </Routes>
   );

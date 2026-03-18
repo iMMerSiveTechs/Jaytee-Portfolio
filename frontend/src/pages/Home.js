@@ -841,10 +841,10 @@ export default function Home() {
             <div className="lg:col-span-8">
               <div className="grid md:grid-cols-2 gap-4">
                 {[
-                  { num: '01', title: 'Clarity Teardown', sub: 'One concentrated session. One clear diagnosis. Actionable output by end of call.', accent: 'var(--theme-accent, #00f0ff)' },
-                  { num: '02', title: 'System Architecture Sprint', sub: 'Multi-week engagement to rebuild, simplify, and document your operational workflows.', accent: '#3b82f6' },
-                  { num: '03', title: 'Strategic Operator Support', sub: 'Ongoing advisory. A systems-thinker in your corner as you make high-stakes decisions.', accent: '#6366f1' },
-                  { num: '04', title: 'White-Glove Build', sub: 'Architecture and build via VibeForge Studios. We design and ship the system.', accent: '#8b5cf6', flagship: true },
+                  { num: '01', title: 'Clarity Teardown', sub: 'One concentrated session. One clear diagnosis. Actionable output by end of call.', pricing: 'From $1.5k', accent: 'var(--theme-accent, #00f0ff)' },
+                  { num: '02', title: 'System Architecture Sprint', sub: 'Multi-week engagement to rebuild, simplify, and document your operational workflows.', pricing: 'From $8k', accent: '#3b82f6' },
+                  { num: '03', title: 'Strategic Operator Support', sub: 'Ongoing advisory. A systems-thinker in your corner as you make high-stakes decisions.', pricing: 'By fit', accent: '#6366f1' },
+                  { num: '04', title: 'White-Glove Build', sub: 'Architecture and build via VibeForge Studios. We design and ship the system.', pricing: 'Custom scope', accent: '#8b5cf6', flagship: true },
                 ].map((svc, idx) => (
                   <Reveal key={svc.num} delay={0.3 + (idx * 0.1)} y={20}>
                     <div
@@ -859,6 +859,7 @@ export default function Home() {
                       <div className="section-label mb-2" style={{ color: svc.accent, fontSize: '0.55rem' }}>{svc.num}</div>
                       <h3 className="text-sm font-bold text-white mb-2">{svc.title}</h3>
                       <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{svc.sub}</p>
+                      {svc.pricing && <p className="text-xs mt-1.5 font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>{svc.pricing}</p>}
                     </div>
                   </Reveal>
                 ))}

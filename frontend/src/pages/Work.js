@@ -3,6 +3,7 @@ import { Reveal } from '../components/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { STATUS_COLORS } from '../utils/statusColors';
 
 // Abstract visual panels — CSS-only, no placeholders
 function JobForgeVisual() {
@@ -163,13 +164,6 @@ function TransplantVisual() {
     </div>
   );
 }
-
-const STATUS_COLORS = {
-  'beta': '#34d399',
-  'active build': '#00f0ff',
-  'shipped': '#34d399',
-  'concept': 'rgba(255,255,255,0.35)',
-};
 
 const systems = [
   {

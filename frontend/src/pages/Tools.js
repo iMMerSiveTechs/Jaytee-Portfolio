@@ -5,8 +5,7 @@ import { toast } from 'sonner';
 import { hapticMedium } from '../utils/haptics';
 import { Skeleton } from '../components/ui/skeleton';
 import { SEO } from '../components/SEO';
-
-const BACKEND = process.env.REACT_APP_BACKEND_URL;
+import { useToolRunner, parseError } from '../hooks/useToolRunner';
 
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
@@ -60,25 +59,6 @@ function ErrorBanner({ error, onRetry, onFix }) {
   );
 }
 
-function parseError(message) {
-  const lower = (message || '').toLowerCase();
-  if (lower.includes('too short') || lower.includes('at least')) {
-    return { title: 'Input too short', detail: 'Add more detail or context for a better analysis.', fixable: true, fixType: 'expand' };
-  }
-  if (lower.includes('too long') || lower.includes('3000')) {
-    return { title: 'Input too long', detail: 'Trim your input to under 3,000 characters.', fixable: true, fixType: 'trim' };
-  }
-  if (lower.includes('parse') || lower.includes('json')) {
-    return { title: 'AI response was malformed', detail: 'The AI returned an unexpected format. Running again usually fixes this.', fixable: false };
-  }
-  if (lower.includes('not configured') || lower.includes('llm service')) {
-    return { title: 'Service unavailable', detail: 'The AI service is not configured on the server. Contact support.', fixable: false };
-  }
-  if (lower.includes('network') || lower.includes('fetch') || lower.includes('failed to fetch')) {
-    return { title: 'Network error', detail: 'Could not reach the server. Check your connection and try again.', fixable: false };
-  }
-  return { title: message || 'Something went wrong', detail: null, fixable: false };
-}
 
 function OutputHeader({ accent, copied, onCopy }) {
   return (
@@ -353,48 +333,16 @@ function ScopeSkeletonLoader() {
 }
 
 // ─── Tool 1: Chaos Translator ─────────────────────────────────────────────────
+const formatChaosResult = (r) => `Summary:\n${r.summary}\n\nSteps:\n${r.steps.map(s => `${s.stepNumber}. ${s.title}\n${s.content}`).join('\n\n')}`;
+
 function ChaosTranslator() {
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  const run = async () => {
-    if (input.trim().length < 10) { setError('Please provide at least a sentence of context.'); return; }
-    setLoading(true); setError(''); setResult(null);
-    try {
-      const res = await fetch(`${BACKEND}/api/tools/chaos-translate`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input }),
-      });
-      let data;
-      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
-      if (!res.ok) throw new Error(data.detail || 'Analysis failed.');
-      setResult(data.data);
-    } catch (err) { console.error('ChaosTranslator error:', err); setError(err.message || 'System disruption. Please try again.'); }
-    finally { setLoading(false); }
-  };
-
-  const handleFix = () => {
-    const parsed = parseError(error);
-    if (parsed.fixType === 'expand') {
-      setInput(prev => prev + '\n\n[Add more context: who is the target user? What problem does this solve? What does success look like?]');
-    } else if (parsed.fixType === 'trim') {
-      setInput(prev => prev.slice(0, 2900));
-    }
-    setError('');
-  };
-
-  const copy = () => {
-    if (!result) return;
-    navigator.clipboard.writeText(
-      `Summary:\n${result.summary}\n\nSteps:\n${result.steps.map(s => `${s.stepNumber}. ${s.title}\n${s.content}`).join('\n\n')}`
-    ).then(() => {
-      setCopied(true); toast.success('Output copied.');
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => toast.error('Failed to copy to clipboard.'));
-  };
+  const { input, setInput, loading, result, error, copied, run, handleFix, copy } = useToolRunner({
+    endpoint: '/api/tools/chaos-translate',
+    toolName: 'ChaosTranslator',
+    errorMessage: 'System disruption. Please try again.',
+    expandHint: 'who is the target user? What problem does this solve? What does success look like?',
+    formatResult: formatChaosResult,
+  });
 
   return (
     <div
@@ -456,48 +404,16 @@ function ChaosTranslator() {
 }
 
 // ─── Tool 2: Bloat Detector ───────────────────────────────────────────────────
+const formatBloatResult = (r) => `Core Value:\n${r.core_value}\n\nBloat Detected:\n${r.bloat_items.map(i => `• ${i}`).join('\n')}\n\nKeep:\n${r.keep_items.map(i => `• ${i}`).join('\n')}\n\nRecommendation:\n${r.recommendation}`;
+
 function BloatDetector() {
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  const run = async () => {
-    if (input.trim().length < 10) { setError('Please provide at least a sentence of context.'); return; }
-    setLoading(true); setError(''); setResult(null);
-    try {
-      const res = await fetch(`${BACKEND}/api/tools/bloat-detect`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input }),
-      });
-      let data;
-      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
-      if (!res.ok) throw new Error(data.detail || 'Analysis failed.');
-      setResult(data.data);
-    } catch (err) { console.error('BloatDetector error:', err); setError(err.message || 'Scanner failed. Please try again.'); }
-    finally { setLoading(false); }
-  };
-
-  const handleFix = () => {
-    const parsed = parseError(error);
-    if (parsed.fixType === 'expand') {
-      setInput(prev => prev + '\n\n[Add more context: what features exist? What is the core promise? Who is the user?]');
-    } else if (parsed.fixType === 'trim') {
-      setInput(prev => prev.slice(0, 2900));
-    }
-    setError('');
-  };
-
-  const copy = () => {
-    if (!result) return;
-    navigator.clipboard.writeText(
-      `Core Value:\n${result.core_value}\n\nBloat Detected:\n${result.bloat_items.map(i => `• ${i}`).join('\n')}\n\nKeep:\n${result.keep_items.map(i => `• ${i}`).join('\n')}\n\nRecommendation:\n${result.recommendation}`
-    ).then(() => {
-      setCopied(true); toast.success('Output copied.');
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => toast.error('Failed to copy to clipboard.'));
-  };
+  const { input, setInput, loading, result, error, copied, run, handleFix, copy } = useToolRunner({
+    endpoint: '/api/tools/bloat-detect',
+    toolName: 'BloatDetector',
+    errorMessage: 'Scanner failed. Please try again.',
+    expandHint: 'what features exist? What is the core promise? Who is the user?',
+    formatResult: formatBloatResult,
+  });
 
   return (
     <div
@@ -577,52 +493,21 @@ function BloatDetector() {
 // ─── Tool 3: Friction Auditor ─────────────────────────────────────────────────
 const FRICTION_ACCENT = '#f97316';
 
+const formatFrictionResult = (r) => [
+  `Primary Bottleneck:\n${r.bottleneck}`,
+  `\nSteps to Eliminate:\n${r.eliminate_steps.map(s => `— ${s.step}: ${s.reason}`).join('\n')}`,
+  `\nStreamlined Architecture:\n${r.streamlined_architecture.map(p => `${p.phase}. ${p.name}: ${p.description}`).join('\n')}`,
+  `\nEfficiency Signal:\n${r.efficiency_signal}`,
+].join('');
+
 function FrictionAuditor() {
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  const run = async () => {
-    if (input.trim().length < 10) { setError('Please describe your process in more detail.'); return; }
-    setLoading(true); setError(''); setResult(null);
-    try {
-      const res = await fetch(`${BACKEND}/api/tools/friction-audit`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input }),
-      });
-      let data;
-      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
-      if (!res.ok) throw new Error(data.detail || 'Audit failed.');
-      setResult(data.data);
-    } catch (err) { console.error('FrictionAuditor error:', err); setError(err.message || 'Audit failed. Please try again.'); }
-    finally { setLoading(false); }
-  };
-
-  const handleFix = () => {
-    const parsed = parseError(error);
-    if (parsed.fixType === 'expand') {
-      setInput(prev => prev + '\n\n[Add more detail: walk through each step, who is involved, what tools are used, how long each step takes.]');
-    } else if (parsed.fixType === 'trim') {
-      setInput(prev => prev.slice(0, 2900));
-    }
-    setError('');
-  };
-
-  const copy = () => {
-    if (!result) return;
-    const lines = [
-      `Primary Bottleneck:\n${result.bottleneck}`,
-      `\nSteps to Eliminate:\n${result.eliminate_steps.map(s => `— ${s.step}: ${s.reason}`).join('\n')}`,
-      `\nStreamlined Architecture:\n${result.streamlined_architecture.map(p => `${p.phase}. ${p.name}: ${p.description}`).join('\n')}`,
-      `\nEfficiency Signal:\n${result.efficiency_signal}`,
-    ];
-    navigator.clipboard.writeText(lines.join('')).then(() => {
-      setCopied(true); toast.success('Audit output copied.');
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => toast.error('Failed to copy to clipboard.'));
-  };
+  const { input, setInput, loading, result, error, copied, run, handleFix, copy } = useToolRunner({
+    endpoint: '/api/tools/friction-audit',
+    toolName: 'FrictionAuditor',
+    errorMessage: 'Audit failed. Please try again.',
+    expandHint: 'walk through each step, who is involved, what tools are used, how long each step takes.',
+    formatResult: formatFrictionResult,
+  });
 
   return (
     <div
@@ -743,53 +628,22 @@ function FrictionAuditor() {
 // ─── Tool 4: Scope Slicer ─────────────────────────────────────────────────────
 const SCOPE_ACCENT = '#10b981'; // emerald — precision, sharpness
 
+const formatScopeResult = (r) => [
+  `Core Bet:\n${r.core_bet}`,
+  `\nMVP Scope:\n${r.mvp_scope.map(f => `• ${f.feature}: ${f.reason}`).join('\n')}`,
+  `\nDeferred:\n${r.deferred.map(f => `• ${f.feature} (${f.version}): ${f.reason}`).join('\n')}`,
+  `\nCut Entirely:\n${r.cut_entirely.map(c => `✕ ${c}`).join('\n')}`,
+  `\nLaunch Signal:\n${r.launch_signal}`,
+].join('');
+
 function ScopeSlicer() {
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  const run = async () => {
-    if (input.trim().length < 10) { setError('Please describe your project scope in more detail.'); return; }
-    setLoading(true); setError(''); setResult(null);
-    try {
-      const res = await fetch(`${BACKEND}/api/tools/scope-slice`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input }),
-      });
-      let data;
-      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
-      if (!res.ok) throw new Error(data.detail || 'Scope analysis failed.');
-      setResult(data.data);
-    } catch (err) { console.error('ScopeSlicer error:', err); setError(err.message || 'Scope analysis failed. Please try again.'); }
-    finally { setLoading(false); }
-  };
-
-  const handleFix = () => {
-    const parsed = parseError(error);
-    if (parsed.fixType === 'expand') {
-      setInput(prev => prev + '\n\n[Add more detail: list every feature you plan to build, who the target user is, and what the core problem is.]');
-    } else if (parsed.fixType === 'trim') {
-      setInput(prev => prev.slice(0, 2900));
-    }
-    setError('');
-  };
-
-  const copy = () => {
-    if (!result) return;
-    const lines = [
-      `Core Bet:\n${result.core_bet}`,
-      `\nMVP Scope:\n${result.mvp_scope.map(f => `• ${f.feature}: ${f.reason}`).join('\n')}`,
-      `\nDeferred:\n${result.deferred.map(f => `• ${f.feature} (${f.version}): ${f.reason}`).join('\n')}`,
-      `\nCut Entirely:\n${result.cut_entirely.map(c => `✕ ${c}`).join('\n')}`,
-      `\nLaunch Signal:\n${result.launch_signal}`,
-    ];
-    navigator.clipboard.writeText(lines.join('')).then(() => {
-      setCopied(true); toast.success('Scope output copied.');
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => toast.error('Failed to copy to clipboard.'));
-  };
+  const { input, setInput, loading, result, error, copied, run, handleFix, copy } = useToolRunner({
+    endpoint: '/api/tools/scope-slice',
+    toolName: 'ScopeSlicer',
+    errorMessage: 'Scope analysis failed. Please try again.',
+    expandHint: 'list every feature you plan to build, who the target user is, and what the core problem is.',
+    formatResult: formatScopeResult,
+  });
 
   return (
     <div
@@ -945,49 +799,20 @@ function ScopeSlicer() {
 // ─── Tool 5: Entropy Audit ───────────────────────────────────────────────────
 const ENTROPY_ACCENT = '#2563eb';
 
+const formatEntropyResult = (r) => `Noise: ${r.noise}\n\nSignal: ${r.signal}\n\nLeverage: ${r.leverage}\n${r.leverage_detail}`;
+
 function EntropyAudit() {
-  const [input, setInput] = useState('');
   const [domain, setDomain] = useState('operations');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
 
-  const run = async () => {
-    if (input.trim().length < 10) { setError('Please provide at least a sentence of context.'); return; }
-    setLoading(true); setError(''); setResult(null);
-    try {
-      const res = await fetch(`${BACKEND}/api/tools/entropy-audit`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input, domain }),
-      });
-      let data;
-      try { data = await res.json(); } catch { throw new Error('Unexpected server response. Please try again.'); }
-      if (!res.ok) throw new Error(data.detail || 'Audit failed.');
-      setResult(data.data);
-    } catch (err) { console.error('EntropyAudit error:', err); setError(err.message || 'System disruption. Please try again.'); }
-    finally { setLoading(false); }
-  };
-
-  const handleFix = () => {
-    const parsed = parseError(error);
-    if (parsed.fixType === 'expand') {
-      setInput(prev => prev + '\n\n[Add more: what are you worried about? What tasks are piling up? What feels urgent vs. what IS urgent?]');
-    } else if (parsed.fixType === 'trim') {
-      setInput(prev => prev.slice(0, 2900));
-    }
-    setError('');
-  };
-
-  const copy = () => {
-    if (!result) return;
-    navigator.clipboard.writeText(
-      `Noise: ${result.noise}\n\nSignal: ${result.signal}\n\nLeverage: ${result.leverage}\n${result.leverage_detail}`
-    ).then(() => {
-      setCopied(true); toast.success('Output copied.');
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => toast.error('Failed to copy to clipboard.'));
-  };
+  const extraBody = React.useMemo(() => ({ domain }), [domain]);
+  const { input, setInput, loading, result, error, copied, run, handleFix, copy } = useToolRunner({
+    endpoint: '/api/tools/entropy-audit',
+    toolName: 'EntropyAudit',
+    errorMessage: 'System disruption. Please try again.',
+    expandHint: 'what are you worried about? What tasks are piling up? What feels urgent vs. what IS urgent?',
+    formatResult: formatEntropyResult,
+    extraBody,
+  });
 
   return (
     <div
@@ -1198,13 +1023,21 @@ export default function Tools() {
           })}
         </div>
 
-        <div role="tabpanel" id={`panel-${activeTab}`} aria-labelledby={`tools-tab-${activeTab}`}>
-          {activeTab === 'chaos'    && <ChaosTranslator />}
-          {activeTab === 'bloat'    && <BloatDetector />}
-          {activeTab === 'friction' && <FrictionAuditor />}
-          {activeTab === 'scope'    && <ScopeSlicer />}
-          {activeTab === 'entropy'  && <EntropyAudit />}
-        </div>
+        {TABS.map((tab) => (
+          <div
+            key={tab.key}
+            role="tabpanel"
+            id={`panel-${tab.key}`}
+            aria-labelledby={`tools-tab-${tab.key}`}
+            style={{ display: activeTab === tab.key ? 'block' : 'none' }}
+          >
+            {tab.key === 'chaos'    && <ChaosTranslator />}
+            {tab.key === 'bloat'    && <BloatDetector />}
+            {tab.key === 'friction' && <FrictionAuditor />}
+            {tab.key === 'scope'    && <ScopeSlicer />}
+            {tab.key === 'entropy'  && <EntropyAudit />}
+          </div>
+        ))}
 
         <p
           className="mt-8 text-xs text-center"

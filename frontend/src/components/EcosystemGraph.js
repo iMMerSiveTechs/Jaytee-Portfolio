@@ -69,6 +69,7 @@ export function EcosystemGraph() {
         viewBox="0 0 100 100"
         preserveAspectRatio="xMidYMid meet"
         style={{ pointerEvents: 'none' }}
+        aria-hidden="true"
       >
         {connections.map((conn, i) => {
           const from = nodes.find((n) => n.id === conn.from);
@@ -112,6 +113,11 @@ export function EcosystemGraph() {
             transition={{ duration: 0.5, delay: 0.2 + i * 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             onMouseEnter={() => setHovered(node.id)}
             onMouseLeave={() => setHovered(null)}
+            onFocus={() => setHovered(node.id)}
+            onBlur={() => setHovered(null)}
+            tabIndex={0}
+            role="button"
+            aria-label={`${node.label}: ${node.desc}`}
           >
             <div
               className="flex items-center gap-2 px-3 py-2 rounded-xl cursor-default transition-all duration-300"

@@ -47,7 +47,7 @@ const fieldStyle = {
   fontFamily: 'inherit',
 };
 
-const focus = () => (e) => { e.target.style.borderColor = 'var(--theme-accent, #00f0ff)'; };
+const focus = (e) => { e.target.style.borderColor = 'var(--theme-accent, #00f0ff)'; };
 const blur = (e) => { e.target.style.borderColor = 'rgba(255,255,255,0.08)'; };
 
 const stepVariants = {
@@ -263,7 +263,7 @@ export default function Contact() {
                             value={form.service}
                             onChange={set('service')}
                             style={{ ...fieldStyle, backgroundImage: 'none' }}
-                            onFocus={focus()}
+                            onFocus={focus}
                             onBlur={blur}
                             aria-required="true"
                           >
@@ -287,7 +287,7 @@ export default function Contact() {
                             aria-required="true"
                             className="resize-none"
                             style={fieldStyle}
-                            onFocus={focus()}
+                            onFocus={focus}
                             onBlur={blur}
                           />
                           <p className="text-xs mt-1.5" style={{ color: 'rgba(255,255,255,0.2)' }}>
@@ -317,7 +317,7 @@ export default function Contact() {
                             placeholder="Tools, consultants, internal efforts — what's been attempted so far?"
                             className="resize-none"
                             style={fieldStyle}
-                            onFocus={focus()}
+                            onFocus={focus}
                             onBlur={blur}
                           />
                         </div>
@@ -331,7 +331,7 @@ export default function Contact() {
                             placeholder="The single biggest pain point or failure mode you're experiencing."
                             className="resize-none"
                             style={fieldStyle}
-                            onFocus={focus()}
+                            onFocus={focus}
                             onBlur={blur}
                           />
                         </div>
@@ -345,7 +345,7 @@ export default function Contact() {
                             placeholder="In 90 days, what would 'fixed' actually look and feel like?"
                             className="resize-none"
                             style={fieldStyle}
-                            onFocus={focus()}
+                            onFocus={focus}
                             onBlur={blur}
                           />
                         </div>
@@ -374,7 +374,7 @@ export default function Contact() {
                             onChange={set('company')}
                             placeholder="Optional"
                             style={fieldStyle}
-                            onFocus={focus()}
+                            onFocus={focus}
                             onBlur={blur}
                           />
                         </div>
@@ -386,7 +386,7 @@ export default function Contact() {
                               value={form.budget}
                               onChange={set('budget')}
                               style={{ ...fieldStyle, backgroundImage: 'none' }}
-                              onFocus={focus()}
+                              onFocus={focus}
                               onBlur={blur}
                             >
                               <option value="" style={{ background: '#0f1115' }}>Select if known</option>
@@ -402,7 +402,7 @@ export default function Contact() {
                               value={form.timeline}
                               onChange={set('timeline')}
                               style={{ ...fieldStyle, backgroundImage: 'none' }}
-                              onFocus={focus()}
+                              onFocus={focus}
                               onBlur={blur}
                             >
                               <option value="" style={{ background: '#0f1115' }}>Select if known</option>
@@ -439,7 +439,7 @@ export default function Contact() {
                               required
                               aria-required="true"
                               style={fieldStyle}
-                              onFocus={focus()}
+                              onFocus={focus}
                               onBlur={blur}
                             />
                           </div>
@@ -456,7 +456,7 @@ export default function Contact() {
                               required
                               aria-required="true"
                               style={fieldStyle}
-                              onFocus={focus()}
+                              onFocus={focus}
                               onBlur={blur}
                             />
                           </div>
