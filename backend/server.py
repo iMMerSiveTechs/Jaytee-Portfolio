@@ -1,6 +1,7 @@
 import os
 import uuid
 import json
+import logging
 import asyncio
 from datetime import datetime
 from typing import Optional, List
@@ -12,17 +13,28 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 import motor.motor_asyncio
 from emergentintegrations.llm.chat import LlmChat, UserMessage
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 # ─── App Setup ──────────────────────────────────────────────────────────────
+ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+
 app = FastAPI(title="JayTee Portfolio API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "")
 
 # ─── Database ────────────────────────────────────────────────────────────────
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
@@ -206,7 +218,8 @@ async def health():
 
 # ─── Routes: Tools ───────────────────────────────────────────────────────────
 @app.post("/api/tools/chaos-translate")
-async def chaos_translate(body: ToolInput):
+@limiter.limit("10/minute")
+async def chaos_translate(request: Request, body: ToolInput):
     if not body.text or len(body.text.strip()) < 10:
         raise HTTPException(status_code=400, detail="Input too short. Please provide more context.")
     if len(body.text) > 3000:
@@ -224,11 +237,13 @@ async def chaos_translate(body: ToolInput):
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+        logging.exception("chaos-translate error")
+        raise HTTPException(status_code=500, detail="Analysis failed. Please try again.")
 
 
 @app.post("/api/tools/bloat-detect")
-async def bloat_detect(body: ToolInput):
+@limiter.limit("10/minute")
+async def bloat_detect(request: Request, body: ToolInput):
     if not body.text or len(body.text.strip()) < 10:
         raise HTTPException(status_code=400, detail="Input too short. Please provide more context.")
     if len(body.text) > 3000:
@@ -245,11 +260,13 @@ async def bloat_detect(body: ToolInput):
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+        logging.exception("bloat-detect error")
+        raise HTTPException(status_code=500, detail="Analysis failed. Please try again.")
 
 
 @app.post("/api/tools/friction-audit")
-async def friction_audit(body: ToolInput):
+@limiter.limit("10/minute")
+async def friction_audit(request: Request, body: ToolInput):
     if not body.text or len(body.text.strip()) < 10:
         raise HTTPException(status_code=400, detail="Input too short. Please describe your process in more detail.")
     if len(body.text) > 3000:
@@ -267,11 +284,13 @@ async def friction_audit(body: ToolInput):
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
+        logging.exception("friction-audit error")
+        raise HTTPException(status_code=500, detail="Audit failed. Please try again.")
 
 
 @app.post("/api/tools/scope-slice")
-async def scope_slice(body: ToolInput):
+@limiter.limit("10/minute")
+async def scope_slice(request: Request, body: ToolInput):
     if not body.text or len(body.text.strip()) < 10:
         raise HTTPException(status_code=400, detail="Input too short. Please describe your project scope in more detail.")
     if len(body.text) > 3000:
@@ -289,11 +308,13 @@ async def scope_slice(body: ToolInput):
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Scope analysis failed: {str(e)}")
+        logging.exception("scope-slice error")
+        raise HTTPException(status_code=500, detail="Scope analysis failed. Please try again.")
 
 
 @app.post("/api/tools/entropy-audit")
-async def entropy_audit(body: EntropyAuditInput):
+@limiter.limit("10/minute")
+async def entropy_audit(request: Request, body: EntropyAuditInput):
     if not body.text or len(body.text.strip()) < 10:
         raise HTTPException(status_code=400, detail="Input too short. Please dump more of your current chaos.")
     if len(body.text) > 3000:
@@ -312,12 +333,14 @@ async def entropy_audit(body: EntropyAuditInput):
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail="Failed to parse AI response. Please try again.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Entropy audit failed: {str(e)}")
+        logging.exception("entropy-audit error")
+        raise HTTPException(status_code=500, detail="Entropy audit failed. Please try again.")
 
 
 # ─── Routes: Contact ─────────────────────────────────────────────────────────
 @app.post("/api/contact")
-async def submit_contact(body: ContactSubmission):
+@limiter.limit("5/minute")
+async def submit_contact(request: Request, body: ContactSubmission):
     # Honeypot spam check
     if body.honeypot:
         return {"success": True, "message": "Received."}
@@ -377,7 +400,8 @@ async def submit_contact(body: ContactSubmission):
 
 # ─── Routes: Newsletter ──────────────────────────────────────────────────────
 @app.post("/api/newsletter/subscribe")
-async def subscribe_newsletter(body: NewsletterSubscribe):
+@limiter.limit("5/minute")
+async def subscribe_newsletter(request: Request, body: NewsletterSubscribe):
     import re
     email = body.email.strip().lower()
     email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
@@ -407,9 +431,8 @@ async def get_note(slug: str):
     return serialize_doc(note)
 
 
-@app.post("/api/notes/seed")
-async def seed_notes():
-    """Seed initial notes for the portfolio."""
+async def _seed_notes_internal():
+    """Internal helper to seed notes (no auth check)."""
     existing = await db.notes.count_documents({})
     if existing > 0:
         return {"message": "Notes already seeded."}
@@ -613,12 +636,24 @@ The friction stayed. The pain went away.
     return {"message": f"Seeded {len(seed_data) + len(rich_notes)} notes."}
 
 
+@app.post("/api/notes/seed")
+@limiter.limit("2/hour")
+async def seed_notes(request: Request):
+    """Seed initial notes for the portfolio."""
+    # Require admin token in production
+    if ADMIN_TOKEN:
+        auth = request.headers.get("Authorization", "")
+        if auth != f"Bearer {ADMIN_TOKEN}":
+            raise HTTPException(status_code=403, detail="Forbidden")
+    return await _seed_notes_internal()
+
+
 # Seed notes on startup
 @app.on_event("startup")
 async def startup_event():
     existing = await db.notes.count_documents({})
     if existing == 0:
-        await seed_notes()
+        await _seed_notes_internal()
     # Create indexes
     await db.notes.create_index("slug", unique=True)
     await db.contacts.create_index("created_at")
