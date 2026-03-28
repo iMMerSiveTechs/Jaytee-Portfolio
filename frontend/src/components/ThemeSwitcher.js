@@ -33,6 +33,7 @@ export const ThemeSwitcher = () => {
           size="icon"
           className="h-9 w-9 rounded-lg"
           data-testid="theme-switcher-button"
+          aria-label="Open accent color and theme settings"
           style={{
             color: 'var(--theme-text-muted, rgba(255,255,255,0.7))',
             transition: 'color 200ms, background-color 200ms',
@@ -51,7 +52,7 @@ export const ThemeSwitcher = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-80 p-4"
+        className="w-80 max-w-[90vw] p-4"
         style={{
           background: 'var(--theme-bg1, rgba(22, 25, 32, 0.98))',
           backdropFilter: 'blur(24px)',

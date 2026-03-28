@@ -378,7 +378,7 @@ export default function Contact() {
                             onBlur={blur}
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <label htmlFor="contact-budget" className="section-label mb-2 block">Budget range</label>
                             <select
@@ -425,7 +425,7 @@ export default function Contact() {
                         exit="exit"
                         className="space-y-5"
                       >
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <label htmlFor="contact-name" className="section-label mb-2 block">Name *</label>
                             <input

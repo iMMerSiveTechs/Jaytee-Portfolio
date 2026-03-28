@@ -75,9 +75,9 @@ export const AdvancedFooter = () => {
   ];
 
   const socials = [
-    { icon: Twitter, url: 'https://twitter.com', label: 'Twitter' },
-    { icon: Linkedin, url: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Github, url: 'https://github.com', label: 'GitHub' },
+    { icon: Twitter, url: '#', label: 'Twitter' },
+    { icon: Linkedin, url: '#', label: 'LinkedIn' },
+    { icon: Github, url: '#', label: 'GitHub' },
   ];
 
   return (

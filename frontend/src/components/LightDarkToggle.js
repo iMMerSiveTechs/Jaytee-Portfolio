@@ -13,6 +13,7 @@ export const LightDarkToggle = () => {
       onClick={toggleMode}
       className="h-9 w-9 rounded-lg relative overflow-hidden"
       data-testid="light-dark-toggle"
+      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
       style={{
         color: 'var(--theme-text-muted, rgba(255,255,255,0.7))',
         transition: 'all 200ms',

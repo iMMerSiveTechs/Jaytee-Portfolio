@@ -219,7 +219,7 @@ function ChaosSkeletonLoader() {
       </div>
       <Skeleton className="h-5 w-3/4 mb-3" style={{ background: 'var(--theme-surface-hover)' }} />
       <Skeleton className="h-4 w-1/2 mb-6" style={{ background: 'var(--theme-surface)' }} />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[1,2,3,4].map(i => (
           <div key={i} className="p-4 rounded-xl" style={{ border: '1px solid var(--theme-border-subtle)' }}>
             <Skeleton className="h-3 w-8 mb-3 bg-cyan-400/10" />
