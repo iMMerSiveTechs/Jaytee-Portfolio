@@ -2,27 +2,45 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, FileText, Wrench, Briefcase, Home, User, Mail, BookOpen, Scissors } from 'lucide-react';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
+import { pages, projects, tools, services } from '../content/siteContent';
+import { buildApiUrl, hasBackend } from '../utils/config';
 
-const STATIC_CONTENT = [
-  { id: 'home', title: 'Home', description: 'Portfolio homepage', url: '/', icon: Home, type: 'page' },
-  { id: 'about', title: 'About', description: 'Philosophy and brand architecture', url: '/about', icon: User, type: 'page' },
-  { id: 'work', title: 'Work', description: 'Selected systems and projects', url: '/work', icon: Briefcase, type: 'page' },
-  { id: 'tools', title: 'Clarity Lab', description: 'AI-powered operator tools', url: '/tools', icon: Wrench, type: 'page' },
-  { id: 'work-with-me', title: 'Work With Me', description: 'Service tiers and engagement options', url: '/work-with-me', icon: Briefcase, type: 'page' },
-  { id: 'notes', title: 'Notes', description: 'Writing and insights', url: '/notes', icon: BookOpen, type: 'page' },
-  { id: 'contact', title: 'Contact', description: 'Get in touch', url: '/contact', icon: Mail, type: 'page' },
-  { id: 'tool-chaos', title: 'The Chaos Translator', description: 'Structure messy thinking into clarity', url: '/tools', icon: Wrench, type: 'tool' },
-  { id: 'tool-bloat', title: 'The Bloat Detector', description: 'Identify core vs off-core features', url: '/tools', icon: Wrench, type: 'tool' },
-  { id: 'tool-friction', title: 'The Friction Auditor', description: 'Diagnose workflow bottlenecks', url: '/tools', icon: Wrench, type: 'tool' },
-  { id: 'tool-scope', title: 'The Scope Slicer', description: 'Cut scope to protect your core bet', url: '/tools', icon: Scissors, type: 'tool' },
-  { id: 'case-job-forge', title: 'Job Forge Case Study', description: 'AI-powered job application system', url: '/work/job-forge', icon: Briefcase, type: 'page' },
-  { id: 'case-churnwise', title: 'ChurnWise Case Study', description: 'Predictive churn analytics platform', url: '/work/churnwise', icon: Briefcase, type: 'page' },
-  { id: 'case-transplant-tracker', title: 'Transplant Tracker Case Study', description: 'Organ transplant logistics system', url: '/work/transplant-tracker', icon: Briefcase, type: 'page' },
-  { id: 'service-teardown', title: 'Clarity Teardown', description: 'One session diagnosis', url: '/work-with-me', icon: Briefcase, type: 'service' },
-  { id: 'service-sprint', title: 'System Architecture Sprint', description: 'Multi-week engagement', url: '/work-with-me', icon: Briefcase, type: 'service' },
-  { id: 'service-operator', title: 'Strategic Operator Support', description: 'Ongoing advisory', url: '/work-with-me', icon: Briefcase, type: 'service' },
-  { id: 'service-build', title: 'White-Glove Build', description: 'Full system delivery', url: '/work-with-me', icon: Briefcase, type: 'service' },
-];
+const pageIconMap = {
+  home: Home,
+  about: User,
+  work: Briefcase,
+  tools: Wrench,
+  'work-with-me': Briefcase,
+  notes: BookOpen,
+  contact: Mail,
+};
+
+const toolIconMap = {
+  'tool-chaos': Wrench,
+  'tool-bloat': Wrench,
+  'tool-friction': Wrench,
+  'tool-scope': Scissors,
+};
+
+const COMMAND_CONTENT = [
+  ...pages,
+  ...tools.map((tool) => ({
+    ...tool,
+    icon: toolIconMap[tool.id] || Wrench,
+  })),
+  ...projects.map((project) => ({
+    id: `case-${project.id}`,
+    title: `${project.title} Case Study`,
+    description: project.searchDescription,
+    url: `/work/${project.id}`,
+    icon: Briefcase,
+    type: 'page',
+  })),
+  ...services,
+].map((item) => ({
+  ...item,
+  icon: item.icon || pageIconMap[item.id] || Briefcase,
+}));
 
 export const SearchCommand = () => {
   const [open, setOpen] = useState(false);
@@ -45,15 +63,20 @@ export const SearchCommand = () => {
   // Load notes when opened
   useEffect(() => {
     if (open && notes.length === 0) {
+      if (!hasBackend()) return;
+
+      const notesUrl = buildApiUrl('/api/notes');
+      if (!notesUrl) return;
+
       setLoading(true);
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/notes`)
+      fetch(notesUrl)
         .then(res => res.json())
         .then(data => {
           const notesData = data.notes || [];
           setNotes(notesData.map(note => ({
             id: `note-${note.id}`,
             title: note.title,
-            description: note.summary,
+            description: note.excerpt,
             url: `/notes/${note.slug}`,
             icon: FileText,
             type: 'note',
@@ -69,7 +92,7 @@ export const SearchCommand = () => {
     navigate(url);
   }, [navigate]);
 
-  const allContent = [...STATIC_CONTENT, ...notes];
+  const allContent = [...COMMAND_CONTENT, ...notes];
 
   return (
     <>
