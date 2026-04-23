@@ -3,6 +3,7 @@ import { Reveal } from '../components/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { projects } from '../content/siteContent';
 
 // Abstract visual panels — CSS-only, no placeholders
 function JobForgeVisual() {
@@ -164,47 +165,16 @@ function TransplantVisual() {
   );
 }
 
-const systems = [
-  {
-    id: 'job-forge',
-    label: 'Business Systems',
-    title: 'Job Forge',
-    tag: 'VibeForge Studios',
-    accent: '#00f0ff',
-    accentBorder: 'rgba(0,240,255,0.18)',
-    tagline: 'System design for real-world friction.',
-    description: 'A field-first system designed to reduce friction between the work itself and the operational layers around it. Structure the mess, protect the core, and make the system easier to use under real conditions.',
-    detail: 'Job Forge addresses the specific problem that field-based operators face: the system supporting the work creates more friction than the work itself. Documentation, scheduling, reporting—all of these become obstacles rather than enablers. The goal is to remove that friction entirely.',
-    Visual: JobForgeVisual,
-    reverse: false,
-  },
-  {
-    id: 'churnwise',
-    label: 'Consumer Utility',
-    title: 'ChurnWise',
-    tag: 'Consumer Product',
-    accent: '#3b82f6',
-    accentBorder: 'rgba(59,130,246,0.15)',
-    tagline: 'Clear product thinking applied to everyday software.',
-    description: 'A cleaner, more focused way to understand and manage subscription drag. Turning a common frustration into something more visible, usable, and controlled—without judgment or added complexity.',
-    detail: "Subscription sprawl is a modern problem most people are aware of but few address. ChurnWise makes the invisible visible: showing exactly what you're committed to, what you're not using, and what to do about it.",
-    Visual: ChurnWiseVisual,
-    reverse: true,
-  },
-  {
-    id: 'transplant-tracker',
-    label: 'Human Systems',
-    title: 'Transplant Tracker',
-    tag: 'Working Title',
-    accent: '#8b5cf6',
-    accentBorder: 'rgba(139,92,246,0.12)',
-    tagline: 'A human system problem, approached with the clarity-first mindset.',
-    description: 'A personal and medically relevant system built around continuity, consistency, and everyday management after a major health event. The clarity-first process applies just as much to human-support systems as it does to products and operations.',
-    detail: "People managing complex medical realities don't need more apps\u2014they need one system that adapts to how life actually works after a transformative health event. Continuity, not complexity.",
-    Visual: TransplantVisual,
-    reverse: false,
-  },
-];
+const visualByProjectId = {
+  'job-forge': JobForgeVisual,
+  churnwise: ChurnWiseVisual,
+  'transplant-tracker': TransplantVisual,
+};
+
+const systems = projects.map((project) => ({
+  ...project,
+  Visual: visualByProjectId[project.id],
+}));
 
 export default function Work() {
   return (
@@ -332,7 +302,7 @@ export default function Work() {
 
                 {/* Abstract visual — intentional, not placeholder */}
                 <div className="w-full lg:w-[340px] xl:w-[380px] shrink-0">
-                  <Visual />
+                  {Visual ? <Visual /> : null}
                 </div>
               </div>
               </div>
