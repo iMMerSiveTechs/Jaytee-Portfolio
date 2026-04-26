@@ -3,99 +3,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Box, GitMerge, Crosshair, Shield } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import { SEO } from '../components/SEO';
+import { projects } from '../content/siteContent';
 
-const caseStudies = {
-  'job-forge': {
-    title: 'Job Forge',
-    label: 'Business Systems',
-    tag: 'VibeForge Studios',
-    accent: '#00f0ff',
-    tagline: 'System design for real-world friction.',
-    ambiguity: {
-      heading: 'The Ambiguity',
-      content: 'Field operators were drowning in admin. Scheduling, documentation, compliance reporting — every operational layer created more friction than the work itself. The tools meant to help were actively slowing teams down. No one had a clear picture of what was actually happening on the ground, and the gap between field reality and management visibility was growing.',
-    },
-    architecture: {
-      heading: 'The Architecture',
-      phases: [
-        { icon: Box, title: 'Structure', desc: 'Mapped every touchpoint between field work and operational overhead. Identified 14 friction points where the system was fighting the workflow.' },
-        { icon: GitMerge, title: 'Connect', desc: 'Designed a unified intake flow that captures field data once and routes it to scheduling, documentation, and reporting automatically.' },
-        { icon: Crosshair, title: 'Leverage', desc: 'Built real-time dashboards that give management visibility without adding reporting burden to field operators.' },
-        { icon: Shield, title: 'Refine', desc: 'Stripped away 60% of required form fields. Every remaining input directly serves compliance or operational continuity.' },
-      ],
-    },
-    leverage: {
-      heading: 'The Leverage',
-      content: 'The system now works with the field instead of against it. Operators spend time on actual work, not fighting software. Management gets better data from less input. The gap between what happens in the field and what the office sees has effectively closed.',
-      metrics: [
-        { label: 'Admin time reduced', value: '62%' },
-        { label: 'Data accuracy', value: '3.4x' },
-        { label: 'Field adoption rate', value: '94%' },
-        { label: 'Compliance gaps closed', value: '100%' },
-      ],
-    },
-  },
-  'churnwise': {
-    title: 'ChurnWise',
-    label: 'Consumer Utility',
-    tag: 'Consumer Product',
-    accent: '#3b82f6',
-    tagline: 'Clear product thinking applied to everyday software.',
-    ambiguity: {
-      heading: 'The Ambiguity',
-      content: 'Subscription sprawl is a modern problem most people recognize but few address. Users sign up for services, forget about them, and end up paying for tools they never use. The existing solutions were either too complex (full financial dashboards) or too simple (basic list apps). No one was solving the real problem: making the invisible visible without creating more cognitive load.',
-    },
-    architecture: {
-      heading: 'The Architecture',
-      phases: [
-        { icon: Box, title: 'Structure', desc: 'Categorized subscription relationships into four states: active-essential, active-underused, dormant, and redundant. Each state drives different recommendations.' },
-        { icon: GitMerge, title: 'Connect', desc: 'Built a detection engine that correlates usage patterns with billing cycles. Surfaces subscriptions approaching renewal with low usage signals.' },
-        { icon: Crosshair, title: 'Leverage', desc: 'Created a decision framework that recommends keep, downgrade, pause, or cancel — with one-tap execution for each.' },
-        { icon: Shield, title: 'Refine', desc: 'Removed complexity layers that made users feel judged. The system presents facts and options, never shame or pressure.' },
-      ],
-    },
-    leverage: {
-      heading: 'The Leverage',
-      content: 'Users gain control over subscription spending without needing to become financial analysts. The tool is opinionated enough to be useful but respectful enough to let users make their own decisions. Subscription awareness becomes a 30-second monthly habit instead of a dreaded quarterly audit.',
-      metrics: [
-        { label: 'Avg savings identified', value: '$847/yr' },
-        { label: 'Unused subs surfaced', value: '4.2 avg' },
-        { label: 'Decision time', value: '<30s' },
-        { label: 'User retention', value: '78%' },
-      ],
-    },
-  },
-  'transplant-tracker': {
-    title: 'Transplant Tracker',
-    label: 'Human Systems',
-    tag: 'Working Title',
-    accent: '#8b5cf6',
-    tagline: 'A human system problem, approached with the clarity-first mindset.',
-    ambiguity: {
-      heading: 'The Ambiguity',
-      content: "Post-transplant life is a complex management challenge that most technology ignores. Medication schedules, lab results, symptom tracking, appointment coordination — all of these happen across disconnected systems. Patients managing complex medical realities don't need more apps. They need one system that adapts to how life actually works after a transformative health event.",
-    },
-    architecture: {
-      heading: 'The Architecture',
-      phases: [
-        { icon: Box, title: 'Structure', desc: 'Mapped the full post-transplant workflow: medications, labs, vitals, appointments, and symptom patterns. Identified which data points are truly essential vs. noise.' },
-        { icon: GitMerge, title: 'Connect', desc: 'Designed a unified daily view that surfaces what matters today without overwhelming with historical data or future anxiety.' },
-        { icon: Crosshair, title: 'Leverage', desc: 'Built pattern recognition that spots trends before they become concerns. Correlates medication adherence with lab results over time.' },
-        { icon: Shield, title: 'Refine', desc: 'Focused on continuity over features. The system works during good weeks and crisis weeks equally well. No configuration fatigue.' },
-      ],
-    },
-    leverage: {
-      heading: 'The Leverage',
-      content: 'Continuity becomes the default, not something patients fight for. The system reduces the cognitive load of chronic health management while giving healthcare providers better longitudinal data. Care coordination improves because the patient shows up with organized, relevant information.',
-      metrics: [
-        { label: 'Med adherence', value: '97%' },
-        { label: 'Data entry time', value: '<2min/day' },
-        { label: 'Care coordination', value: '2.8x' },
-        { label: 'Pattern detection', value: '14 days early' },
-      ],
-    },
-  },
-};
+const phaseIconMap = { Box, GitMerge, Crosshair, Shield };
+const caseStudies = Object.fromEntries(projects.map((project) => [project.id, project]));
 
 export default function CaseStudy() {
   const { slug } = useParams();
@@ -117,12 +28,13 @@ export default function CaseStudy() {
   const currentIdx = slugs.indexOf(slug);
   const nextSlug = slugs[(currentIdx + 1) % slugs.length];
   const nextStudy = caseStudies[nextSlug];
+  const caseStudy = study.caseStudy;
 
   return (
     <div className="pt-16">
       <SEO
         title={`${study.title} — Case Study`}
-        description={`${study.tagline} ${study.ambiguity.content.slice(0, 120)}...`}
+        description={`${study.tagline} ${caseStudy.ambiguity.content.slice(0, 120)}...`}
         path={`/work/${slug}`}
       />
 
@@ -179,13 +91,13 @@ export default function CaseStudy() {
               >
                 <span className="text-xs font-bold" style={{ color: study.accent }}>01</span>
               </div>
-              <h2 className="text-xl font-bold text-white">{study.ambiguity.heading}</h2>
+              <h2 className="text-xl font-bold text-white">{caseStudy.ambiguity.heading}</h2>
             </div>
             <p
               className="text-base leading-[1.85]"
               style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, maxWidth: '42rem' }}
             >
-              {study.ambiguity.content}
+              {caseStudy.ambiguity.content}
             </p>
           </section>
         </Reveal>
@@ -200,11 +112,11 @@ export default function CaseStudy() {
               >
                 <span className="text-xs font-bold" style={{ color: study.accent }}>02</span>
               </div>
-              <h2 className="text-xl font-bold text-white">{study.architecture.heading}</h2>
+              <h2 className="text-xl font-bold text-white">{caseStudy.architecture.heading}</h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
-              {study.architecture.phases.map((phase, i) => {
-                const Icon = phase.icon;
+              {caseStudy.architecture.phases.map((phase, i) => {
+                const Icon = phaseIconMap[phase.icon] || Box;
                 return (
                   <div
                     key={i}
@@ -238,16 +150,16 @@ export default function CaseStudy() {
               >
                 <span className="text-xs font-bold" style={{ color: study.accent }}>03</span>
               </div>
-              <h2 className="text-xl font-bold text-white">{study.leverage.heading}</h2>
+              <h2 className="text-xl font-bold text-white">{caseStudy.leverage.heading}</h2>
             </div>
             <p
               className="text-base leading-[1.85] mb-8"
               style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 300, maxWidth: '42rem' }}
             >
-              {study.leverage.content}
+              {caseStudy.leverage.content}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {study.leverage.metrics.map((metric, i) => (
+              {caseStudy.leverage.metrics.map((metric, i) => (
                 <div
                   key={i}
                   className="rounded-xl p-4 text-center"
